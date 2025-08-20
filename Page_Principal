@@ -1,0 +1,926 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Solicitud de Acceso a Nodos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root{
+      --campfire-1:#EC6014; /* naranja profundo */
+      --campfire-2:#F88F23; /* naranja */
+      --campfire-3:#FBB931; /* ámbar */
+      --campfire-4:#FFE3B3; /* crema */
+      --bg:#0f172a;
+      --ink:#111;
+      --ink-soft:#333;
+    }
+
+    /* Fondo general */
+    body{background:var(--bg);color:#e5e7eb}
+
+    /* Card clara (formulario) */
+    .card{
+      border-radius:1rem;background:#fff;color:var(--ink);
+      border:1px solid #e9ecef;box-shadow:0 10px 30px rgba(0,0,0,.15);
+    }
+    label.form-label{font-weight:600;color:var(--ink)}
+    .muted{opacity:.85}
+    .invalid-feedback{display:block}
+
+    /* Inputs claros */
+    .form-control,.form-select{background:#fff;color:var(--ink);border:1px solid #cfd6de}
+    .form-control::placeholder{color:#8b95a1}
+    .form-control:focus,.form-select:focus{border-color:var(--campfire-2);box-shadow:0 0 0 .25rem rgba(248,143,35,.2)}
+
+    /* Barra de marca */
+    .brandbar{
+      background:linear-gradient(90deg,var(--campfire-1),var(--campfire-2),var(--campfire-3));
+      color:#1a1a1a;border-radius:16px;padding:.85rem 1rem;display:inline-flex;
+      align-items:center;gap:.5rem;box-shadow:0 8px 24px rgba(236,96,20,.35);font-weight:800
+    }
+    .brand-dot{width:10px;height:10px;border-radius:50%;background:#1a1a1a;opacity:.8}
+    .badge-camp{background:var(--campfire-4);color:#5a3b00;border:1px solid rgba(0,0,0,.06)}
+    .section-title{color:#b86b00}
+
+    /* ===== SmartSelect (buscable) ===== */
+    .ss-wrap{position:relative}
+    .ss-display{
+      cursor:pointer;background:#fff;border:1px solid #cfd6de;border-radius:.375rem;
+      min-height:38px;display:flex;align-items:center;justify-content:space-between;
+      padding:.375rem .75rem;gap:.75rem
+    }
+    .ss-placeholder{color:#8b95a1}
+    .ss-caret{font-size:14px;line-height:1}
+    .ss-wrap.open .ss-caret{transform:rotate(180deg)} /* ▾ -> ▴ */
+
+    .ss-panel{
+      position:absolute;left:0;right:0;top:calc(100% + .25rem);z-index:1000;
+      background:#fff;border:1px solid #cfd6de;border-radius:.375rem;
+      box-shadow:0 10px 24px rgba(0,0,0,.12);display:none
+    }
+    .ss-wrap.open .ss-panel{display:block}
+    .ss-search{border:none;border-bottom:1px solid #e9ecef;padding:.5rem .75rem;outline:0}
+    .ss-list{max-height:260px;overflow:auto;padding:.25rem 0;margin:0;list-style:none}
+    .ss-item{padding:.45rem .75rem;white-space:normal;line-height:1.2;cursor:pointer}
+    .ss-item:hover,.ss-item.active{background:#f6f7f9}
+
+    /* El select nativo se oculta pero mantiene validación */
+    .ss-native{display:none !important}
+  </style>
+</head>
+<body>
+<div class="container py-4">
+  <div class="d-flex align-items-center mb-4 gap-2">
+    <div class="brandbar">
+      <span>WIN | Acceso a Nodos</span>
+      <span class="brand-dot"></span>
+    </div>
+    <span class="badge badge-camp">Formulario</span>
+  </div>
+
+  <div class="card"><div class="card-body">
+    <form action="#" method="post" enctype="multipart/form-data" class="row g-3" id="f" novalidate>
+
+      <!-- NODO -->
+      <div class="col-md-4">
+        <label class="form-label">Nodo</label>
+        <select class="form-select" id="nodo" required>
+          <option value="" selected>— Seleccionar —</option>
+        </select>
+      </div>
+
+      <!-- FECHAS -->
+      <div class="col-md-4">
+        <label class="form-label">Fecha de ingreso (programada)</label>
+        <input class="form-control" type="date" id="fecha_ingreso" required>
+        <div class="invalid-feedback" id="fi_err"></div>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Fecha de salida (programada)</label>
+        <input class="form-control" type="date" id="fecha_salida" required>
+        <div class="invalid-feedback" id="fs_err"></div>
+      </div>
+
+      <!-- HORAS -->
+      <div class="col-md-3">
+        <label class="form-label">Hora de ingreso (programada)</label>
+        <input class="form-control" type="time" id="hora_ingreso" required>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Hora de salida (programada)</label>
+        <input class="form-control" type="time" id="hora_salida" required>
+        <div class="invalid-feedback" id="hs_err"></div>
+      </div>
+
+      <!-- SOLICITANTE -->
+      <div class="col-md-3">
+        <label class="form-label">Solicitante - Nombres</label>
+        <input class="form-control" id="sol_nombres" maxlength="30" required>
+        <div class="invalid-feedback" id="sol_nombres_err"></div>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Solicitante - Ap. paterno</label>
+        <input class="form-control" id="sol_apepat" maxlength="40" required>
+        <div class="invalid-feedback" id="sol_apepat_err"></div>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Solicitante - Ap. materno</label>
+        <input class="form-control" id="sol_apemat" maxlength="40" required>
+        <div class="invalid-feedback" id="sol_apemat_err"></div>
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">Solicitante - Tipo doc.</label>
+        <select class="form-select" id="sol_tipodoc" required>
+          <option value="" selected>— Seleccionar —</option>
+          <option value="DNI">DNI</option>
+          <option value="CE">C.E</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">Solicitante - Nº doc.</label>
+        <input class="form-control" id="sol_numdoc" inputmode="numeric" maxlength="8" required>
+        <div class="invalid-feedback" id="sol_doc_err"></div>
+      </div>
+
+      <!-- CORREO -->
+      <div class="col-md-4">
+        <label class="form-label">Correo corporativo</label>
+        <div class="input-group">
+          <input class="form-control" id="correo_nick" placeholder="USUARIO" required>
+          <select class="form-select" id="correo_dom" style="max-width:190px">
+            <option value="" selected>— Seleccionar —</option>
+            <option value="@win.pe">@win.pe</option>
+            <option value="@winempresas.pe">@winempresas.pe</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- EMPRESA / ÁREAS -->
+      <div class="col-md-3">
+        <label class="form-label">Trabajos para</label>
+        <select class="form-select" id="empresa" required>
+          <option value="" selected>— Seleccionar —</option>
+          <option value="WIN NET">WIN NET</option>
+          <option value="WIN EMPRESAS">WIN EMPRESAS</option>
+        </select>
+      </div>
+      <div class="col-md-5">
+        <label class="form-label">Área responsable</label>
+        <select class="form-select" id="area_resp" required>
+          <option value="" selected>— Seleccionar —</option>
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Área de apoyo</label>
+        <select class="form-select" id="area_apoyo" required>
+          <option value="" selected>— Seleccionar —</option>
+        </select>
+      </div>
+
+      <!-- TIPO/NIVEL/DETALLES -->
+      <div class="col-md-4">
+        <label class="form-label">Tipo de trabajo</label>
+        <select class="form-select" id="tipo_trabajo" required>
+          <option value="" selected>— Seleccionar —</option>
+        </select>
+      </div>
+      <div class="col-md-8">
+        <label class="form-label">Detalles del trabajo</label>
+        <input class="form-control" id="detalles_trabajo" maxlength="200" placeholder="Descripción breve (máx. 200 caracteres)" required>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Nivel de acceso</label>
+        <select class="form-select" id="nivel_acceso" required>
+          <option value="" selected>— Seleccionar —</option>
+          <option>PROGRAMADO</option>
+          <option>NO PROGRAMADO</option>
+        </select>
+      </div>
+
+      <!-- SUPERVISOR -->
+      <div class="col-12 d-flex align-items-center">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="sup_igual_sol">
+          <label class="form-check-label" for="sup_igual_sol">Supervisor = Solicitante</label>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label">Supervisor - Nombres</label>
+        <input class="form-control" id="sup_nombres" maxlength="80" required>
+        <div class="invalid-feedback" id="sup_nombres_err"></div>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Supervisor - Ap. paterno</label>
+        <input class="form-control" id="sup_apepat" maxlength="80" required>
+        <div class="invalid-feedback" id="sup_apepat_err"></div>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Supervisor - Ap. materno</label>
+        <input class="form-control" id="sup_apemat" maxlength="80" required>
+        <div class="invalid-feedback" id="sup_apemat_err"></div>
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">Supervisor - Tipo doc.</label>
+        <select class="form-select" id="sup_tipodoc" required>
+          <option value="" selected>— Seleccionar —</option>
+          <option value="DNI">DNI</option>
+          <option value="CE">C.E</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">Supervisor - Nº doc.</label>
+        <input class="form-control" id="sup_numdoc" inputmode="numeric" maxlength="8" required>
+        <div class="invalid-feedback" id="sup_doc_err"></div>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Supervisor - Nº de teléfono</label>
+        <input class="form-control" id="sup_tel" inputmode="numeric" maxlength="9" required>
+        <div class="invalid-feedback" id="sup_tel_err"></div>
+      </div>
+
+      <!-- CONTRATA + SCTR -->
+      <div class="col-md-3">
+        <label class="form-label">Trabajo por contrata</label>
+        <select class="form-select" id="contrata" required>
+          <option value="" selected>— Seleccionar —</option>
+          <option value="NO">NO</option>
+          <option value="SI">SI</option>
+        </select>
+      </div>
+      <div class="col-md-5" id="wrap_contrata" style="display:none;">
+        <label class="form-label">Nombre de la contrata</label>
+        <input class="form-control" id="nombre_contrata" maxlength="80">
+        <div class="invalid-feedback" id="contrata_err"></div>
+      </div>
+      <div class="col-md-4" id="wrap_sctr" style="display:none;">
+        <label class="form-label">SCTR (PDF &lt; 4 MB)</label>
+        <input class="form-control" type="file" id="sctr" accept="application/pdf">
+        <div class="form-text" style="color:var(--ink-soft)">PDF, máx. 4 MB. (Obligatorio)</div>
+        <div class="invalid-feedback" id="sctr_err"></div>
+      </div>
+
+      <!-- PERSONAL (1..4) -->
+      <div class="col-12 d-flex align-items-center">
+        <h5 class="mb-0 me-3 section-title">Personal</h5>
+        <div class="me-2">N°:</div>
+        <select class="form-select w-auto" id="cant_personal" aria-label="Cantidad de personal">
+          <option value="1" selected>1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+        </select>
+      </div>
+
+      <div class="col-12 d-flex align-items-center">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="p1_igual_sol">
+          <label class="form-check-label" for="p1_igual_sol">Persona 1 = Solicitante</label>
+        </div>
+      </div>
+
+      <div class="col-12" id="personal">
+        <!-- p1 -->
+        <div class="row g-3 align-items-end mb-1" data-pi="1">
+          <div class="col-md-3">
+            <input class="form-control" placeholder="Nombres (1)" id="p1_nombres" maxlength="80">
+            <div class="invalid-feedback" id="p1_nombres_err"></div>
+          </div>
+          <div class="col-md-2">
+            <input class="form-control" placeholder="Ap. paterno (1)" id="p1_apepat" maxlength="80">
+            <div class="invalid-feedback" id="p1_apepat_err"></div>
+          </div>
+          <div class="col-md-2">
+            <input class="form-control" placeholder="Ap. materno (1)" id="p1_apemat" maxlength="80">
+            <div class="invalid-feedback" id="p1_apemat_err"></div>
+          </div>
+          <div class="col-md-2">
+            <select class="form-select" id="p1_tipodoc">
+              <option value="" selected>— Seleccionar —</option>
+              <option value="DNI">DNI</option><option value="CE">C.E</option>
+            </select>
+          </div>
+          <div class="col-md-1">
+            <input class="form-control" placeholder="Doc (1)" id="p1_numdoc" inputmode="numeric" maxlength="8">
+            <div class="invalid-feedback" id="p1_doc_err"></div>
+          </div>
+          <div class="col-md-2">
+            <input class="form-control" placeholder="Teléfono (1)" id="p1_tel" inputmode="numeric" maxlength="9">
+            <div class="invalid-feedback" id="p1_tel_err"></div>
+          </div>
+        </div>
+
+        <!-- p2 -->
+        <div class="row g-3 align-items-end mb-1" data-pi="2" hidden>
+          <div class="col-md-3">
+            <input class="form-control" placeholder="Nombres (2)" id="p2_nombres" maxlength="80">
+            <div class="invalid-feedback" id="p2_nombres_err"></div>
+          </div>
+          <div class="col-md-2">
+            <input class="form-control" placeholder="Ap. paterno (2)" id="p2_apepat" maxlength="80">
+            <div class="invalid-feedback" id="p2_apepat_err"></div>
+          </div>
+          <div class="col-md-2">
+            <input class="form-control" placeholder="Ap. materno (2)" id="p2_apemat" maxlength="80">
+            <div class="invalid-feedback" id="p2_apemat_err"></div>
+          </div>
+          <div class="col-md-2">
+            <select class="form-select" id="p2_tipodoc">
+              <option value="" selected>— Seleccionar —</option>
+              <option value="DNI">DNI</option><option value="CE">C.E</option>
+            </select>
+          </div>
+          <div class="col-md-1">
+            <input class="form-control" placeholder="Doc (2)" id="p2_numdoc" inputmode="numeric" maxlength="8">
+            <div class="invalid-feedback" id="p2_doc_err"></div>
+          </div>
+          <div class="col-md-2">
+            <input class="form-control" placeholder="Teléfono (2)" id="p2_tel" inputmode="numeric" maxlength="9">
+            <div class="invalid-feedback" id="p2_tel_err"></div>
+          </div>
+        </div>
+
+        <!-- p3 -->
+        <div class="row g-3 align-items-end mb-1" data-pi="3" hidden>
+          <div class="col-md-3">
+            <input class="form-control" placeholder="Nombres (3)" id="p3_nombres" maxlength="80">
+            <div class="invalid-feedback" id="p3_nombres_err"></div>
+          </div>
+          <div class="col-md-2">
+            <input class="form-control" placeholder="Ap. paterno (3)" id="p3_apepat" maxlength="80">
+            <div class="invalid-feedback" id="p3_apepat_err"></div>
+          </div>
+          <div class="col-md-2">
+            <input class="form-control" placeholder="Ap. materno (3)" id="p3_apemat" maxlength="80">
+            <div class="invalid-feedback" id="p3_apemat_err"></div>
+          </div>
+          <div class="col-md-2">
+            <select class="form-select" id="p3_tipodoc">
+              <option value="" selected>— Seleccionar —</option>
+              <option value="DNI">DNI</option><option value="CE">C.E</option>
+            </select>
+          </div>
+          <div class="col-md-1">
+            <input class="form-control" placeholder="Doc (3)" id="p3_numdoc" inputmode="numeric" maxlength="8">
+            <div class="invalid-feedback" id="p3_doc_err"></div>
+          </div>
+          <div class="col-md-2">
+            <input class="form-control" placeholder="Teléfono (3)" id="p3_tel" inputmode="numeric" maxlength="9">
+            <div class="invalid-feedback" id="p3_tel_err"></div>
+          </div>
+        </div>
+
+        <!-- p4 -->
+        <div class="row g-3 align-items-end mb-1" data-pi="4" hidden>
+          <div class="col-md-3">
+            <input class="form-control" placeholder="Nombres (4)" id="p4_nombres" maxlength="80">
+            <div class="invalid-feedback" id="p4_nombres_err"></div>
+          </div>
+          <div class="col-md-2">
+            <input class="form-control" placeholder="Ap. paterno (4)" id="p4_apepat" maxlength="80">
+            <div class="invalid-feedback" id="p4_apepat_err"></div>
+          </div>
+          <div class="col-md-2">
+            <input class="form-control" placeholder="Ap. materno (4)" id="p4_apemat" maxlength="80">
+            <div class="invalid-feedback" id="p4_apemat_err"></div>
+          </div>
+          <div class="col-md-2">
+            <select class="form-select" id="p4_tipodoc">
+              <option value="" selected>— Seleccionar —</option>
+              <option value="DNI">DNI</option><option value="CE">C.E</option>
+            </select>
+          </div>
+          <div class="col-md-1">
+            <input class="form-control" placeholder="Doc (4)" id="p4_numdoc" inputmode="numeric" maxlength="8">
+            <div class="invalid-feedback" id="p4_doc_err"></div>
+          </div>
+          <div class="col-md-2">
+            <input class="form-control" placeholder="Teléfono (4)" id="p4_tel" inputmode="numeric" maxlength="9">
+            <div class="invalid-feedback" id="p4_tel_err"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <button class="btn btn-warning px-4" id="btn_enviar" type="submit">Enviar solicitud</button>
+      </div>
+    </form>
+  </div></div>
+
+  <div class="mt-3 text-light">
+    <small class="muted">Demo: si no configuras FLOW_URL, el payload se imprime en consola (F12).</small>
+  </div>
+</div>
+
+<script>
+  // ====== CONFIG ======
+  const FLOW_URL = "https://prod-145.westus.logic.azure.com:443/workflows/058ac8305be945959c412c55288fb5d7/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=30AJSOah-UB88wCpIq_LPr2hbkYm-teNdBxeJM-n8Gs"; // coloca tu URL si quieres enviar al flujo
+
+  // ====== Helpers ======
+  const $ = s => document.querySelector(s);
+  const $$ = s => Array.from(document.querySelectorAll(s));
+  const f = $('#f'), btn = $('#btn_enviar');
+
+  // ====== Catálogos ======
+  const NODOS = ["200 MILLAS","ANGAMOS","ARRIOLA","AURELIO SOUZA","AREQUIPA CERRO COLORADO","AREQUIPA LA CULTURA","AREQUIPA MIRAFLORES",
+    "BARRANCA","BARRANCO","BAYOVAR","BENVENUTTO","BUCKINGHAM","CALLAO","CAMANA","CAQUETA","CATACAOS","CHANCAY",
+    "CHICLAYO MAGNOLIAS","CHIMBOTE LAS PALMERAS","CHIMBOTE MANCO CAPAC","CHORRILLOS","CIPRESES","CONQUISTADORES","CUZCO CALCA",
+    "CUZCO TUPAC AMARU","CUZCO WANCHAQ","EL SAUCE","FLAMENGOS","FRANCISCO MOREYRA","GALVEZ II","GERARDO UNGER",
+    "GUARDIA PERUANA","HIPOLITO UNANUE","HUACHO","HUANDOY","HUARAL","HUANCAYO CENTRO","HUANCAYO TAMBO","JUAN PABLO",
+    "LA ENSENADA","LA MOLINA","LAMBAYEQUE OUTDOOR","LINCE","LOS ALAMOS","LOS JARDINES","LOS MIRABLES","MARIATEGUI",
+    "NATALIO SANCHEZ","NIÑO JESUS","PACHACAMAC","PELITRES","PERSHING","PIMENTEL INDOOR","PISTA NUEVA","PIURA GARDENIAS",
+    "PUCUSANA","PUNTA HERMOSA","REPUBLICA DE PANAMA","SALAMANCA","SAN LUIS","SAN PEDRO","SAN REMO","SANTA FE","SANTA ROSA",
+    "SANTOS CHOCANO","SUCRE","TRES DE MAYO","TRIGAL II","TRUIJILLO LA MERCED","TRUJILLO SANTA ROSA","TUNGASUCA",
+    "URUGUAY","VARELA","VILLA EL SALVADOR","VITARTE","ZARATE"
+  ];
+  const TIPOS_TRABAJO = [
+    "ACONDICIONAMIENTO, ETIQUETADO ODF / LIMPIEZA DE PICTELES","ACTIVACIÓN DE ENLACE","ATENCIÓN DE INCIDENCIA",
+    "AUDITORIA DE EQUIPOS WIN","CABLEADO DE F.O.","CAMBIO DE PATCH CORD","CAMBIO DE TARJETA CONTROLADORA EN OLT.",
+    "CAMBIO DE TRANSCEIVER","FUSIONES DE F.O.","IMPLEMENTACIÓN DE UN ENLACE","IMPLEMENTACIÓN DE UN NUEVO CIRCUITO",
+    "INGRESO DE F.O./INSTALACIÓN DE P.P.","INSTALACIÓN DE EQUIPOS","INSTALACIÓN DE PATCH CORD Y TRANSCEIVER",
+    "INSTALACIÓN DE TRANSCEIVER","INVENTARIO DE EQUIPOS","INVENTARIO DE HILOS","JUMPEO DE PATCH CORD","MAPEO DE ESPACIO EN RACK WIN Y PATCH CORD",
+    "MEDICIONES REFLECTOMÉTRICAS","MEDICIONES REFLECTOMÉTRICAS, INSTALACIÓN DE PATCH CORD Y TRANSCEIVER","MIGRACIÓN DE EQUIPO",
+    "REEMPLAZO DE EQUIPO","REINICIO DE EQUIPOS","RETIRO DE ANTENA","RETIRO DE EQUIPOS",
+    "ROTULADO","TROUBLESHOOTING","UPGRADE DE ENLACES","VALIDACIÓN DE ENLACES","VALIDACIÓN DE PUERTO Y JUMPEO","VISITA TÉCNICA"
+  ];
+  const AREAS_NET = [
+    "CIBERSEGURIDAD-WIN","IMPLEMENTACIONES-WIN","INFRAESTRUCTURA-WIN","INGENIERIA-WIN","MANTENIMIENTO PEXT-WIN",
+    "MANTENIMIENTO Y EMERGENCIAS-WIN","MANTENIMIENTO Y EMERGENCIA PEXT-WIN","NOC-WIN","O&M-WIN","PERSONAL TECNICO-WIN",
+    "PEXT-WIN","PLANIFICACION DE RED B2C-WIN"
+  ];
+  const AREAS_EMP = [
+    "ALOB-WIN EMPRESAS","CIBERSEGURIDAD-WIN EMPRESAS","CORE-WIN EMPRESAS","IMPLEMENTACIONES-WIN EMPRESAS",
+    "INFRAESTRUCTURA-WIN EMPRESAS","INGENIERIA-WIN EMPRESAS","NOC-WIM EMPRESAS","O&M-WIN EMPRESAS",
+    "PEXT-WIN EMPRESAS","SOS-WIN EMPRESAS"
+  ];
+  const AREAS_APOYO_NET = [
+    "Ninguna","Arkturias","Comunicaciones Unificadas","Core","Cybersoc","Infraestructura y Mantenimiento",
+    "Ingeneria","Instalaciones","Mantenimiento y emergencia","Mantenimiento y Emergencia PEXT","NOC",
+    "O&M","ONI","Planificacion de Red B2C","Planta Externa y Emergencia","ZTE"
+  ];
+  const AREAS_APOYO_EMP = [
+    "Ninguna","ALOB","Arkturias","Core","Cybersoc","Emfitel","F&S","INETEL","Infraestructura y Mantenimiento",
+    "Ingenieria","Instalaciones","NOC","O&M","NOC & Infraestructura","ONI","PEXT y Emergencia","SOC","TAC","Telener"
+  ];
+
+  function load(list, el){
+    const cur = el.value;
+    const placeholder = el.querySelector('option[value=""]') ? true : false;
+    el.innerHTML = placeholder ? '<option value="">— Seleccionar —</option>' : '';
+    [...new Set(list)]
+      .sort((a,b)=> a.localeCompare(b,'es',{sensitivity:'base'}))
+      .forEach(v => el.add(new Option(v, v)));
+    el.value = ""; // siempre vacío por requerimiento
+    if (smart.has(el)) smart.get(el).rebuild(); // si es SmartSelect, refrescar
+  }
+
+  // Áreas dependientes
+  const emp = $('#empresa'), ar = $('#area_resp'), ap = $('#area_apoyo');
+  function loadAreas(){
+    if (emp.value === "WIN NET"){ load(AREAS_NET, ar); load(AREAS_APOYO_NET, ap); }
+    else if (emp.value === "WIN EMPRESAS"){ load(AREAS_EMP, ar); load(AREAS_APOYO_EMP, ap); }
+    else { ar.innerHTML = '<option value="">— Seleccionar —</option>'; ap.innerHTML = '<option value="">— Seleccionar —</option>'; if(smart.has(ar)) smart.get(ar).rebuild(); if(smart.has(ap)) smart.get(ap).rebuild(); }
+  }
+
+  // ====== Fechas/Horas ======
+  const fi = $('#fecha_ingreso'), fs = $('#fecha_salida');
+  const hi = $('#hora_ingreso'), hs = $('#hora_salida');
+
+  const todayISO = (() => {
+    const d = new Date();
+    const mm = String(d.getMonth()+1).padStart(2,'0');
+    const dd = String(d.getDate()).padStart(2,'0');
+    return `${d.getFullYear()}-${mm}-${dd}`;
+  })();
+  fi.min = todayISO; fs.min = todayISO;
+
+  function setErr(id, msg){ const el = $('#'+id); if(el) el.textContent = msg || ''; }
+
+  function validateHoras(){
+    setErr('hs_err','');
+    if(fi.value && fs.value && fi.value === fs.value && hi.value && hs.value && hs.value < hi.value){
+      setErr('hs_err','Hora de salida no puede ser menor que la de ingreso en el mismo día.');
+      hs.setCustomValidity('Hora de salida < hora de ingreso');
+    } else {
+      hs.setCustomValidity('');
+    }
+    if(fi.value && fs.value && hi.value){
+      if(fi.value === fs.value){ hs.min = hi.value; }
+      else { hs.removeAttribute('min'); }
+    }
+  }
+
+  function clampFechaIngreso(){
+    if(fi.value && fi.value < todayISO){ setErr('fi_err','Fecha de ingreso no puede ser anterior a hoy.'); fi.value = todayISO; }
+    else setErr('fi_err','');
+    if(fs.value && fs.value < fi.value){ fs.value = fi.value; setErr('fs_err','La fecha de salida no puede ser anterior a la de ingreso.'); }
+    else setErr('fs_err','');
+    fs.min = fi.value || todayISO;
+    validateHoras();
+  }
+  function clampFechaSalida(){
+    if(fs.value && fi.value && fs.value < fi.value){ setErr('fs_err','La fecha de salida no puede ser anterior a la de ingreso.'); fs.value = fi.value; }
+    else setErr('fs_err','');
+    validateHoras();
+  }
+  fi.addEventListener('change', clampFechaIngreso);
+  fi.addEventListener('blur', clampFechaIngreso);
+  fs.addEventListener('change', clampFechaSalida);
+  fs.addEventListener('blur', clampFechaSalida);
+  hi.addEventListener('input', validateHoras);
+  hs.addEventListener('input', validateHoras);
+
+  // ====== Validación Docs/Teléfonos ======
+  function onlyDigits(s){ return /^\d*$/.test(s); }
+  function validateDoc(input, errId){
+    const v = input.value.trim();
+    let msg = '';
+    if(v && !onlyDigits(v)) msg = 'Debe ser numérico.'; else if(v && v.length !== 8) msg = 'Son 8 dígitos.';
+    setErr(errId, msg); input.classList.toggle('is-invalid', !!msg); input.setCustomValidity(msg);
+  }
+  function validatePhone(input, errId){
+    const v = input.value.trim();
+    let msg = '';
+    if(v && !onlyDigits(v)) msg = 'Debe ser numérico.'; else if(v && v.length !== 9) msg = 'Son 9 dígitos.';
+    setErr(errId, msg); input.classList.toggle('is-invalid', !!msg); input.setCustomValidity(msg);
+  }
+  $('#sol_numdoc').addEventListener('input', ()=>validateDoc($('#sol_numdoc'),'sol_doc_err'));
+  $('#sup_numdoc').addEventListener('input', ()=>validateDoc($('#sup_numdoc'),'sup_doc_err'));
+  $('#sup_tel').addEventListener('input', ()=>validatePhone($('#sup_tel'),'sup_tel_err'));
+  [1,2,3,4].forEach(i=>{
+    $('#p'+i+'_numdoc').addEventListener('input', ()=>validateDoc($('#p'+i+'_numdoc'),'p'+i+'_doc_err'));
+    $('#p'+i+'_tel').addEventListener('input', ()=>validatePhone($('#p'+i+'_tel'),'p'+i+'_tel_err'));
+  });
+
+  // ====== Solo letras + MAYÚSCULAS ======
+  const NAME_IDS = ['sol_nombres','sol_apepat','sol_apemat','sup_nombres','sup_apepat','sup_apemat',
+    'p1_nombres','p1_apepat','p1_apemat','p2_nombres','p2_apepat','p2_apemat','p3_nombres','p3_apepat','p3_apemat',
+    'p4_nombres','p4_apepat','p4_apemat','nombre_contrata'];
+  const NAME_ERR = {sol_nombres:'sol_nombres_err', sol_apepat:'sol_apepat_err', sol_apemat:'sol_apemat_err',
+    sup_nombres:'sup_nombres_err', sup_apepat:'sup_apepat_err', sup_apemat:'sup_apemat_err',
+    p1_nombres:'p1_nombres_err', p1_apepat:'p1_apepat_err', p1_apemat:'p1_apemat_err',
+    p2_nombres:'p2_nombres_err', p2_apepat:'p2_apepat_err', p2_apemat:'p2_apemat_err',
+    p3_nombres:'p3_nombres_err', p3_apepat:'p3_apepat_err', p3_apemat:'p3_apemat_err',
+    p4_nombres:'p4_nombres_err', p4_apepat:'p4_apepat_err', p4_apemat:'p4_apemat_err',
+    nombre_contrata:'contrata_err'};
+  const rgxLetters = /^[A-ZÁÉÍÓÚÜÑ ]+$/i;
+  function validateName(input){
+    input.value = input.value.toUpperCase();
+    const v = input.value.trim(); let msg = '';
+    if(v && !rgxLetters.test(v)) msg = 'Este campo solo permite texto (sin números ni signos).';
+    const errId = NAME_ERR[input.id]; if(errId) setErr(errId, msg);
+    input.classList.toggle('is-invalid', !!msg); input.setCustomValidity(msg);
+  }
+  NAME_IDS.forEach(id=>{
+    const el = $('#'+id); if(el){ el.addEventListener('input', ()=>validateName(el)); el.addEventListener('blur', ()=>validateName(el)); }
+  });
+
+  // ====== Supervisor = Solicitante ======
+  const supChk = $('#sup_igual_sol');
+  function copySolicitanteToSupervisor(){
+    $('#sup_nombres').value = $('#sol_nombres').value.toUpperCase();
+    $('#sup_apepat').value  = $('#sol_apepat').value.toUpperCase();
+    $('#sup_apemat').value  = $('#sol_apemat').value.toUpperCase();
+    $('#sup_tipodoc').value = $('#sol_tipodoc').value || 'DNI';
+    $('#sup_numdoc').value  = $('#sol_numdoc').value;
+    ['sup_nombres','sup_apepat','sup_apemat'].forEach(id=>validateName($('#'+id)));
+    validateDoc($('#sup_numdoc'),'sup_doc_err');
+  }
+  function clearFields(ids){
+    ids.forEach(id=>{
+      const el = $('#'+id); if(!el) return;
+      if(el.tagName==='SELECT'){ el.value = ""; }
+      else el.value = "";
+      el.classList.remove('is-invalid'); el.setCustomValidity('');
+      const errId = NAME_ERR[id]; if(errId) setErr(errId,'');
+      if(smart.has(el)) smart.get(el).setText(''); // si es smart, limpiar display
+    });
+  }
+  function lockSupervisor(on){
+    ['sup_nombres','sup_apepat','sup_apemat','sup_tipodoc','sup_numdoc'].forEach(id=>{
+      const el = $('#'+id); el.disabled = on; el.required = !on;
+      if(on) el.classList.remove('is-invalid');
+    });
+    $('#sup_tel').disabled = false; $('#sup_tel').required = true;
+  }
+  function handleSupToggle(){
+    if(supChk.checked){ copySolicitanteToSupervisor(); lockSupervisor(true); }
+    else { lockSupervisor(false); clearFields(['sup_nombres','sup_apepat','sup_apemat','sup_tipodoc','sup_numdoc']); }
+  }
+  supChk.addEventListener('change', handleSupToggle);
+  ['sol_nombres','sol_apepat','sol_apemat','sol_tipodoc','sol_numdoc'].forEach(id=>{
+    $('#'+id).addEventListener('input', ()=>{ if(supChk.checked) copySolicitanteToSupervisor(); });
+    $('#'+id).addEventListener('change', ()=>{ if(supChk.checked) copySolicitanteToSupervisor(); });
+  });
+
+  // ====== Contrata: mostrar/ocultar y SCTR < 4MB ======
+  const c = $('#contrata');
+  function toggleContrata(){
+    const on = c.value === "SI";
+    $('#wrap_contrata').style.display = on ? "block" : "none";
+    $('#nombre_contrata').required = on;
+    // política actual: mostrar SCTR siempre y requerir solo si SI
+    $('#wrap_sctr').style.display = "block";
+    $('#sctr').required = true;
+  }
+c.addEventListener('change', toggleContrata);
+  toggleContrata();
+
+  $('#sctr').addEventListener('change', ()=>{
+    const file = $('#sctr').files?.[0]; let msg = '';
+    if(file && file.size > 4*1024*1024) msg = 'El PDF no debe superar 4 MB.';
+    setErr('sctr_err', msg); 
+    $('#sctr').classList.toggle('is-invalid', !!msg); 
+    $('#sctr').setCustomValidity(msg);
+  });
+
+  // ====== Personal: cantidad ======
+  const cant = $('#cant_personal');
+  function applyCantPersonal(){
+    const n = parseInt(cant.value,10);
+    $$('#personal [data-pi]').forEach(row=>{
+      const i = parseInt(row.dataset.pi,10);
+      const visible = i <= n;
+      row.hidden = !visible;
+      row.querySelectorAll('input,select').forEach(inp=>{
+        inp.required = visible;
+        if(!visible){
+          inp.classList.remove('is-invalid'); inp.setCustomValidity(''); if(inp.tagName==='SELECT'){ inp.value=""; } else { inp.value=""; }
+          const id = inp.id; if(NAME_ERR[id]) setErr(NAME_ERR[id],'');
+          if(/^(p\d+_)(numdoc|tel)$/.test(id)){ const errId = id.replace(/^(p\d+_)(numdoc|tel)$/,'$1$2_err'); setErr(errId,''); }
+        }
+      });
+    });
+  }
+  cant.addEventListener('change', applyCantPersonal);
+
+  // Persona 1 = Solicitante
+  const p1Chk = $('#p1_igual_sol');
+  function copySolicitanteToP1(){
+    $('#p1_nombres').value = $('#sol_nombres').value.toUpperCase();
+    $('#p1_apepat').value  = $('#sol_apepat').value.toUpperCase();
+    $('#p1_apemat').value  = $('#sol_apemat').value.toUpperCase();
+    $('#p1_tipodoc').value = $('#sol_tipodoc').value || 'DNI';
+    $('#p1_numdoc').value  = $('#sol_numdoc').value;
+    ['p1_nombres','p1_apepat','p1_apemat'].forEach(id=>validateName($('#'+id)));
+    validateDoc($('#p1_numdoc'),'p1_doc_err');
+    if($('#sup_tel').value.trim().length===9){ $('#p1_tel').value = $('#sup_tel').value.trim(); validatePhone($('#p1_tel'),'p1_tel_err'); }
+  }
+  function lockP1(on){
+    ['p1_nombres','p1_apepat','p1_apemat','p1_tipodoc','p1_numdoc'].forEach(id=>{
+      const el = $('#'+id); el.disabled = on; el.required = !on; if(on) el.classList.remove('is-invalid');
+    });
+    $('#p1_tel').disabled = false; $('#p1_tel').required = true;
+  }
+  function handleP1Toggle(){
+    if(p1Chk.checked){ copySolicitanteToP1(); lockP1(true); }
+    else { lockP1(false); clearFields(['p1_nombres','p1_apepat','p1_apemat','p1_tipodoc','p1_numdoc','p1_tel']); }
+  }
+  p1Chk.addEventListener('change', handleP1Toggle);
+  ['sol_nombres','sol_apepat','sol_apemat','sol_tipodoc','sol_numdoc','sup_tel'].forEach(id=>{
+    $('#'+id).addEventListener('input', ()=>{ if(p1Chk.checked) copySolicitanteToP1(); });
+    $('#'+id).addEventListener('change', ()=>{ if(p1Chk.checked) copySolicitanteToP1(); });
+  });
+
+  // ====== DNI únicos ======
+  function validarDNIsUnicos(){
+    const n = parseInt(cant.value,10); const dnIs = [];
+    for(let i=1;i<=n;i++){
+      const row = $('[data-pi="'+i+'"]'); if(row.hidden) continue;
+      const v = $('#p'+i+'_numdoc').value.trim(); if(v) dnIs.push({i, v});
+    }
+    let dup = false; dnIs.forEach(a=>{ $('#p'+a.i+'_numdoc').setCustomValidity(''); });
+    for(let x=0; x<dnIs.length; x++){
+      for(let y=x+1; y<dnIs.length; y++){
+        if(dnIs[x].v === dnIs[y].v){
+          const elx = $('#p'+dnIs[x].i+'_numdoc'), ely = $('#p'+dnIs[y].i+'_numdoc');
+          elx.setCustomValidity('DNI duplicado.'); ely.setCustomValidity('DNI duplicado.');
+          elx.classList.add('is-invalid'); ely.classList.add('is-invalid');
+          setErr('p'+dnIs[y].i+'_doc_err','DNI duplicado.'); dup = true;
+        }
+      }
+    }
+    return !dup;
+  }
+  [1,2,3,4].forEach(i=> $('#p'+i+'_numdoc').addEventListener('input', validarDNIsUnicos));
+
+  // ====== SmartSelect (buscable) ======
+  const smart = new Map(); // select -> API
+
+  function enhanceSelect(sel){
+    const select = (typeof sel==='string') ? $(sel) : sel;
+    if(!select) return;
+
+    // si ya está mejorado, solo reconstruir
+    if(smart.has(select)){ smart.get(select).rebuild(); return; }
+
+    // envoltorio
+    const wrap = document.createElement('div');
+    wrap.className = 'ss-wrap';
+    const display = document.createElement('div');
+    display.className='ss-display';
+    const text = document.createElement('div'); text.className='ss-text ss-placeholder'; text.textContent='— Seleccionar —';
+    const caret = document.createElement('div'); caret.className='ss-caret'; caret.textContent='▾';
+    display.append(text, caret);
+
+    const panel = document.createElement('div'); panel.className='ss-panel';
+    const search = document.createElement('input'); search.type='text'; search.className='ss-search'; search.placeholder='Buscar...';
+    const list = document.createElement('ul'); list.className='ss-list';
+    panel.append(search, list);
+
+    select.classList.add('ss-native');
+    select.parentNode.insertBefore(wrap, select);
+    wrap.appendChild(select); wrap.appendChild(display); wrap.appendChild(panel);
+
+    const api = {
+      rebuild(){
+        list.innerHTML = '';
+        Array.from(select.options)
+          .filter(o=>o.value!=='' )
+          .forEach(o=>{
+            const li = document.createElement('li'); li.className='ss-item'; li.textContent = o.text;
+            li.dataset.value = o.value;
+            li.addEventListener('click', ()=>{ setValue(o.value, o.text); close(); });
+            list.appendChild(li);
+          });
+        search.value=''; filter('');
+        // texto
+        if(select.value){ text.textContent = select.selectedOptions[0].text; text.classList.remove('ss-placeholder'); }
+        else { text.textContent = '— Seleccionar —'; text.classList.add('ss-placeholder'); }
+      },
+      setText(t){
+        text.textContent = t ? t : '— Seleccionar —';
+        text.classList.toggle('ss-placeholder', !t);
+      }
+    };
+    smart.set(select, api);
+
+    function open(){ wrap.classList.add('open'); search.focus(); }
+    function close(){ wrap.classList.remove('open'); }
+    function toggle(){ wrap.classList.contains('open') ? close() : open(); }
+    function setValue(val, txt){
+      select.value = val;
+      api.setText(txt);
+      select.dispatchEvent(new Event('change',{bubbles:true}));
+    }
+    function filter(q){
+      const k = q.trim().toLowerCase();
+      Array.from(list.children).forEach(li=>{
+        li.style.display = li.textContent.toLowerCase().includes(k) ? '' : 'none';
+      });
+    }
+
+    display.addEventListener('click', toggle);
+    search.addEventListener('input', ()=>filter(search.value));
+    document.addEventListener('click', (e)=>{ if(!wrap.contains(e.target)) close(); });
+
+    api.rebuild();
+    return api;
+  }
+
+  // ====== Submit ======
+  f.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+
+    clampFechaIngreso(); clampFechaSalida(); validateHoras();
+    NAME_IDS.forEach(id=>{ const el=$('#'+id); if(el && !el.closest('[data-pi]')?.hidden) validateName(el); });
+
+    validateDoc($('#sol_numdoc'),'sol_doc_err');
+    validateDoc($('#sup_numdoc'),'sup_doc_err');
+    validatePhone($('#sup_tel'),'sup_tel_err');
+    [1,2,3,4].forEach(i=>{
+      const row=$('[data-pi="'+i+'"]');
+      if(!row.hidden){ validateDoc($('#p'+i+'_numdoc'),'p'+i+'_doc_err'); validatePhone($('#p'+i+'_tel'),'p'+i+'_tel_err'); }
+    });
+    if(!validarDNIsUnicos()) return;
+    // se agrego para validar dominio del correo que elijan uno
+    if(!$('#correo_dom').value){ $('#correo_dom').setCustomValidity('Selecciona un dominio.'); } else { $('#correo_dom').setCustomValidity(''); }
+    
+    if(!f.checkValidity()){ f.reportValidity(); return; }
+
+    btn.disabled = true;
+    try {
+      // SCTR a base64 si Contrata = SI
+      
+const file = $('#sctr').files?.[0];
+if(!file){ setErr('sctr_err','SCTR requerido.'); $('#sctr').classList.add('is-invalid'); throw new Error('SCTR requerido'); }
+if(file.size > 4*1024*1024){ throw new Error('El PDF no debe superar 4 MB.'); }
+const buf = await file.arrayBuffer();
+let binary=''; const bytes=new Uint8Array(buf), chunk=0x8000;
+for(let i=0;i<bytes.length;i+=chunk){ binary += String.fromCharCode.apply(null, bytes.subarray(i,i+chunk)); }
+const sctr_name = file.name;
+const sctr_b64  = btoa(binary);
+      //if($('#contrata').value === "SI"){
+        //const file = $('#sctr').files?.[0];
+        //if(!file){ setErr('sctr_err','SCTR requerido.'); $('#sctr').classList.add('is-invalid'); throw new Error('SCTR requerido'); }
+        //if(file.size > 4*1024*1024){ throw new Error('El PDF no debe superar 4 MB.'); }
+        //const buf = await file.arrayBuffer();
+       // let binary=''; const bytes=new Uint8Array(buf), chunk=0x8000;
+        //for(let i=0;i<bytes.length;i+=chunk){ binary += String.fromCharCode.apply(null, bytes.subarray(i,i+chunk)); }
+       // sctr_name=file.name; sctr_b64=btoa(binary);
+      //}
+
+      const personal=[]; const n=parseInt($('#cant_personal').value,10);
+      for(let i=1;i<=n;i++){
+        const row=$('[data-pi="'+i+'"]'); if(row.hidden) continue;
+        personal.push({
+          nombres: $('#p'+i+'_nombres').value.trim(),
+          apepat : $('#p'+i+'_apepat').value.trim(),
+          apemat : $('#p'+i+'_apemat').value.trim(),
+          tipodoc: $('#p'+i+'_tipodoc').value,
+          numdoc : $('#p'+i+'_numdoc').value.trim(),
+          tel    : $('#p'+i+'_tel').value.trim()
+        });
+      }
+
+      const payload = {
+        nodo: $('#nodo').value,
+        fecha_ingreso: fi.value, fecha_salida: fs.value,
+        hora_ingreso: hi.value, hora_salida: hs.value,
+
+        sol_nombres: $('#sol_nombres').value.trim(), sol_apepat: $('#sol_apepat').value.trim(),
+        sol_apemat: $('#sol_apemat').value.trim(), sol_tipodoc: $('#sol_tipodoc').value,
+        sol_numdoc: $('#sol_numdoc').value.trim(),
+        // se modifico correo 
+        correo: `${$('#correo_nick').value.trim()}${$('#correo_dom').value}`,
+
+        trabajos_para: $('#empresa').value,
+        area_resp: $('#area_resp').value, area_apoyo: $('#area_apoyo').value,
+
+        tipo_trabajo: $('#tipo_trabajo').value,
+        detalles_trabajo: $('#detalles_trabajo').value.trim(),
+        nivel_acceso: $('#nivel_acceso').value,
+
+        sup_nombres: $('#sup_nombres').value.trim(), sup_apepat: $('#sup_apepat').value.trim(),
+        sup_apemat: $('#sup_apemat').value.trim(), sup_tipodoc: $('#sup_tipodoc').value,
+        sup_numdoc: $('#sup_numdoc').value.trim(), sup_tel: $('#sup_tel').value.trim(),
+
+        trabajo_contrata: $('#contrata').value, nombre_contrata: $('#nombre_contrata').value.trim(),
+        sctr_filename: sctr_name,
+        sctr_base64: sctr_b64,
+
+        personal
+      };
+
+      if(FLOW_URL){
+        const r = await fetch(FLOW_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+        if(!r.ok){ throw new Error(`HTTP ${r.status}: ${await r.text()}`); }
+        alert('Solicitud enviada correctamente.');
+      } else {
+        console.log('PAYLOAD →', payload);
+        alert('Demo: revisa la consola del navegador (F12) para ver el payload.');
+      }
+
+      // ===== Reset total: todo en blanco =====
+      f.reset();
+      //se modifico para que ta,bine correo salhga seleccionar
+      // deja todos los selects en "— Seleccionar —"
+      ['nodo','empresa','area_resp','area_apoyo','tipo_trabajo','sol_tipodoc','sup_tipodoc','nivel_acceso','contrata',
+       'p1_tipodoc','p2_tipodoc','p3_tipodoc','p4_tipodoc','correo_dom'].forEach(id => {
+          const el = $(`#${id}`);              // <-- #${id} (correcto)
+          if (!el) return;
+            // Para selects deja el placeholder (índice 0); para inputs, vacío
+        if (el.tagName === 'SELECT') el.value = '';
+        else el.value = '';
+
+          // Limpia estados de validación
+          el.classList.remove('is-invalid');
+        el.setCustomValidity('');
+
+        // Si algún select es SmartSelect, refresca el texto mostrado
+        if (smart.has(el)) smart.get(el).setText('');
+      });
+
+        // limpia usuario correo
+      $('#correo_nick').value = '';
+      loadAreas(); // vacía áreas por empresa en blanco
+      toggleContrata();
+      applyCantPersonal();
+      supChk.checked=false; handleSupToggle();
+      p1Chk.checked=false; handleP1Toggle();
+    } catch(err){
+      alert('Error: ' + err.message);
+    } finally { btn.disabled = false; }
+  });
+
+  // ===== Init =====
+  load(NODOS, $('#nodo'));
+  load(TIPOS_TRABAJO, $('#tipo_trabajo'));
+  loadAreas();
+  toggleContrata();
+  applyCantPersonal();
+
+  // Mejora combos grandes
+  enhanceSelect('#nodo');
+  enhanceSelect('#area_resp');
+  enhanceSelect('#area_apoyo');
+  enhanceSelect('#tipo_trabajo');
+
+  // Si cambia empresa, reconstruir smart selects de áreas
+  emp.addEventListener('change', ()=>{ loadAreas(); });
+
+</script>
+</body>
+
+</html>
