@@ -41,7 +41,7 @@
     }
     .brand-dot{width:10px;height:10px;border-radius:50%;background:#1a1a1a;opacity:.8}
     .badge-camp{background:var(--campfire-4);color:#5a3b00;border:1px solid rgba(0,0,0,.06)}
-    .section-title{color:#b86b00}
+    .section-title{color:#b86b00;margin-top:.5rem}
 
     /* ===== SmartSelect (buscable) ===== */
     .ss-wrap{position:relative}
@@ -67,6 +67,7 @@
 
     /* El select nativo se oculta pero mantiene validación */
     .ss-native{display:none !important}
+    hr{border-color:#eee;margin:0.25rem 0 1rem}
   </style>
 </head>
 <body>
@@ -81,6 +82,12 @@
 
   <div class="card"><div class="card-body">
     <form action="#" method="post" enctype="multipart/form-data" class="row g-3" id="f" novalidate>
+
+      <!-- ===================== Nodo a Ingresar ===================== -->
+      <div class="col-12">
+        <h5 class="section-title">Nodo a Ingresar</h5>
+        <hr>
+      </div>
 
       <!-- NODO -->
       <div class="col-md-4">
@@ -113,6 +120,12 @@
         <div class="invalid-feedback" id="hs_err"></div>
       </div>
 
+      <!-- ===================== Solicitante encargado ===================== -->
+      <div class="col-12 mt-2">
+        <h5 class="section-title">Solicitante encargado</h5>
+        <hr>
+      </div>
+
       <!-- SOLICITANTE -->
       <div class="col-md-3">
         <label class="form-label">Solicitante - Nombres</label>
@@ -129,6 +142,12 @@
         <input class="form-control" id="sol_apemat" maxlength="40" required>
         <div class="invalid-feedback" id="sol_apemat_err"></div>
       </div>
+      <div class="col-md-3">
+        <label class="form-label">Solicitante - N° de teléfono</label>
+        <input class="form-control" id="sol_tel" inputmode="numeric" maxlength="9" required>
+        <div class="invalid-feedback" id="sol_tel_err"></div>
+      </div>
+
       <div class="col-md-2">
         <label class="form-label">Solicitante - Tipo doc.</label>
         <select class="form-select" id="sol_tipodoc" required>
@@ -148,12 +167,27 @@
         <label class="form-label">Correo corporativo</label>
         <div class="input-group">
           <input class="form-control" id="correo_nick" placeholder="USUARIO" required>
-          <select class="form-select" id="correo_dom" style="max-width:190px">
+          <select class="form-select" id="correo_dom" style="max-width:190px" required>
             <option value="" selected>— Seleccionar —</option>
             <option value="@win.pe">@win.pe</option>
             <option value="@winempresas.pe">@winempresas.pe</option>
           </select>
         </div>
+      </div>
+
+      <!-- ===================== Trabajo a realizar ===================== -->
+      <div class="col-12 mt-2">
+        <h5 class="section-title">Trabajo a realizar</h5>
+        <hr>
+      </div>
+
+      <div class="col-md-3">
+        <label class="form-label">Nivel de acceso</label>
+        <select class="form-select" id="nivel_acceso" required>
+          <option value="" selected>— Seleccionar —</option>
+          <option>PROGRAMADO</option>
+          <option>NO PROGRAMADO</option>
+        </select>
       </div>
 
       <!-- EMPRESA / ÁREAS -->
@@ -178,7 +212,6 @@
         </select>
       </div>
 
-      <!-- TIPO/NIVEL/DETALLES -->
       <div class="col-md-4">
         <label class="form-label">Tipo de trabajo</label>
         <select class="form-select" id="tipo_trabajo" required>
@@ -189,23 +222,40 @@
         <label class="form-label">Detalles del trabajo</label>
         <input class="form-control" id="detalles_trabajo" maxlength="200" placeholder="Descripción breve (máx. 200 caracteres)" required>
       </div>
+
+      <!-- CONTRATA + SCTR -->
       <div class="col-md-3">
-        <label class="form-label">Nivel de acceso</label>
-        <select class="form-select" id="nivel_acceso" required>
+        <label class="form-label">Trabajo por contrata</label>
+        <select class="form-select" id="contrata" required>
           <option value="" selected>— Seleccionar —</option>
-          <option>PROGRAMADO</option>
-          <option>NO PROGRAMADO</option>
+          <option value="NO">NO</option>
+          <option value="SI">SI</option>
         </select>
       </div>
+      <div class="col-md-5" id="wrap_contrata" style="display:none;">
+        <label class="form-label">Nombre de la contrata</label>
+        <input class="form-control" id="nombre_contrata" maxlength="80">
+        <div class="invalid-feedback" id="contrata_err"></div>
+      </div>
+      <div class="col-md-4" id="wrap_sctr" style="display:none;">
+        <label class="form-label">SCTR del personal a ingresar</label>
+        <input class="form-control" type="file" id="sctr" accept="application/pdf">
+        <div class="form-text" style="color:var(--ink-soft)">PDF, máx. 4 MB. (Obligatorio)</div>
+        <div class="invalid-feedback" id="sctr_err"></div>
+      </div>
 
-      <!-- SUPERVISOR -->
+      <!-- ===================== Supervisor (COMENTADO/INHABILITADO) ===================== -->
+      <!--
+      <div class="col-12 mt-2">
+        <h5 class="section-title">Supervisor</h5>
+        <hr>
+      </div>
       <div class="col-12 d-flex align-items-center">
         <div class="form-check">
           <input class="form-check-input" type="checkbox" id="sup_igual_sol">
           <label class="form-check-label" for="sup_igual_sol">Supervisor = Solicitante</label>
         </div>
       </div>
-
       <div class="col-md-4">
         <label class="form-label">Supervisor - Nombres</label>
         <input class="form-control" id="sup_nombres" maxlength="80" required>
@@ -239,44 +289,26 @@
         <input class="form-control" id="sup_tel" inputmode="numeric" maxlength="9" required>
         <div class="invalid-feedback" id="sup_tel_err"></div>
       </div>
+      -->
 
-      <!-- CONTRATA + SCTR -->
-      <div class="col-md-3">
-        <label class="form-label">Trabajo por contrata</label>
-        <select class="form-select" id="contrata" required>
-          <option value="" selected>— Seleccionar —</option>
-          <option value="NO">NO</option>
-          <option value="SI">SI</option>
-        </select>
-      </div>
-      <div class="col-md-5" id="wrap_contrata" style="display:none;">
-        <label class="form-label">Nombre de la contrata</label>
-        <input class="form-control" id="nombre_contrata" maxlength="80">
-        <div class="invalid-feedback" id="contrata_err"></div>
-      </div>
-      <div class="col-md-4" id="wrap_sctr" style="display:none;">
-        <label class="form-label">SCTR (PDF &lt; 4 MB)</label>
-        <input class="form-control" type="file" id="sctr" accept="application/pdf">
-        <div class="form-text" style="color:var(--ink-soft)">PDF, máx. 4 MB. (Obligatorio)</div>
-        <div class="invalid-feedback" id="sctr_err"></div>
+      <!-- ===================== Personal a ingresar ===================== -->
+      <div class="col-12 mt-2">
+        <h5 class="section-title">Personal a ingresar</h5>
+        <hr>
       </div>
 
-      <!-- PERSONAL (1..4) -->
       <div class="col-12 d-flex align-items-center">
-        <h5 class="mb-0 me-3 section-title">Personal</h5>
-        <div class="me-2">N°:</div>
-        <select class="form-select w-auto" id="cant_personal" aria-label="Cantidad de personal">
+        <div class="me-2">Personal N°:</div>
+        <select class="form-select w-auto me-4" id="cant_personal" aria-label="Cantidad de personal">
           <option value="1" selected>1</option>
           <option value="2">2</option>
           <option value="3">3</option>
           <option value="4">4</option>
         </select>
-      </div>
 
-      <div class="col-12 d-flex align-items-center">
         <div class="form-check">
           <input class="form-check-input" type="checkbox" id="p1_igual_sol">
-          <label class="form-check-label" for="p1_igual_sol">Persona 1 = Solicitante</label>
+          <label class="form-check-label" for="p1_igual_sol">*Seleccionar esta en opcion en caso el solicitante ingresara al nodo de lo contrario no marcar</label>
         </div>
       </div>
 
@@ -455,17 +487,16 @@
     "PEXT-WIN EMPRESAS","SOS-WIN EMPRESAS"
   ];
   const AREAS_APOYO_NET = [
-    "Ninguna","Arkturias","Comunicaciones Unificadas","Core","Cybersoc","Infraestructura y Mantenimiento",
+    "Ninguna","Comunicaciones Unificadas","Core","Cybersoc","Infraestructura y Mantenimiento",
     "Ingeneria","Instalaciones","Mantenimiento y emergencia","Mantenimiento y Emergencia PEXT","NOC",
     "O&M","ONI","Planificacion de Red B2C","Planta Externa y Emergencia","ZTE"
   ];
   const AREAS_APOYO_EMP = [
-    "Ninguna","ALOB","Arkturias","Core","Cybersoc","Emfitel","F&S","INETEL","Infraestructura y Mantenimiento",
+    "Ninguna","ALOB","Core","Cybersoc","Emfitel","F&S","INETEL","Infraestructura y Mantenimiento",
     "Ingenieria","Instalaciones","NOC","O&M","NOC & Infraestructura","ONI","PEXT y Emergencia","SOC","TAC","Telener"
   ];
 
   function load(list, el){
-    const cur = el.value;
     const placeholder = el.querySelector('option[value=""]') ? true : false;
     el.innerHTML = placeholder ? '<option value="">— Seleccionar —</option>' : '';
     [...new Set(list)]
@@ -480,7 +511,12 @@
   function loadAreas(){
     if (emp.value === "WIN NET"){ load(AREAS_NET, ar); load(AREAS_APOYO_NET, ap); }
     else if (emp.value === "WIN EMPRESAS"){ load(AREAS_EMP, ar); load(AREAS_APOYO_EMP, ap); }
-    else { ar.innerHTML = '<option value="">— Seleccionar —</option>'; ap.innerHTML = '<option value="">— Seleccionar —</option>'; if(smart.has(ar)) smart.get(ar).rebuild(); if(smart.has(ap)) smart.get(ap).rebuild(); }
+    else {
+      ar.innerHTML = '<option value="">— Seleccionar —</option>';
+      ap.innerHTML = '<option value="">— Seleccionar —</option>';
+      if (smart.has(ar)) smart.get(ar).rebuild();
+      if (smart.has(ap)) smart.get(ap).rebuild();
+    }
   }
 
   // ====== Fechas/Horas ======
@@ -546,19 +582,17 @@
     setErr(errId, msg); input.classList.toggle('is-invalid', !!msg); input.setCustomValidity(msg);
   }
   $('#sol_numdoc').addEventListener('input', ()=>validateDoc($('#sol_numdoc'),'sol_doc_err'));
-  $('#sup_numdoc').addEventListener('input', ()=>validateDoc($('#sup_numdoc'),'sup_doc_err'));
-  $('#sup_tel').addEventListener('input', ()=>validatePhone($('#sup_tel'),'sup_tel_err'));
+  $('#sol_tel').addEventListener('input', ()=>validatePhone($('#sol_tel'),'sol_tel_err'));
   [1,2,3,4].forEach(i=>{
     $('#p'+i+'_numdoc').addEventListener('input', ()=>validateDoc($('#p'+i+'_numdoc'),'p'+i+'_doc_err'));
     $('#p'+i+'_tel').addEventListener('input', ()=>validatePhone($('#p'+i+'_tel'),'p'+i+'_tel_err'));
   });
 
   // ====== Solo letras + MAYÚSCULAS ======
-  const NAME_IDS = ['sol_nombres','sol_apepat','sol_apemat','sup_nombres','sup_apepat','sup_apemat',
-    'p1_nombres','p1_apepat','p1_apemat','p2_nombres','p2_apepat','p2_apemat','p3_nombres','p3_apepat','p3_apemat',
-    'p4_nombres','p4_apepat','p4_apemat','nombre_contrata'];
+  const NAME_IDS = ['sol_nombres','sol_apepat','sol_apemat',
+    'p1_nombres','p1_apepat','p1_apemat','p2_nombres','p2_apepat','p2_apemat',
+    'p3_nombres','p3_apepat','p3_apemat','p4_nombres','p4_apepat','p4_apemat','nombre_contrata'];
   const NAME_ERR = {sol_nombres:'sol_nombres_err', sol_apepat:'sol_apepat_err', sol_apemat:'sol_apemat_err',
-    sup_nombres:'sup_nombres_err', sup_apepat:'sup_apepat_err', sup_apemat:'sup_apemat_err',
     p1_nombres:'p1_nombres_err', p1_apepat:'p1_apepat_err', p1_apemat:'p1_apemat_err',
     p2_nombres:'p2_nombres_err', p2_apepat:'p2_apepat_err', p2_apemat:'p2_apemat_err',
     p3_nombres:'p3_nombres_err', p3_apepat:'p3_apepat_err', p3_apemat:'p3_apemat_err',
@@ -576,62 +610,24 @@
     const el = $('#'+id); if(el){ el.addEventListener('input', ()=>validateName(el)); el.addEventListener('blur', ()=>validateName(el)); }
   });
 
-  // ====== Supervisor = Solicitante ======
-  const supChk = $('#sup_igual_sol');
-  function copySolicitanteToSupervisor(){
-    $('#sup_nombres').value = $('#sol_nombres').value.toUpperCase();
-    $('#sup_apepat').value  = $('#sol_apepat').value.toUpperCase();
-    $('#sup_apemat').value  = $('#sol_apemat').value.toUpperCase();
-    $('#sup_tipodoc').value = $('#sol_tipodoc').value || 'DNI';
-    $('#sup_numdoc').value  = $('#sol_numdoc').value;
-    ['sup_nombres','sup_apepat','sup_apemat'].forEach(id=>validateName($('#'+id)));
-    validateDoc($('#sup_numdoc'),'sup_doc_err');
-  }
-  function clearFields(ids){
-    ids.forEach(id=>{
-      const el = $('#'+id); if(!el) return;
-      if(el.tagName==='SELECT'){ el.value = ""; }
-      else el.value = "";
-      el.classList.remove('is-invalid'); el.setCustomValidity('');
-      const errId = NAME_ERR[id]; if(errId) setErr(errId,'');
-      if(smart.has(el)) smart.get(el).setText(''); // si es smart, limpiar display
-    });
-  }
-  function lockSupervisor(on){
-    ['sup_nombres','sup_apepat','sup_apemat','sup_tipodoc','sup_numdoc'].forEach(id=>{
-      const el = $('#'+id); el.disabled = on; el.required = !on;
-      if(on) el.classList.remove('is-invalid');
-    });
-    $('#sup_tel').disabled = false; $('#sup_tel').required = true;
-  }
-  function handleSupToggle(){
-    if(supChk.checked){ copySolicitanteToSupervisor(); lockSupervisor(true); }
-    else { lockSupervisor(false); clearFields(['sup_nombres','sup_apepat','sup_apemat','sup_tipodoc','sup_numdoc']); }
-  }
-  supChk.addEventListener('change', handleSupToggle);
-  ['sol_nombres','sol_apepat','sol_apemat','sol_tipodoc','sol_numdoc'].forEach(id=>{
-    $('#'+id).addEventListener('input', ()=>{ if(supChk.checked) copySolicitanteToSupervisor(); });
-    $('#'+id).addEventListener('change', ()=>{ if(supChk.checked) copySolicitanteToSupervisor(); });
-  });
-
   // ====== Contrata: mostrar/ocultar y SCTR < 4MB ======
   const c = $('#contrata');
   function toggleContrata(){
     const on = c.value === "SI";
     $('#wrap_contrata').style.display = on ? "block" : "none";
     $('#nombre_contrata').required = on;
-    // política actual: mostrar SCTR siempre y requerir solo si SI
+    // política actual: mostrar SCTR siempre y requerirlo
     $('#wrap_sctr').style.display = "block";
     $('#sctr').required = true;
   }
-c.addEventListener('change', toggleContrata);
+  c.addEventListener('change', toggleContrata);
   toggleContrata();
 
   $('#sctr').addEventListener('change', ()=>{
     const file = $('#sctr').files?.[0]; let msg = '';
     if(file && file.size > 4*1024*1024) msg = 'El PDF no debe superar 4 MB.';
-    setErr('sctr_err', msg); 
-    $('#sctr').classList.toggle('is-invalid', !!msg); 
+    setErr('sctr_err', msg);
+    $('#sctr').classList.toggle('is-invalid', !!msg);
     $('#sctr').setCustomValidity(msg);
   });
 
@@ -646,7 +642,8 @@ c.addEventListener('change', toggleContrata);
       row.querySelectorAll('input,select').forEach(inp=>{
         inp.required = visible;
         if(!visible){
-          inp.classList.remove('is-invalid'); inp.setCustomValidity(''); if(inp.tagName==='SELECT'){ inp.value=""; } else { inp.value=""; }
+          inp.classList.remove('is-invalid'); inp.setCustomValidity('');
+          if(inp.tagName==='SELECT'){ inp.value=""; } else { inp.value=""; }
           const id = inp.id; if(NAME_ERR[id]) setErr(NAME_ERR[id],'');
           if(/^(p\d+_)(numdoc|tel)$/.test(id)){ const errId = id.replace(/^(p\d+_)(numdoc|tel)$/,'$1$2_err'); setErr(errId,''); }
         }
@@ -665,7 +662,9 @@ c.addEventListener('change', toggleContrata);
     $('#p1_numdoc').value  = $('#sol_numdoc').value;
     ['p1_nombres','p1_apepat','p1_apemat'].forEach(id=>validateName($('#'+id)));
     validateDoc($('#p1_numdoc'),'p1_doc_err');
-    if($('#sup_tel').value.trim().length===9){ $('#p1_tel').value = $('#sup_tel').value.trim(); validatePhone($('#p1_tel'),'p1_tel_err'); }
+    if($('#sol_tel').value.trim().length===9){
+      $('#p1_tel').value = $('#sol_tel').value.trim(); validatePhone($('#p1_tel'),'p1_tel_err');
+    }
   }
   function lockP1(on){
     ['p1_nombres','p1_apepat','p1_apemat','p1_tipodoc','p1_numdoc'].forEach(id=>{
@@ -673,12 +672,22 @@ c.addEventListener('change', toggleContrata);
     });
     $('#p1_tel').disabled = false; $('#p1_tel').required = true;
   }
+  function clearFields(ids){
+    ids.forEach(id=>{
+      const el = $('#'+id); if(!el) return;
+      if(el.tagName==='SELECT'){ el.value = ""; }
+      else el.value = "";
+      el.classList.remove('is-invalid'); el.setCustomValidity('');
+      const errId = NAME_ERR[id]; if(errId) setErr(errId,'');
+      if(smart.has(el)) smart.get(el).setText('');
+    });
+  }
   function handleP1Toggle(){
     if(p1Chk.checked){ copySolicitanteToP1(); lockP1(true); }
     else { lockP1(false); clearFields(['p1_nombres','p1_apepat','p1_apemat','p1_tipodoc','p1_numdoc','p1_tel']); }
   }
   p1Chk.addEventListener('change', handleP1Toggle);
-  ['sol_nombres','sol_apepat','sol_apemat','sol_tipodoc','sol_numdoc','sup_tel'].forEach(id=>{
+  ['sol_nombres','sol_apepat','sol_apemat','sol_tipodoc','sol_numdoc','sol_tel'].forEach(id=>{
     $('#'+id).addEventListener('input', ()=>{ if(p1Chk.checked) copySolicitanteToP1(); });
     $('#'+id).addEventListener('change', ()=>{ if(p1Chk.checked) copySolicitanteToP1(); });
   });
@@ -784,42 +793,35 @@ c.addEventListener('change', toggleContrata);
     e.preventDefault();
 
     clampFechaIngreso(); clampFechaSalida(); validateHoras();
-    NAME_IDS.forEach(id=>{ const el=$('#'+id); if(el && !el.closest('[data-pi]')?.hidden) validateName(el); });
+    ['sol_nombres','sol_apepat','sol_apemat','nombre_contrata',
+     'p1_nombres','p1_apepat','p1_apemat','p2_nombres','p2_apepat','p2_apemat',
+     'p3_nombres','p3_apepat','p3_apemat','p4_nombres','p4_apepat','p4_apemat'
+    ].forEach(id=>{ const el=$('#'+id); if(el && !el.closest('[data-pi]')?.hidden) validateName(el); });
 
     validateDoc($('#sol_numdoc'),'sol_doc_err');
-    validateDoc($('#sup_numdoc'),'sup_doc_err');
-    validatePhone($('#sup_tel'),'sup_tel_err');
+    validatePhone($('#sol_tel'),'sol_tel_err');
     [1,2,3,4].forEach(i=>{
       const row=$('[data-pi="'+i+'"]');
       if(!row.hidden){ validateDoc($('#p'+i+'_numdoc'),'p'+i+'_doc_err'); validatePhone($('#p'+i+'_tel'),'p'+i+'_tel_err'); }
     });
     if(!validarDNIsUnicos()) return;
-    // se agrego para validar dominio del correo que elijan uno
+
+    // validar dominio correo
     if(!$('#correo_dom').value){ $('#correo_dom').setCustomValidity('Selecciona un dominio.'); } else { $('#correo_dom').setCustomValidity(''); }
-    
+
     if(!f.checkValidity()){ f.reportValidity(); return; }
 
     btn.disabled = true;
     try {
-      // SCTR a base64 si Contrata = SI
-      
-const file = $('#sctr').files?.[0];
-if(!file){ setErr('sctr_err','SCTR requerido.'); $('#sctr').classList.add('is-invalid'); throw new Error('SCTR requerido'); }
-if(file.size > 4*1024*1024){ throw new Error('El PDF no debe superar 4 MB.'); }
-const buf = await file.arrayBuffer();
-let binary=''; const bytes=new Uint8Array(buf), chunk=0x8000;
-for(let i=0;i<bytes.length;i+=chunk){ binary += String.fromCharCode.apply(null, bytes.subarray(i,i+chunk)); }
-const sctr_name = file.name;
-const sctr_b64  = btoa(binary);
-      //if($('#contrata').value === "SI"){
-        //const file = $('#sctr').files?.[0];
-        //if(!file){ setErr('sctr_err','SCTR requerido.'); $('#sctr').classList.add('is-invalid'); throw new Error('SCTR requerido'); }
-        //if(file.size > 4*1024*1024){ throw new Error('El PDF no debe superar 4 MB.'); }
-        //const buf = await file.arrayBuffer();
-       // let binary=''; const bytes=new Uint8Array(buf), chunk=0x8000;
-        //for(let i=0;i<bytes.length;i+=chunk){ binary += String.fromCharCode.apply(null, bytes.subarray(i,i+chunk)); }
-       // sctr_name=file.name; sctr_b64=btoa(binary);
-      //}
+      // SCTR a base64
+      const file = $('#sctr').files?.[0];
+      if(!file){ setErr('sctr_err','SCTR requerido.'); $('#sctr').classList.add('is-invalid'); throw new Error('SCTR requerido'); }
+      if(file.size > 4*1024*1024){ throw new Error('El PDF no debe superar 4 MB.'); }
+      const buf = await file.arrayBuffer();
+      let binary=''; const bytes=new Uint8Array(buf), chunk=0x8000;
+      for(let i=0;i<bytes.length;i+=chunk){ binary += String.fromCharCode.apply(null, bytes.subarray(i,i+chunk)); }
+      const sctr_name = file.name;
+      const sctr_b64  = btoa(binary);
 
       const personal=[]; const n=parseInt($('#cant_personal').value,10);
       for(let i=1;i<=n;i++){
@@ -834,6 +836,8 @@ const sctr_b64  = btoa(binary);
         });
       }
 
+      const correoComp = $('#correo_nick').value.trim() + $('#correo_dom').value;
+
       const payload = {
         nodo: $('#nodo').value,
         fecha_ingreso: fi.value, fecha_salida: fs.value,
@@ -841,9 +845,8 @@ const sctr_b64  = btoa(binary);
 
         sol_nombres: $('#sol_nombres').value.trim(), sol_apepat: $('#sol_apepat').value.trim(),
         sol_apemat: $('#sol_apemat').value.trim(), sol_tipodoc: $('#sol_tipodoc').value,
-        sol_numdoc: $('#sol_numdoc').value.trim(),
-        // se modifico correo 
-        correo: `${$('#correo_nick').value.trim()}${$('#correo_dom').value}`,
+        sol_numdoc: $('#sol_numdoc').value.trim(), sol_tel: $('#sol_tel').value.trim(),
+        correo: correoComp,
 
         trabajos_para: $('#empresa').value,
         area_resp: $('#area_resp').value, area_apoyo: $('#area_apoyo').value,
@@ -851,10 +854,6 @@ const sctr_b64  = btoa(binary);
         tipo_trabajo: $('#tipo_trabajo').value,
         detalles_trabajo: $('#detalles_trabajo').value.trim(),
         nivel_acceso: $('#nivel_acceso').value,
-
-        sup_nombres: $('#sup_nombres').value.trim(), sup_apepat: $('#sup_apepat').value.trim(),
-        sup_apemat: $('#sup_apemat').value.trim(), sup_tipodoc: $('#sup_tipodoc').value,
-        sup_numdoc: $('#sup_numdoc').value.trim(), sup_tel: $('#sup_tel').value.trim(),
 
         trabajo_contrata: $('#contrata').value, nombre_contrata: $('#nombre_contrata').value.trim(),
         sctr_filename: sctr_name,
@@ -874,31 +873,27 @@ const sctr_b64  = btoa(binary);
 
       // ===== Reset total: todo en blanco =====
       f.reset();
-      //se modifico para que ta,bine correo salhga seleccionar
+
       // deja todos los selects en "— Seleccionar —"
-      ['nodo','empresa','area_resp','area_apoyo','tipo_trabajo','sol_tipodoc','sup_tipodoc','nivel_acceso','contrata',
+      ['nodo','empresa','area_resp','area_apoyo','tipo_trabajo','sol_tipodoc','nivel_acceso','contrata',
        'p1_tipodoc','p2_tipodoc','p3_tipodoc','p4_tipodoc','correo_dom'].forEach(id => {
-          const el = $(`#${id}`);              // <-- #${id} (correcto)
-          if (!el) return;
-            // Para selects deja el placeholder (índice 0); para inputs, vacío
+        const el = document.querySelector('#'+id);
+        if (!el) return;
         if (el.tagName === 'SELECT') el.value = '';
         else el.value = '';
-
-          // Limpia estados de validación
-          el.classList.remove('is-invalid');
+        el.classList.remove('is-invalid');
         el.setCustomValidity('');
-
-        // Si algún select es SmartSelect, refresca el texto mostrado
         if (smart.has(el)) smart.get(el).setText('');
       });
 
-        // limpia usuario correo
+      // limpia usuario correo
       $('#correo_nick').value = '';
       loadAreas(); // vacía áreas por empresa en blanco
       toggleContrata();
       applyCantPersonal();
-      supChk.checked=false; handleSupToggle();
-      p1Chk.checked=false; handleP1Toggle();
+      // p1 toggle
+      $('#p1_igual_sol').checked=false; handleP1Toggle();
+
     } catch(err){
       alert('Error: ' + err.message);
     } finally { btn.disabled = false; }
@@ -922,7 +917,5 @@ const sctr_b64  = btoa(binary);
 
 </script>
 </body>
-
 </html>
-
 
