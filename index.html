@@ -15,57 +15,29 @@
       --ink:#111;
       --ink-soft:#333;
     }
-
-    /* Fondo general */
     body{background:var(--bg);color:#e5e7eb}
-
-    /* Card clara (formulario) */
-    .card{
-      border-radius:1rem;background:#fff;color:var(--ink);
-      border:1px solid #e9ecef;box-shadow:0 10px 30px rgba(0,0,0,.15);
-    }
+    .card{border-radius:1rem;background:#fff;color:var(--ink);border:1px solid #e9ecef;box-shadow:0 10px 30px rgba(0,0,0,.15)}
     label.form-label{font-weight:600;color:var(--ink)}
     .muted{opacity:.85}
     .invalid-feedback{display:block}
-
-    /* Inputs claros */
     .form-control,.form-select{background:#fff;color:var(--ink);border:1px solid #cfd6de}
     .form-control::placeholder{color:#8b95a1}
     .form-control:focus,.form-select:focus{border-color:var(--campfire-2);box-shadow:0 0 0 .25rem rgba(248,143,35,.2)}
-
-    /* Barra de marca */
-    .brandbar{
-      background:linear-gradient(90deg,var(--campfire-1),var(--campfire-2),var(--campfire-3));
-      color:#1a1a1a;border-radius:16px;padding:.85rem 1rem;display:inline-flex;
-      align-items:center;gap:.5rem;box-shadow:0 8px 24px rgba(236,96,20,.35);font-weight:800
-    }
+    .brandbar{background:linear-gradient(90deg,var(--campfire-1),var(--campfire-2),var(--campfire-3));color:#1a1a1a;border-radius:16px;padding:.85rem 1rem;display:inline-flex;align-items:center;gap:.5rem;box-shadow:0 8px 24px rgba(236,96,20,.35);font-weight:800}
     .brand-dot{width:10px;height:10px;border-radius:50%;background:#1a1a1a;opacity:.8}
     .badge-camp{background:var(--campfire-4);color:#5a3b00;border:1px solid rgba(0,0,0,.06)}
     .section-title{color:#b86b00;margin-top:.5rem}
-
-    /* ===== SmartSelect (buscable) ===== */
     .ss-wrap{position:relative}
-    .ss-display{
-      cursor:pointer;background:#fff;border:1px solid #cfd6de;border-radius:.375rem;
-      min-height:38px;display:flex;align-items:center;justify-content:space-between;
-      padding:.375rem .75rem;gap:.75rem
-    }
+    .ss-display{cursor:pointer;background:#fff;border:1px solid #cfd6de;border-radius:.375rem;min-height:38px;display:flex;align-items:center;justify-content:space-between;padding:.375rem .75rem;gap:.75rem}
     .ss-placeholder{color:#8b95a1}
     .ss-caret{font-size:14px;line-height:1}
-    .ss-wrap.open .ss-caret{transform:rotate(180deg)} /* ▾ -> ▴ */
-
-    .ss-panel{
-      position:absolute;left:0;right:0;top:calc(100% + .25rem);z-index:1000;
-      background:#fff;border:1px solid #cfd6de;border-radius:.375rem;
-      box-shadow:0 10px 24px rgba(0,0,0,.12);display:none
-    }
+    .ss-wrap.open .ss-caret{transform:rotate(180deg)}
+    .ss-panel{position:absolute;left:0;right:0;top:calc(100% + .25rem);z-index:1000;background:#fff;border:1px solid #cfd6de;border-radius:.375rem;box-shadow:0 10px 24px rgba(0,0,0,.12);display:none}
     .ss-wrap.open .ss-panel{display:block}
     .ss-search{border:none;border-bottom:1px solid #e9ecef;padding:.5rem .75rem;outline:0}
     .ss-list{max-height:260px;overflow:auto;padding:.25rem 0;margin:0;list-style:none}
     .ss-item{padding:.45rem .75rem;white-space:normal;line-height:1.2;cursor:pointer}
     .ss-item:hover,.ss-item.active{background:#f6f7f9}
-
-    /* El select nativo se oculta pero mantiene validación */
     .ss-native{display:none !important}
     hr{border-color:#eee;margin:0.25rem 0 1rem}
   </style>
@@ -83,7 +55,6 @@
   <div class="card"><div class="card-body">
     <form action="#" method="post" enctype="multipart/form-data" class="row g-3" id="f" novalidate>
 
-      <!-- ===================== Nodo a Ingresar ===================== -->
       <div class="col-12">
         <h5 class="section-title">Nodo a Ingresar</h5>
         <hr>
@@ -97,10 +68,10 @@
         </select>
       </div>
 
-      <!-- FECHAS -->
+      <!-- FECHAS (min fijo desde 2025-08-22) -->
       <div class="col-md-4">
         <label class="form-label">Fecha de ingreso (programada)</label>
-       <input class="form-control" type="date" id="fecha_ingreso" name="fecha_ingreso" min="2025-08-22" required>
+        <input class="form-control" type="date" id="fecha_ingreso" name="fecha_ingreso" min="2025-08-22" required>
         <div class="invalid-feedback" id="fi_err"></div>
       </div>
       <div class="col-md-4">
@@ -120,7 +91,6 @@
         <div class="invalid-feedback" id="hs_err"></div>
       </div>
 
-      <!-- ===================== Solicitante encargado ===================== -->
       <div class="col-12 mt-2">
         <h5 class="section-title">Solicitante encargado</h5>
         <hr>
@@ -175,7 +145,6 @@
         </div>
       </div>
 
-      <!-- ===================== Trabajo a realizar ===================== -->
       <div class="col-12 mt-2">
         <h5 class="section-title">Trabajo a realizar</h5>
         <hr>
@@ -190,7 +159,6 @@
         </select>
       </div>
 
-      <!-- EMPRESA / ÁREAS -->
       <div class="col-md-3">
         <label class="form-label">Trabajos para</label>
         <select class="form-select" id="empresa" required>
@@ -223,7 +191,6 @@
         <input class="form-control" id="detalles_trabajo" maxlength="200" placeholder="Descripción breve (máx. 200 caracteres)" required>
       </div>
 
-      <!-- CONTRATA + SCTR -->
       <div class="col-md-3">
         <label class="form-label">Trabajo por contrata</label>
         <select class="form-select" id="contrata" required>
@@ -244,54 +211,6 @@
         <div class="invalid-feedback" id="sctr_err"></div>
       </div>
 
-      <!-- ===================== Supervisor (COMENTADO/INHABILITADO) ===================== -->
-      <!--
-      <div class="col-12 mt-2">
-        <h5 class="section-title">Supervisor</h5>
-        <hr>
-      </div>
-      <div class="col-12 d-flex align-items-center">
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" id="sup_igual_sol">
-          <label class="form-check-label" for="sup_igual_sol">Supervisor = Solicitante</label>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <label class="form-label">Supervisor - Nombres</label>
-        <input class="form-control" id="sup_nombres" maxlength="80" required>
-        <div class="invalid-feedback" id="sup_nombres_err"></div>
-      </div>
-      <div class="col-md-4">
-        <label class="form-label">Supervisor - Ap. paterno</label>
-        <input class="form-control" id="sup_apepat" maxlength="80" required>
-        <div class="invalid-feedback" id="sup_apepat_err"></div>
-      </div>
-      <div class="col-md-4">
-        <label class="form-label">Supervisor - Ap. materno</label>
-        <input class="form-control" id="sup_apemat" maxlength="80" required>
-        <div class="invalid-feedback" id="sup_apemat_err"></div>
-      </div>
-      <div class="col-md-2">
-        <label class="form-label">Supervisor - Tipo doc.</label>
-        <select class="form-select" id="sup_tipodoc" required>
-          <option value="" selected>— Seleccionar —</option>
-          <option value="DNI">DNI</option>
-          <option value="CE">C.E</option>
-        </select>
-      </div>
-      <div class="col-md-2">
-        <label class="form-label">Supervisor - Nº doc.</label>
-        <input class="form-control" id="sup_numdoc" inputmode="numeric" maxlength="8" required>
-        <div class="invalid-feedback" id="sup_doc_err"></div>
-      </div>
-      <div class="col-md-3">
-        <label class="form-label">Supervisor - Nº de teléfono</label>
-        <input class="form-control" id="sup_tel" inputmode="numeric" maxlength="9" required>
-        <div class="invalid-feedback" id="sup_tel_err"></div>
-      </div>
-      -->
-
-      <!-- ===================== Personal a ingresar ===================== -->
       <div class="col-12 mt-2">
         <h5 class="section-title">Personal a ingresar</h5>
         <hr>
@@ -447,7 +366,7 @@
 
 <script>
   // ====== CONFIG ======
-  const FLOW_URL = "https://prod-145.westus.logic.azure.com:443/workflows/058ac8305be945959c412c55288fb5d7/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=30AJSOah-UB88wCpIq_LPr2hbkYm-teNdBxeJM-n8Gs"; // coloca tu URL si quieres enviar al flujo
+  const FLOW_URL = "https://prod-145.westus.logic.azure.com:443/workflows/058ac8305be945959c412c55288fb5d7/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=30AJSOah-UB88wCpIq_LPr2hbkYm-teNdBxeJM-n8Gs";
 
   // ====== Helpers ======
   const $ = s => document.querySelector(s);
@@ -499,14 +418,12 @@
   function load(list, el){
     const placeholder = el.querySelector('option[value=""]') ? true : false;
     el.innerHTML = placeholder ? '<option value="">— Seleccionar —</option>' : '';
-    [...new Set(list)]
-      .sort((a,b)=> a.localeCompare(b,'es',{sensitivity:'base'}))
+    [...new Set(list)].sort((a,b)=> a.localeCompare(b,'es',{sensitivity:'base'}))
       .forEach(v => el.add(new Option(v, v)));
-    el.value = ""; // siempre vacío por requerimiento
-    if (smart.has(el)) smart.get(el).rebuild(); // si es SmartSelect, refrescar
+    el.value = "";
+    if (smart.has(el)) smart.get(el).rebuild();
   }
 
-  // Áreas dependientes
   const emp = $('#empresa'), ar = $('#area_resp'), ap = $('#area_apoyo');
   function loadAreas(){
     if (emp.value === "WIN NET"){ load(AREAS_NET, ar); load(AREAS_APOYO_NET, ap); }
@@ -519,17 +436,12 @@
     }
   }
 
-  // ====== Fechas/Horas ======
+  // ====== Fechas/Horas (MIN_DATE fijo) ======
   const fi = $('#fecha_ingreso'), fs = $('#fecha_salida');
   const hi = $('#hora_ingreso'), hs = $('#hora_salida');
-
-  const todayISO = (() => {
-    const d = new Date();
-    const mm = String(d.getMonth()+1).padStart(2,'0');
-    const dd = String(d.getDate()).padStart(2,'0');
-    return `${d.getFullYear()}-${mm}-${dd}`;
-  })();
-  fi.min = todayISO; fs.min = todayISO;
+  const MIN_DATE = '2025-08-22';     // <- piso fijo
+  fi.min = MIN_DATE;
+  fs.min = MIN_DATE;
 
   function setErr(id, msg){ const el = $('#'+id); if(el) el.textContent = msg || ''; }
 
@@ -538,28 +450,36 @@
     if(fi.value && fs.value && fi.value === fs.value && hi.value && hs.value && hs.value < hi.value){
       setErr('hs_err','Hora de salida no puede ser menor que la de ingreso en el mismo día.');
       hs.setCustomValidity('Hora de salida < hora de ingreso');
-    } else {
-      hs.setCustomValidity('');
-    }
+    } else { hs.setCustomValidity(''); }
     if(fi.value && fs.value && hi.value){
-      if(fi.value === fs.value){ hs.min = hi.value; }
-      else { hs.removeAttribute('min'); }
+      if(fi.value === fs.value){ hs.min = hi.value; } else { hs.removeAttribute('min'); }
     }
   }
 
   function clampFechaIngreso(){
-    if(fi.value && fi.value < todayISO){ setErr('fi_err','Fecha de ingreso no puede ser anterior a hoy.'); fi.value = todayISO; }
-    else setErr('fi_err','');
-    if(fs.value && fs.value < fi.value){ fs.value = fi.value; setErr('fs_err','La fecha de salida no puede ser anterior a la de ingreso.'); }
-    else setErr('fs_err','');
-    fs.min = fi.value || todayISO;
+    if (fi.value && fi.value < MIN_DATE){
+      setErr('fi_err','Fecha de ingreso no puede ser anterior al 22/08/2025.');
+      fi.value = MIN_DATE;
+    } else setErr('fi_err','');
+
+    if (fs.value && fs.value < fi.value){
+      fs.value = fi.value;
+      setErr('fs_err','La fecha de salida no puede ser anterior a la de ingreso.');
+    } else setErr('fs_err','');
+
+    fs.min = fi.value || MIN_DATE;
     validateHoras();
   }
+
   function clampFechaSalida(){
-    if(fs.value && fi.value && fs.value < fi.value){ setErr('fs_err','La fecha de salida no puede ser anterior a la de ingreso.'); fs.value = fi.value; }
-    else setErr('fs_err','');
+    if (fs.value && fi.value && fs.value < fi.value){
+      setErr('fs_err','La fecha de salida no puede ser anterior a la de ingreso.');
+      fs.value = fi.value;
+    } else { setErr('fs_err',''); }
+    if (!fi.value && fs.value < MIN_DATE){ fs.value = MIN_DATE; }
     validateHoras();
   }
+
   fi.addEventListener('change', clampFechaIngreso);
   fi.addEventListener('blur', clampFechaIngreso);
   fs.addEventListener('change', clampFechaSalida);
@@ -715,20 +635,14 @@
   [1,2,3,4].forEach(i=> $('#p'+i+'_numdoc').addEventListener('input', validarDNIsUnicos));
 
   // ====== SmartSelect (buscable) ======
-  const smart = new Map(); // select -> API
-
+  const smart = new Map();
   function enhanceSelect(sel){
     const select = (typeof sel==='string') ? $(sel) : sel;
     if(!select) return;
-
-    // si ya está mejorado, solo reconstruir
     if(smart.has(select)){ smart.get(select).rebuild(); return; }
 
-    // envoltorio
-    const wrap = document.createElement('div');
-    wrap.className = 'ss-wrap';
-    const display = document.createElement('div');
-    display.className='ss-display';
+    const wrap = document.createElement('div'); wrap.className = 'ss-wrap';
+    const display = document.createElement('div'); display.className='ss-display';
     const text = document.createElement('div'); text.className='ss-text ss-placeholder'; text.textContent='— Seleccionar —';
     const caret = document.createElement('div'); caret.className='ss-caret'; caret.textContent='▾';
     display.append(text, caret);
@@ -746,7 +660,7 @@
       rebuild(){
         list.innerHTML = '';
         Array.from(select.options)
-          .filter(o=>o.value!=='' )
+          .filter(o=>o.value!=='')
           .forEach(o=>{
             const li = document.createElement('li'); li.className='ss-item'; li.textContent = o.text;
             li.dataset.value = o.value;
@@ -754,7 +668,6 @@
             list.appendChild(li);
           });
         search.value=''; filter('');
-        // texto
         if(select.value){ text.textContent = select.selectedOptions[0].text; text.classList.remove('ss-placeholder'); }
         else { text.textContent = '— Seleccionar —'; text.classList.add('ss-placeholder'); }
       },
@@ -806,14 +719,11 @@
     });
     if(!validarDNIsUnicos()) return;
 
-    // validar dominio correo
     if(!$('#correo_dom').value){ $('#correo_dom').setCustomValidity('Selecciona un dominio.'); } else { $('#correo_dom').setCustomValidity(''); }
-
     if(!f.checkValidity()){ f.reportValidity(); return; }
 
     btn.disabled = true;
     try {
-      // SCTR a base64
       const file = $('#sctr').files?.[0];
       if(!file){ setErr('sctr_err','SCTR requerido.'); $('#sctr').classList.add('is-invalid'); throw new Error('SCTR requerido'); }
       if(file.size > 4*1024*1024){ throw new Error('El PDF no debe superar 4 MB.'); }
@@ -842,23 +752,18 @@
         nodo: $('#nodo').value,
         fecha_ingreso: fi.value, fecha_salida: fs.value,
         hora_ingreso: hi.value, hora_salida: hs.value,
-
         sol_nombres: $('#sol_nombres').value.trim(), sol_apepat: $('#sol_apepat').value.trim(),
         sol_apemat: $('#sol_apemat').value.trim(), sol_tipodoc: $('#sol_tipodoc').value,
         sol_numdoc: $('#sol_numdoc').value.trim(), sol_tel: $('#sol_tel').value.trim(),
         correo: correoComp,
-
         trabajos_para: $('#empresa').value,
         area_resp: $('#area_resp').value, area_apoyo: $('#area_apoyo').value,
-
         tipo_trabajo: $('#tipo_trabajo').value,
         detalles_trabajo: $('#detalles_trabajo').value.trim(),
         nivel_acceso: $('#nivel_acceso').value,
-
         trabajo_contrata: $('#contrata').value, nombre_contrata: $('#nombre_contrata').value.trim(),
         sctr_filename: sctr_name,
         sctr_base64: sctr_b64,
-
         personal
       };
 
@@ -871,10 +776,8 @@
         alert('Demo: revisa la consola del navegador (F12) para ver el payload.');
       }
 
-      // ===== Reset total: todo en blanco =====
+      // Reset total
       f.reset();
-
-      // deja todos los selects en "— Seleccionar —"
       ['nodo','empresa','area_resp','area_apoyo','tipo_trabajo','sol_tipodoc','nivel_acceso','contrata',
        'p1_tipodoc','p2_tipodoc','p3_tipodoc','p4_tipodoc','correo_dom'].forEach(id => {
         const el = document.querySelector('#'+id);
@@ -885,13 +788,10 @@
         el.setCustomValidity('');
         if (smart.has(el)) smart.get(el).setText('');
       });
-
-      // limpia usuario correo
+      // re-aplicar pisos de fechas
+      fi.min = MIN_DATE; fs.min = MIN_DATE;
       $('#correo_nick').value = '';
-      loadAreas(); // vacía áreas por empresa en blanco
-      toggleContrata();
-      applyCantPersonal();
-      // p1 toggle
+      loadAreas(); toggleContrata(); applyCantPersonal();
       $('#p1_igual_sol').checked=false; handleP1Toggle();
 
     } catch(err){
@@ -905,17 +805,8 @@
   loadAreas();
   toggleContrata();
   applyCantPersonal();
-
-  // Mejora combos grandes
-  enhanceSelect('#nodo');
-  enhanceSelect('#area_resp');
-  enhanceSelect('#area_apoyo');
-  enhanceSelect('#tipo_trabajo');
-
-  // Si cambia empresa, reconstruir smart selects de áreas
+  enhanceSelect('#nodo'); enhanceSelect('#area_resp'); enhanceSelect('#area_apoyo'); enhanceSelect('#tipo_trabajo');
   emp.addEventListener('change', ()=>{ loadAreas(); });
-
 </script>
 </body>
 </html>
-
