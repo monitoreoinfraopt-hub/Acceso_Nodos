@@ -7,67 +7,52 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     :root{
-      --campfire-1:#EC6014; /* naranja profundo */
-      --campfire-2:#F88F23; /* naranja */
-      --campfire-3:#FBB931; /* ámbar */
-      --campfire-4:#FFE3B3; /* crema */
-      --bg:#0f172a;
-      --ink:#111;
-      --ink-soft:#333;
+      --campfire-1:#EC6014; --campfire-2:#F88F23; --campfire-3:#FBB931; --campfire-4:#FFE3B3;
+      --bg:#0f172a; --ink:#111; --ink-soft:#333;
     }
-
-    /* Fondo general */
     body{background:var(--bg);color:#e5e7eb}
-
-    /* Card clara (formulario) */
-    .card{
-      border-radius:1rem;background:#fff;color:var(--ink);
-      border:1px solid #e9ecef;box-shadow:0 10px 30px rgba(0,0,0,.15);
-    }
+    .card{border-radius:1rem;background:#fff;color:var(--ink);border:1px solid #e9ecef;box-shadow:0 10px 30px rgba(0,0,0,.15)}
     label.form-label{font-weight:600;color:var(--ink)}
     .muted{opacity:.85}
     .invalid-feedback{display:block}
-
-    /* Inputs claros */
     .form-control,.form-select{background:#fff;color:var(--ink);border:1px solid #cfd6de}
     .form-control::placeholder{color:#8b95a1}
     .form-control:focus,.form-select:focus{border-color:var(--campfire-2);box-shadow:0 0 0 .25rem rgba(248,143,35,.2)}
-
-    /* Barra de marca */
-    .brandbar{
-      background:linear-gradient(90deg,var(--campfire-1),var(--campfire-2),var(--campfire-3));
-      color:#1a1a1a;border-radius:16px;padding:.85rem 1rem;display:inline-flex;
-      align-items:center;gap:.5rem;box-shadow:0 8px 24px rgba(236,96,20,.35);font-weight:800
-    }
+    .brandbar{background:linear-gradient(90deg,var(--campfire-1),var(--campfire-2),var(--campfire-3));color:#1a1a1a;border-radius:16px;padding:.85rem 1rem;display:inline-flex;align-items:center;gap:.5rem;box-shadow:0 8px 24px rgba(236,96,20,.35);font-weight:800}
     .brand-dot{width:10px;height:10px;border-radius:50%;background:#1a1a1a;opacity:.8}
     .badge-camp{background:var(--campfire-4);color:#5a3b00;border:1px solid rgba(0,0,0,.06)}
     .section-title{color:#b86b00;margin-top:.5rem}
 
-    /* ===== SmartSelect (buscable) ===== */
+    /* SmartSelect */
     .ss-wrap{position:relative}
-    .ss-display{
-      cursor:pointer;background:#fff;border:1px solid #cfd6de;border-radius:.375rem;
-      min-height:38px;display:flex;align-items:center;justify-content:space-between;
-      padding:.375rem .75rem;gap:.75rem
-    }
+    .ss-display{cursor:pointer;background:#fff;border:1px solid #cfd6de;border-radius:.375rem;min-height:38px;display:flex;align-items:center;justify-content:space-between;padding:.375rem .75rem;gap:.75rem}
     .ss-placeholder{color:#8b95a1}
     .ss-caret{font-size:14px;line-height:1}
-    .ss-wrap.open .ss-caret{transform:rotate(180deg)} /* ▾ -> ▴ */
-
-    .ss-panel{
-      position:absolute;left:0;right:0;top:calc(100% + .25rem);z-index:1000;
-      background:#fff;border:1px solid #cfd6de;border-radius:.375rem;
-      box-shadow:0 10px 24px rgba(0,0,0,.12);display:none
-    }
+    .ss-wrap.open .ss-caret{transform:rotate(180deg)}
+    .ss-panel{position:absolute;left:0;right:0;top:calc(100% + .25rem);z-index:1000;background:#fff;border:1px solid #cfd6de;border-radius:.375rem;box-shadow:0 10px 24px rgba(0,0,0,.12);display:none}
     .ss-wrap.open .ss-panel{display:block}
     .ss-search{border:none;border-bottom:1px solid #e9ecef;padding:.5rem .75rem;outline:0}
     .ss-list{max-height:260px;overflow:auto;padding:.25rem 0;margin:0;list-style:none}
     .ss-item{padding:.45rem .75rem;white-space:normal;line-height:1.2;cursor:pointer}
     .ss-item:hover,.ss-item.active{background:#f6f7f9}
-
-    /* El select nativo se oculta pero mantiene validación */
     .ss-native{display:none !important}
     hr{border-color:#eee;margin:0.25rem 0 1rem}
+
+    /* ===== Clock Picker ===== */
+    .clock-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;z-index:2000;align-items:center;justify-content:center}
+    .clock-modal{background:#fff;color:#111;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.35);width:340px;max-width:90vw}
+    .clock-head{padding:12px 16px;border-bottom:1px solid #eee;font-weight:700;display:flex;justify-content:space-between;align-items:center}
+    .clock-face-wrap{padding:16px 16px 0}
+    .clock-face{position:relative;width:300px;height:300px;margin:0 auto;border-radius:50%;background:#f7f7f8;border:1px solid #e9e9ee}
+    .clock-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:8px;height:8px;background:#111;border-radius:50%}
+    .clock-number{position:absolute;width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:50%;cursor:pointer;user-select:none}
+    .clock-number:hover{background:#fff;border:1px solid #ddd}
+    .clock-stage{padding:6px 16px 0;text-align:center;color:#555}
+    .clock-foot{display:flex;align-items:center;gap:8px;padding:12px 16px;border-top:1px solid #eee;justify-content:flex-end}
+    .btn-link{border:none;background:transparent;color:#0d6efd}
+    .btn-link:focus{outline:none}
+    .clock-display{font-variant-numeric:tabular-nums}
+    .clock-input{cursor:pointer;background:#fff}
   </style>
 </head>
 <body>
@@ -85,8 +70,7 @@
 
       <!-- ===================== Nodo a Ingresar ===================== -->
       <div class="col-12">
-        <h5 class="section-title">Nodo a Ingresar</h5>
-        <hr>
+        <h5 class="section-title">Nodo a Ingresar</h5><hr>
       </div>
 
       <!-- NODO -->
@@ -100,7 +84,7 @@
       <!-- FECHAS -->
       <div class="col-md-4">
         <label class="form-label">Fecha de ingreso (programada)</label>
-       <input class="form-control" type="date" id="fecha_ingreso" required>
+        <input class="form-control" type="date" id="fecha_ingreso" required>
         <div class="invalid-feedback" id="fi_err"></div>
       </div>
       <div class="col-md-4">
@@ -112,21 +96,19 @@
       <!-- HORAS -->
       <div class="col-md-3">
         <label class="form-label">Hora de ingreso (programada)</label>
-        <input class="form-control" type="time" id="hora_ingreso" required>
+        <input class="form-control clock-input" type="text" id="hora_ingreso" placeholder="--:--" required readonly>
       </div>
       <div class="col-md-3">
         <label class="form-label">Hora de salida (programada)</label>
-        <input class="form-control" type="time" id="hora_salida" required>
+        <input class="form-control clock-input" type="text" id="hora_salida" placeholder="--:--" required readonly>
         <div class="invalid-feedback" id="hs_err"></div>
       </div>
 
       <!-- ===================== Solicitante encargado ===================== -->
       <div class="col-12 mt-2">
-        <h5 class="section-title">Solicitante encargado</h5>
-        <hr>
+        <h5 class="section-title">Solicitante encargado</h5><hr>
       </div>
 
-      <!-- SOLICITANTE -->
       <div class="col-md-3">
         <label class="form-label">Solicitante - Nombres</label>
         <input class="form-control" id="sol_nombres" maxlength="30" required>
@@ -158,7 +140,7 @@
       </div>
       <div class="col-md-2">
         <label class="form-label">Solicitante - Nº doc.</label>
-        <input class="form-control" id="sol_numdoc" inputmode="numeric" maxlength="8" required>
+        <input class="form-control" id="sol_numdoc" inputmode="numeric" maxlength="8" disabled>
         <div class="invalid-feedback" id="sol_doc_err"></div>
       </div>
 
@@ -177,8 +159,7 @@
 
       <!-- ===================== Trabajo a realizar ===================== -->
       <div class="col-12 mt-2">
-        <h5 class="section-title">Trabajo a realizar</h5>
-        <hr>
+        <h5 class="section-title">Trabajo a realizar</h5><hr>
       </div>
 
       <div class="col-md-3">
@@ -244,71 +225,20 @@
         <div class="invalid-feedback" id="sctr_err"></div>
       </div>
 
-      <!-- ===================== Supervisor (COMENTADO/INHABILITADO) ===================== -->
-      <!--
-      <div class="col-12 mt-2">
-        <h5 class="section-title">Supervisor</h5>
-        <hr>
-      </div>
-      <div class="col-12 d-flex align-items-center">
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" id="sup_igual_sol">
-          <label class="form-check-label" for="sup_igual_sol">Supervisor = Solicitante</label>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <label class="form-label">Supervisor - Nombres</label>
-        <input class="form-control" id="sup_nombres" maxlength="80" required>
-        <div class="invalid-feedback" id="sup_nombres_err"></div>
-      </div>
-      <div class="col-md-4">
-        <label class="form-label">Supervisor - Ap. paterno</label>
-        <input class="form-control" id="sup_apepat" maxlength="80" required>
-        <div class="invalid-feedback" id="sup_apepat_err"></div>
-      </div>
-      <div class="col-md-4">
-        <label class="form-label">Supervisor - Ap. materno</label>
-        <input class="form-control" id="sup_apemat" maxlength="80" required>
-        <div class="invalid-feedback" id="sup_apemat_err"></div>
-      </div>
-      <div class="col-md-2">
-        <label class="form-label">Supervisor - Tipo doc.</label>
-        <select class="form-select" id="sup_tipodoc" required>
-          <option value="" selected>— Seleccionar —</option>
-          <option value="DNI">DNI</option>
-          <option value="CE">C.E</option>
-        </select>
-      </div>
-      <div class="col-md-2">
-        <label class="form-label">Supervisor - Nº doc.</label>
-        <input class="form-control" id="sup_numdoc" inputmode="numeric" maxlength="8" required>
-        <div class="invalid-feedback" id="sup_doc_err"></div>
-      </div>
-      <div class="col-md-3">
-        <label class="form-label">Supervisor - Nº de teléfono</label>
-        <input class="form-control" id="sup_tel" inputmode="numeric" maxlength="9" required>
-        <div class="invalid-feedback" id="sup_tel_err"></div>
-      </div>
-      -->
-
       <!-- ===================== Personal a ingresar ===================== -->
       <div class="col-12 mt-2">
-        <h5 class="section-title">Personal a ingresar</h5>
-        <hr>
+        <h5 class="section-title">Personal a ingresar</h5><hr>
       </div>
 
       <div class="col-12 d-flex align-items-center">
         <div class="me-2">Personal N°:</div>
         <select class="form-select w-auto me-4" id="cant_personal" aria-label="Cantidad de personal">
-          <option value="1" selected>1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
+          <option value="1" selected>1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option>
         </select>
 
         <div class="form-check">
           <input class="form-check-input" type="checkbox" id="p1_igual_sol">
-          <label class="form-check-label" for="p1_igual_sol">*Marque esta opción únicamente si el solicitante también ingresará al nodo; de lo contrario, deje sin seleccionar</label>
+          <label class="form-check-label" for="p1_igual_sol">*Seleccionar esta en opcion en caso el solicitante ingresara al nodo de lo contrario no marcar</label>
         </div>
       </div>
 
@@ -334,7 +264,7 @@
             </select>
           </div>
           <div class="col-md-1">
-            <input class="form-control" placeholder="Doc (1)" id="p1_numdoc" inputmode="numeric" maxlength="8">
+            <input class="form-control" placeholder="Doc (1)" id="p1_numdoc" inputmode="numeric" maxlength="8" disabled>
             <div class="invalid-feedback" id="p1_doc_err"></div>
           </div>
           <div class="col-md-2">
@@ -364,7 +294,7 @@
             </select>
           </div>
           <div class="col-md-1">
-            <input class="form-control" placeholder="Doc (2)" id="p2_numdoc" inputmode="numeric" maxlength="8">
+            <input class="form-control" placeholder="Doc (2)" id="p2_numdoc" inputmode="numeric" maxlength="8" disabled>
             <div class="invalid-feedback" id="p2_doc_err"></div>
           </div>
           <div class="col-md-2">
@@ -394,7 +324,7 @@
             </select>
           </div>
           <div class="col-md-1">
-            <input class="form-control" placeholder="Doc (3)" id="p3_numdoc" inputmode="numeric" maxlength="8">
+            <input class="form-control" placeholder="Doc (3)" id="p3_numdoc" inputmode="numeric" maxlength="8" disabled>
             <div class="invalid-feedback" id="p3_doc_err"></div>
           </div>
           <div class="col-md-2">
@@ -424,7 +354,7 @@
             </select>
           </div>
           <div class="col-md-1">
-            <input class="form-control" placeholder="Doc (4)" id="p4_numdoc" inputmode="numeric" maxlength="8">
+            <input class="form-control" placeholder="Doc (4)" id="p4_numdoc" inputmode="numeric" maxlength="8" disabled>
             <div class="invalid-feedback" id="p4_doc_err"></div>
           </div>
           <div class="col-md-2">
@@ -445,65 +375,49 @@
   </div>
 </div>
 
+<!-- Clock Picker -->
+<div class="clock-overlay" id="clock_overlay" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="clock-modal">
+    <div class="clock-head">
+      <div>Selecciona hora</div>
+      <div class="clock-display"><span id="clk_h">00</span>:<span id="clk_m">00</span></div>
+    </div>
+    <div class="clock-face-wrap">
+      <div class="clock-face" id="clock_face">
+        <div class="clock-center"></div>
+      </div>
+      <div class="clock-stage" id="clock_stage">Elige la hora</div>
+    </div>
+    <div class="clock-foot">
+      <button type="button" class="btn-link" id="clk_back_hours" style="display:none;margin-right:auto">← Volver a horas</button>
+      <button type="button" class="btn-link" id="clk_cancel">Cancelar</button>
+      <button type="button" class="btn btn-primary btn-sm" id="clk_ok" disabled>Aceptar</button>
+    </div>
+  </div>
+</div>
+
 <script>
   // ====== CONFIG ======
-  const FLOW_URL = "https://prod-145.westus.logic.azure.com:443/workflows/058ac8305be945959c412c55288fb5d7/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=30AJSOah-UB88wCpIq_LPr2hbkYm-teNdBxeJM-n8Gs"; // coloca tu URL si quieres enviar al flujo
+  const FLOW_URL = "https://prod-145.westus.logic.azure.com:443/workflows/058ac8305be945959c412c55288fb5d7/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=30AJSOah-UB88wCpIq_LPr2hbkYm-teNdBxeJM-n8Gs";
 
   // ====== Helpers ======
   const $ = s => document.querySelector(s);
   const $$ = s => Array.from(document.querySelectorAll(s));
   const f = $('#f'), btn = $('#btn_enviar');
 
-  // ====== Catálogos ======
-  const NODOS = ["200 MILLAS","ANGAMOS","ARRIOLA","AURELIO SOUZA","AREQUIPA SOCABAYA","AREQUIPA CERRO COLORADO","AREQUIPA LA CULTURA","AREQUIPA MIRAFLORES",
-    "BARRANCA","BARRANCO","BAYOVAR","BENVENUTTO","BUCKINGHAM","CALLAO","CAMANA","CAQUETA","CATACAOS","CHANCAY",
-    "CHICLAYO MAGNOLIAS","CHIMBOTE LAS PALMERAS","CHIMBOTE MANCO CAPAC","CHORRILLOS","CIPRESES","CONQUISTADORES",
-    "CUZCO TUPAC AMARU","CUZCO WANCHAQ","EL SAUCE","FLAMENGOS","FRANCISCO MOREYRA","GALVEZ II","GERARDO UNGER",
-    "GUARDIA PERUANA","HIPOLITO UNANUE","HUACHO","HUANDOY","HUARAL","HUANCAYO CENTRO","HUANCAYO TAMBO","JUAN PABLO",
-    "LA ENSENADA","LA MOLINA","LAMBAYEQUE OUTDOOR","LINCE","LOS ALAMOS","LOS JARDINES","LOS MIRABLES","MARIATEGUI",
-    "NATALIO SANCHEZ","NIÑO JESUS","PACHACAMAC","PELITRES","PERSHING","PIMENTEL INDOOR","PISTA NUEVA","PIURA GARDENIAS",
-    "PUCUSANA","PUNTA HERMOSA","REPUBLICA DE PANAMA","SALAMANCA","SAN LUIS","SAN PEDRO","SAN REMO","SANTA FE","SANTA ROSA",
-    "SANTOS CHOCANO","SUCRE","TRES DE MAYO","TRIGAL II","TRUIJILLO LA MERCED","TRUJILLO SANTA ROSA","TUNGASUCA",
-    "URUGUAY","VARELA","VILLA EL SALVADOR","VITARTE","ZARATE"
-  ];
-  const TIPOS_TRABAJO = [
-    "ACONDICIONAMIENTO, ETIQUETADO ODF / LIMPIEZA DE PICTELES","ACTIVACIÓN DE ENLACE","ATENCIÓN DE INCIDENCIA",
-    "AUDITORIA DE EQUIPOS WIN","CABLEADO DE F.O.","CAMBIO DE PATCH CORD","CAMBIO DE TARJETA CONTROLADORA EN OLT.",
-    "CAMBIO DE TRANSCEIVER","FUSIONES DE F.O.","IMPLEMENTACIÓN DE UN ENLACE","IMPLEMENTACIÓN DE UN NUEVO CIRCUITO",
-    "INGRESO DE F.O./INSTALACIÓN DE P.P.","INSTALACIÓN DE EQUIPOS","INSTALACIÓN DE PATCH CORD Y TRANSCEIVER",
-    "INSTALACIÓN DE TRANSCEIVER","INVENTARIO DE EQUIPOS","INVENTARIO DE HILOS","JUMPEO DE PATCH CORD","MAPEO DE ESPACIO EN RACK WIN Y PATCH CORD",
-    "MEDICIONES REFLECTOMÉTRICAS","MEDICIONES REFLECTOMÉTRICAS, INSTALACIÓN DE PATCH CORD Y TRANSCEIVER","MIGRACIÓN DE EQUIPO",
-    "REEMPLAZO DE EQUIPO","REINICIO DE EQUIPOS","RETIRO DE ANTENA","RETIRO DE EQUIPOS",
-    "ROTULADO","TROUBLESHOOTING","UPGRADE DE ENLACES","VALIDACIÓN DE ENLACES","VALIDACIÓN DE PUERTO Y JUMPEO","VISITA TÉCNICA"
-  ];
-  const AREAS_NET = [
-    "CIBERSEGURIDAD-WIN","IMPLEMENTACIONES-WIN","INFRAESTRUCTURA-WIN","INGENIERIA-WIN","MANTENIMIENTO PEXT-WIN",
-    "MANTENIMIENTO Y EMERGENCIAS-WIN","MANTENIMIENTO Y EMERGENCIA PEXT-WIN","NOC-WIN","O&M-WIN","PERSONAL TECNICO-WIN",
-    "PEXT-WIN","PLANIFICACION DE RED B2C-WIN"
-  ];
-  const AREAS_EMP = [
-    "ALOB-WIN EMPRESAS","CIBERSEGURIDAD-WIN EMPRESAS","CORE-WIN EMPRESAS","IMPLEMENTACIONES-WIN EMPRESAS",
-    "INFRAESTRUCTURA-WIN EMPRESAS","INGENIERIA-WIN EMPRESAS","NOC-WIM EMPRESAS","O&M-WIN EMPRESAS",
-    "PEXT-WIN EMPRESAS","SOS-WIN EMPRESAS"
-  ];
-  const AREAS_APOYO_NET = [
-    "Ninguna","Comunicaciones Unificadas","Core","Cybersoc","Infraestructura y Mantenimiento",
-    "Ingeneria","Instalaciones","Mantenimiento y emergencia","Mantenimiento y Emergencia PEXT","NOC",
-    "O&M","ONI","Planificacion de Red B2C","Planta Externa y Emergencia","ZTE"
-  ];
-  const AREAS_APOYO_EMP = [
-    "Ninguna","ALOB","Core","Cybersoc","Emfitel","F&S","INETEL","Infraestructura y Mantenimiento",
-    "Ingenieria","Instalaciones","NOC","O&M","NOC & Infraestructura","ONI","PEXT y Emergencia","SOC","TAC","Telener"
-  ];
+  // ====== Catálogos (…sin cambios por brevedad) ======
+  const NODOS = ["200 MILLAS","ANGAMOS","ARRIOLA","AURELIO SOUZA","AREQUIPA SOCABAYA","AREQUIPA CERRO COLORADO","AREQUIPA LA CULTURA","AREQUIPA MIRAFLORES","BARRANCA","BARRANCO","BAYOVAR","BENVENUTTO","BUCKINGHAM","CALLAO","CAMANA","CAQUETA","CATACAOS","CHANCAY","CHICLAYO MAGNOLIAS","CHIMBOTE LAS PALMERAS","CHIMBOTE MANCO CAPAC","CHORRILLOS","CIPRESES","CONQUISTADORES","CUZCO TUPAC AMARU","CUZCO WANCHAQ","EL SAUCE","FLAMENGOS","FRANCISCO MOREYRA","GALVEZ II","GERARDO UNGER","GUARDIA PERUANA","HIPOLITO UNANUE","HUACHO","HUANDOY","HUARAL","HUANCAYO CENTRO","HUANCAYO TAMBO","JUAN PABLO","LA ENSENADA","LA MOLINA","LAMBAYEQUE OUTDOOR","LINCE","LOS ALAMOS","LOS JARDINES","LOS MIRABLES","MARIATEGUI","NATALIO SANCHEZ","NIÑO JESUS","PACHACAMAC","PELITRES","PERSHING","PIMENTEL INDOOR","PISTA NUEVA","PIURA GARDENIAS","PUCUSANA","PUNTA HERMOSA","REPUBLICA DE PANAMA","SALAMANCA","SAN LUIS","SAN PEDRO","SAN REMO","SANTA FE","SANTA ROSA","SANTOS CHOCANO","SUCRE","TRES DE MAYO","TRIGAL II","TRUIJILLO LA MERCED","TRUJILLO SANTA ROSA","TUNGASUCA","URUGUAY","VARELA","VILLA EL SALVADOR","VITARTE","ZARATE"];
+  const TIPOS_TRABAJO = ["ACONDICIONAMIENTO, ETIQUETADO ODF / LIMPIEZA DE PICTELES","ACTIVACIÓN DE ENLACE","ATENCIÓN DE INCIDENCIA","AUDITORIA DE EQUIPOS WIN","CABLEADO DE F.O.","CAMBIO DE PATCH CORD","CAMBIO DE TARJETA CONTROLADORA EN OLT.","CAMBIO DE TRANSCEIVER","FUSIONES DE F.O.","IMPLEMENTACIÓN DE UN ENLACE","IMPLEMENTACIÓN DE UN NUEVO CIRCUITO","INGRESO DE F.O./INSTALACIÓN DE P.P.","INSTALACIÓN DE EQUIPOS","INSTALACIÓN DE PATCH CORD Y TRANSCEIVER","INSTALACIÓN DE TRANSCEIVER","INVENTARIO DE EQUIPOS","INVENTARIO DE HILOS","JUMPEO DE PATCH CORD","MAPEO DE ESPACIO EN RACK WIN Y PATCH CORD","MEDICIONES REFLECTOMÉTRICAS","MEDICIONES REFLECTOMÉTRICAS, INSTALACIÓN DE PATCH CORD Y TRANSCEIVER","MIGRACIÓN DE EQUIPO","REEMPLAZO DE EQUIPO","REINICIO DE EQUIPOS","RETIRO DE ANTENA","RETIRO DE EQUIPOS","ROTULADO","TROUBLESHOOTING","UPGRADE DE ENLACES","VALIDACIÓN DE ENLACES","VALIDACIÓN DE PUERTO Y JUMPEO","VISITA TÉCNICA"];
+  const AREAS_NET = ["CIBERSEGURIDAD-WIN","IMPLEMENTACIONES-WIN","INFRAESTRUCTURA-WIN","INGENIERIA-WIN","MANTENIMIENTO PEXT-WIN","MANTENIMIENTO Y EMERGENCIAS-WIN","MANTENIMIENTO Y EMERGENCIA PEXT-WIN","NOC-WIN","O&M-WIN","PERSONAL TECNICO-WIN","PEXT-WIN","PLANIFICACION DE RED B2C-WIN"];
+  const AREAS_EMP = ["ALOB-WIN EMPRESAS","CIBERSEGURIDAD-WIN EMPRESAS","CORE-WIN EMPRESAS","IMPLEMENTACIONES-WIN EMPRESAS","INFRAESTRUCTURA-WIN EMPRESAS","INGENIERIA-WIN EMPRESAS","NOC-WIM EMPRESAS","O&M-WIN EMPRESAS","PEXT-WIN EMPRESAS","SOS-WIN EMPRESAS"];
+  const AREAS_APOYO_NET = ["Ninguna","Comunicaciones Unificadas","Core","Cybersoc","Infraestructura y Mantenimiento","Ingeneria","Instalaciones","Mantenimiento y emergencia","Mantenimiento y Emergencia PEXT","NOC","O&M","ONI","Planificacion de Red B2C","Planta Externa y Emergencia","ZTE"];
+  const AREAS_APOYO_EMP = ["Ninguna","ALOB","Core","Cybersoc","Emfitel","F&S","INETEL","Infraestructura y Mantenimiento","Ingenieria","Instalaciones","NOC","O&M","NOC & Infraestructura","ONI","PEXT y Emergencia","SOC","TAC","Telener"];
 
   function load(list, el){
     const placeholder = el.querySelector('option[value=""]') ? true : false;
     el.innerHTML = placeholder ? '<option value="">— Seleccionar —</option>' : '';
-    [...new Set(list)]
-      .sort((a,b)=> a.localeCompare(b,'es',{sensitivity:'base'}))
-      .forEach(v => el.add(new Option(v, v)));
-    el.value = ""; // siempre vacío por requerimiento
-    if (smart.has(el)) smart.get(el).rebuild(); // si es SmartSelect, refrescar
+    [...new Set(list)].sort((a,b)=> a.localeCompare(b,'es',{sensitivity:'base'})).forEach(v => el.add(new Option(v, v)));
+    el.value = ""; if (smart.has(el)) smart.get(el).rebuild();
   }
 
   // Áreas dependientes
@@ -511,25 +425,16 @@
   function loadAreas(){
     if (emp.value === "WIN NET"){ load(AREAS_NET, ar); load(AREAS_APOYO_NET, ap); }
     else if (emp.value === "WIN EMPRESAS"){ load(AREAS_EMP, ar); load(AREAS_APOYO_EMP, ap); }
-    else {
-      ar.innerHTML = '<option value="">— Seleccionar —</option>';
-      ap.innerHTML = '<option value="">— Seleccionar —</option>';
-      if (smart.has(ar)) smart.get(ar).rebuild();
-      if (smart.has(ap)) smart.get(ap).rebuild();
-    }
+    else { ar.innerHTML = '<option value="">— Seleccionar —</option>'; ap.innerHTML = '<option value="">— Seleccionar —</option>'; if (smart.has(ar)) smart.get(ar).rebuild(); if (smart.has(ap)) smart.get(ap).rebuild(); }
   }
 
   // ====== Fechas/Horas ======
   const fi = $('#fecha_ingreso'), fs = $('#fecha_salida');
   const hi = $('#hora_ingreso'), hs = $('#hora_salida');
 
-  const todayISO = (() => {
-    const d = new Date();
-    const mm = String(d.getMonth()+1).padStart(2,'0');
-    const dd = String(d.getDate()).padStart(2,'0');
-    return `${d.getFullYear()}-${mm}-${dd}`;
-  })();
-  fi.min = todayISO; fs.min = todayISO;
+  // Mínimo permitido: 25/08 del año actual
+  const MIN_INGRESO = (() => `${new Date().getFullYear()}-08-25`)();
+  fi.min = MIN_INGRESO; fs.min = MIN_INGRESO;
 
   function setErr(id, msg){ const el = $('#'+id); if(el) el.textContent = msg || ''; }
 
@@ -538,21 +443,15 @@
     if(fi.value && fs.value && fi.value === fs.value && hi.value && hs.value && hs.value < hi.value){
       setErr('hs_err','Hora de salida no puede ser menor que la de ingreso en el mismo día.');
       hs.setCustomValidity('Hora de salida < hora de ingreso');
-    } else {
-      hs.setCustomValidity('');
-    }
-    if(fi.value && fs.value && hi.value){
-      if(fi.value === fs.value){ hs.min = hi.value; }
-      else { hs.removeAttribute('min'); }
-    }
+    } else { hs.setCustomValidity(''); }
   }
 
   function clampFechaIngreso(){
-    if(fi.value && fi.value < todayISO){ setErr('fi_err','Fecha de ingreso no puede ser anterior a hoy.'); fi.value = todayISO; }
+    if(fi.value && fi.value < MIN_INGRESO){ setErr('fi_err','Fecha de ingreso no puede ser anterior al 25 de agosto.'); fi.value = MIN_INGRESO; }
     else setErr('fi_err','');
     if(fs.value && fs.value < fi.value){ fs.value = fi.value; setErr('fs_err','La fecha de salida no puede ser anterior a la de ingreso.'); }
     else setErr('fs_err','');
-    fs.min = fi.value || todayISO;
+    fs.min = fi.value || MIN_INGRESO;
     validateHoras();
   }
   function clampFechaSalida(){
@@ -570,14 +469,12 @@
   // ====== Validación Docs/Teléfonos ======
   function onlyDigits(s){ return /^\d*$/.test(s); }
   function validateDoc(input, errId){
-    const v = input.value.trim();
-    let msg = '';
+    const v = input.value.trim(); let msg = '';
     if(v && !onlyDigits(v)) msg = 'Debe ser numérico.'; else if(v && v.length !== 8) msg = 'Son 8 dígitos.';
     setErr(errId, msg); input.classList.toggle('is-invalid', !!msg); input.setCustomValidity(msg);
   }
   function validatePhone(input, errId){
-    const v = input.value.trim();
-    let msg = '';
+    const v = input.value.trim(); let msg = '';
     if(v && !onlyDigits(v)) msg = 'Debe ser numérico.'; else if(v && v.length !== 9) msg = 'Son 9 dígitos.';
     setErr(errId, msg); input.classList.toggle('is-invalid', !!msg); input.setCustomValidity(msg);
   }
@@ -589,15 +486,8 @@
   });
 
   // ====== Solo letras + MAYÚSCULAS ======
-  const NAME_IDS = ['sol_nombres','sol_apepat','sol_apemat',
-    'p1_nombres','p1_apepat','p1_apemat','p2_nombres','p2_apepat','p2_apemat',
-    'p3_nombres','p3_apepat','p3_apemat','p4_nombres','p4_apepat','p4_apemat','nombre_contrata'];
-  const NAME_ERR = {sol_nombres:'sol_nombres_err', sol_apepat:'sol_apepat_err', sol_apemat:'sol_apemat_err',
-    p1_nombres:'p1_nombres_err', p1_apepat:'p1_apepat_err', p1_apemat:'p1_apemat_err',
-    p2_nombres:'p2_nombres_err', p2_apepat:'p2_apepat_err', p2_apemat:'p2_apemat_err',
-    p3_nombres:'p3_nombres_err', p3_apepat:'p3_apepat_err', p3_apemat:'p3_apemat_err',
-    p4_nombres:'p4_nombres_err', p4_apepat:'p4_apepat_err', p4_apemat:'p4_apemat_err',
-    nombre_contrata:'contrata_err'};
+  const NAME_IDS = ['sol_nombres','sol_apepat','sol_apemat','p1_nombres','p1_apepat','p1_apemat','p2_nombres','p2_apepat','p2_apemat','p3_nombres','p3_apepat','p3_apemat','p4_nombres','p4_apepat','p4_apemat','nombre_contrata'];
+  const NAME_ERR = {sol_nombres:'sol_nombres_err', sol_apepat:'sol_apepat_err', sol_apemat:'sol_apemat_err', p1_nombres:'p1_nombres_err', p1_apepat:'p1_apepat_err', p1_apemat:'p1_apemat_err', p2_nombres:'p2_nombres_err', p2_apepat:'p2_apepat_err', p2_apemat:'p2_apemat_err', p3_nombres:'p3_nombres_err', p3_apepat:'p3_apepat_err', p3_apemat:'p3_apemat_err', p4_nombres:'p4_nombres_err', p4_apepat:'p4_apepat_err', p4_apemat:'p4_apemat_err', nombre_contrata:'contrata_err'};
   const rgxLetters = /^[A-ZÁÉÍÓÚÜÑ ]+$/i;
   function validateName(input){
     input.value = input.value.toUpperCase();
@@ -606,22 +496,17 @@
     const errId = NAME_ERR[input.id]; if(errId) setErr(errId, msg);
     input.classList.toggle('is-invalid', !!msg); input.setCustomValidity(msg);
   }
-  NAME_IDS.forEach(id=>{
-    const el = $('#'+id); if(el){ el.addEventListener('input', ()=>validateName(el)); el.addEventListener('blur', ()=>validateName(el)); }
-  });
+  NAME_IDS.forEach(id=>{ const el = $('#'+id); if(el){ el.addEventListener('input', ()=>validateName(el)); el.addEventListener('blur', ()=>validateName(el)); }});
 
-  // ====== Contrata: mostrar/ocultar y SCTR < 4MB ======
+  // ====== Contrata ======
   const c = $('#contrata');
   function toggleContrata(){
     const on = c.value === "SI";
     $('#wrap_contrata').style.display = on ? "block" : "none";
     $('#nombre_contrata').required = on;
-    // política actual: mostrar SCTR siempre y requerirlo
-    $('#wrap_sctr').style.display = "block";
-    $('#sctr').required = true;
+    $('#wrap_sctr').style.display = "block"; $('#sctr').required = true;
   }
-  c.addEventListener('change', toggleContrata);
-  toggleContrata();
+  c.addEventListener('change', toggleContrata); toggleContrata();
 
   $('#sctr').addEventListener('change', ()=>{
     const file = $('#sctr').files?.[0]; let msg = '';
@@ -637,22 +522,17 @@
     const n = parseInt(cant.value,10);
     $$('#personal [data-pi]').forEach(row=>{
       const i = parseInt(row.dataset.pi,10);
-      const visible = i <= n;
-      row.hidden = !visible;
+      const visible = i <= n; row.hidden = !visible;
       row.querySelectorAll('input,select').forEach(inp=>{
         inp.required = visible;
-        if(!visible){
-          inp.classList.remove('is-invalid'); inp.setCustomValidity('');
-          if(inp.tagName==='SELECT'){ inp.value=""; } else { inp.value=""; }
-          const id = inp.id; if(NAME_ERR[id]) setErr(NAME_ERR[id],'');
-          if(/^(p\d+_)(numdoc|tel)$/.test(id)){ const errId = id.replace(/^(p\d+_)(numdoc|tel)$/,'$1$2_err'); setErr(errId,''); }
-        }
+        if(!visible){ inp.classList.remove('is-invalid'); inp.setCustomValidity(''); inp.value=""; const id = inp.id; if(NAME_ERR[id]) setErr(NAME_ERR[id],''); if(/^(p\d+_)(numdoc|tel)$/.test(id)){ const errId = id.replace(/^(p\d+_)(numdoc|tel)$/,'$1$2_err'); setErr(errId,''); } }
       });
     });
+    [1,2,3,4].forEach(i=>togglePersonaNumDoc(i));
   }
   cant.addEventListener('change', applyCantPersonal);
 
-  // Persona 1 = Solicitante
+  // Persona 1 = Solicitante (copiar)
   const p1Chk = $('#p1_igual_sol');
   function copySolicitanteToP1(){
     $('#p1_nombres').value = $('#sol_nombres').value.toUpperCase();
@@ -662,259 +542,163 @@
     $('#p1_numdoc').value  = $('#sol_numdoc').value;
     ['p1_nombres','p1_apepat','p1_apemat'].forEach(id=>validateName($('#'+id)));
     validateDoc($('#p1_numdoc'),'p1_doc_err');
-    if($('#sol_tel').value.trim().length===9){
-      $('#p1_tel').value = $('#sol_tel').value.trim(); validatePhone($('#p1_tel'),'p1_tel_err');
-    }
+    if($('#sol_tel').value.trim().length===9){ $('#p1_tel').value = $('#sol_tel').value.trim(); validatePhone($('#p1_tel'),'p1_tel_err'); }
+    togglePersonaNumDoc(1);
   }
   function lockP1(on){
-    ['p1_nombres','p1_apepat','p1_apemat','p1_tipodoc','p1_numdoc'].forEach(id=>{
-      const el = $('#'+id); el.disabled = on; el.required = !on; if(on) el.classList.remove('is-invalid');
-    });
+    ['p1_nombres','p1_apepat','p1_apemat','p1_tipodoc','p1_numdoc'].forEach(id=>{ const el = $('#'+id); el.disabled = on; el.required = !on; if(on) el.classList.remove('is-invalid'); });
     $('#p1_tel').disabled = false; $('#p1_tel').required = true;
   }
   function clearFields(ids){
-    ids.forEach(id=>{
-      const el = $('#'+id); if(!el) return;
-      if(el.tagName==='SELECT'){ el.value = ""; }
-      else el.value = "";
-      el.classList.remove('is-invalid'); el.setCustomValidity('');
-      const errId = NAME_ERR[id]; if(errId) setErr(errId,'');
-      if(smart.has(el)) smart.get(el).setText('');
-    });
+    ids.forEach(id=>{ const el = $('#'+id); if(!el) return; el.value = ""; el.classList.remove('is-invalid'); el.setCustomValidity(''); const errId = NAME_ERR[id]; if(errId) setErr(errId,''); if(smart.has(el)) smart.get(el).setText(''); });
   }
-  function handleP1Toggle(){
-    if(p1Chk.checked){ copySolicitanteToP1(); lockP1(true); }
-    else { lockP1(false); clearFields(['p1_nombres','p1_apepat','p1_apemat','p1_tipodoc','p1_numdoc','p1_tel']); }
-  }
+  function handleP1Toggle(){ if(p1Chk.checked){ copySolicitanteToP1(); lockP1(true); } else { lockP1(false); clearFields(['p1_nombres','p1_apepat','p1_apemat','p1_tipodoc','p1_numdoc','p1_tel']); togglePersonaNumDoc(1); } }
   p1Chk.addEventListener('change', handleP1Toggle);
   ['sol_nombres','sol_apepat','sol_apemat','sol_tipodoc','sol_numdoc','sol_tel'].forEach(id=>{
     $('#'+id).addEventListener('input', ()=>{ if(p1Chk.checked) copySolicitanteToP1(); });
     $('#'+id).addEventListener('change', ()=>{ if(p1Chk.checked) copySolicitanteToP1(); });
   });
 
-  // ====== DNI únicos ======
+  // Bloqueo/Desbloqueo Nº doc por persona
+  function togglePersonaNumDoc(i){
+    const sel = $('#p'+i+'_tipodoc'); const num = $('#p'+i+'_numdoc'); if(!sel || !num) return;
+    const active = sel.value !== '';
+    num.disabled = !active;
+    if(!active){ num.value=''; num.classList.remove('is-invalid'); num.setCustomValidity(''); setErr('p'+i+'_doc_err',''); }
+  }
+  [1,2,3,4].forEach(i=>{ const s = $('#p'+i+'_tipodoc'); if(s){ s.addEventListener('change', ()=>togglePersonaNumDoc(i)); togglePersonaNumDoc(i); }});
+
+  // DNI únicos
   function validarDNIsUnicos(){
     const n = parseInt(cant.value,10); const dnIs = [];
-    for(let i=1;i<=n;i++){
-      const row = $('[data-pi="'+i+'"]'); if(row.hidden) continue;
-      const v = $('#p'+i+'_numdoc').value.trim(); if(v) dnIs.push({i, v});
-    }
+    for(let i=1;i<=n;i++){ const row = $('[data-pi="'+i+'"]'); if(row.hidden) continue; const v = $('#p'+i+'_numdoc').value.trim(); if(v) dnIs.push({i, v}); }
     let dup = false; dnIs.forEach(a=>{ $('#p'+a.i+'_numdoc').setCustomValidity(''); });
-    for(let x=0; x<dnIs.length; x++){
-      for(let y=x+1; y<dnIs.length; y++){
-        if(dnIs[x].v === dnIs[y].v){
-          const elx = $('#p'+dnIs[x].i+'_numdoc'), ely = $('#p'+dnIs[y].i+'_numdoc');
-          elx.setCustomValidity('DNI duplicado.'); ely.setCustomValidity('DNI duplicado.');
-          elx.classList.add('is-invalid'); ely.classList.add('is-invalid');
-          setErr('p'+dnIs[y].i+'_doc_err','DNI duplicado.'); dup = true;
-        }
-      }
-    }
+    for(let x=0; x<dnIs.length; x++){ for(let y=x+1; y<dnIs.length; y++){ if(dnIs[x].v === dnIs[y].v){ const elx = $('#p'+dnIs[x].i+'_numdoc'), ely = $('#p'+dnIs[y].i+'_numdoc'); elx.setCustomValidity('DNI duplicado.'); ely.setCustomValidity('DNI duplicado.'); elx.classList.add('is-invalid'); ely.classList.add('is-invalid'); setErr('p'+dnIs[y].i+'_doc_err','DNI duplicado.'); dup = true; } } }
     return !dup;
   }
   [1,2,3,4].forEach(i=> $('#p'+i+'_numdoc').addEventListener('input', validarDNIsUnicos));
 
-  // ====== SmartSelect (buscable) ======
-  const smart = new Map(); // select -> API
-
+  // SmartSelect
+  const smart = new Map();
   function enhanceSelect(sel){
-    const select = (typeof sel==='string') ? $(sel) : sel;
-    if(!select) return;
-
-    // si ya está mejorado, solo reconstruir
+    const select = (typeof sel==='string') ? $(sel) : sel; if(!select) return;
     if(smart.has(select)){ smart.get(select).rebuild(); return; }
-
-    // envoltorio
-    const wrap = document.createElement('div');
-    wrap.className = 'ss-wrap';
-    const display = document.createElement('div');
-    display.className='ss-display';
+    const wrap = document.createElement('div'); wrap.className = 'ss-wrap';
+    const display = document.createElement('div'); display.className='ss-display';
     const text = document.createElement('div'); text.className='ss-text ss-placeholder'; text.textContent='— Seleccionar —';
-    const caret = document.createElement('div'); caret.className='ss-caret'; caret.textContent='▾';
-    display.append(text, caret);
-
+    const caret = document.createElement('div'); caret.className='ss-caret'; caret.textContent='▾'; display.append(text, caret);
     const panel = document.createElement('div'); panel.className='ss-panel';
     const search = document.createElement('input'); search.type='text'; search.className='ss-search'; search.placeholder='Buscar...';
-    const list = document.createElement('ul'); list.className='ss-list';
-    panel.append(search, list);
-
-    select.classList.add('ss-native');
-    select.parentNode.insertBefore(wrap, select);
-    wrap.appendChild(select); wrap.appendChild(display); wrap.appendChild(panel);
-
+    const list = document.createElement('ul'); list.className='ss-list'; panel.append(search, list);
+    select.classList.add('ss-native'); select.parentNode.insertBefore(wrap, select); wrap.appendChild(select); wrap.appendChild(display); wrap.appendChild(panel);
     const api = {
-      rebuild(){
-        list.innerHTML = '';
-        Array.from(select.options)
-          .filter(o=>o.value!=='' )
-          .forEach(o=>{
-            const li = document.createElement('li'); li.className='ss-item'; li.textContent = o.text;
-            li.dataset.value = o.value;
-            li.addEventListener('click', ()=>{ setValue(o.value, o.text); close(); });
-            list.appendChild(li);
-          });
-        search.value=''; filter('');
-        // texto
-        if(select.value){ text.textContent = select.selectedOptions[0].text; text.classList.remove('ss-placeholder'); }
-        else { text.textContent = '— Seleccionar —'; text.classList.add('ss-placeholder'); }
-      },
-      setText(t){
-        text.textContent = t ? t : '— Seleccionar —';
-        text.classList.toggle('ss-placeholder', !t);
-      }
-    };
-    smart.set(select, api);
-
-    function open(){ wrap.classList.add('open'); search.focus(); }
-    function close(){ wrap.classList.remove('open'); }
+      rebuild(){ list.innerHTML = ''; Array.from(select.options).filter(o=>o.value!=='').forEach(o=>{ const li = document.createElement('li'); li.className='ss-item'; li.textContent = o.text; li.dataset.value = o.value; li.addEventListener('click', ()=>{ setValue(o.value, o.text); close(); }); list.appendChild(li); });
+        search.value=''; filter(''); if(select.value){ text.textContent = select.selectedOptions[0].text; text.classList.remove('ss-placeholder'); } else { text.textContent = '— Seleccionar —'; text.classList.add('ss-placeholder'); } },
+      setText(t){ text.textContent = t ? t : '— Seleccionar —'; text.classList.toggle('ss-placeholder', !t); }
+    }; smart.set(select, api);
+    function open(){ wrap.classList.add('open'); search.focus(); } function close(){ wrap.classList.remove('open'); }
     function toggle(){ wrap.classList.contains('open') ? close() : open(); }
-    function setValue(val, txt){
-      select.value = val;
-      api.setText(txt);
-      select.dispatchEvent(new Event('change',{bubbles:true}));
-    }
-    function filter(q){
-      const k = q.trim().toLowerCase();
-      Array.from(list.children).forEach(li=>{
-        li.style.display = li.textContent.toLowerCase().includes(k) ? '' : 'none';
-      });
-    }
-
-    display.addEventListener('click', toggle);
-    search.addEventListener('input', ()=>filter(search.value));
-    document.addEventListener('click', (e)=>{ if(!wrap.contains(e.target)) close(); });
-
-    api.rebuild();
-    return api;
+    function setValue(val, txt){ select.value = val; api.setText(txt); select.dispatchEvent(new Event('change',{bubbles:true})); }
+    function filter(q){ const k = q.trim().toLowerCase(); Array.from(list.children).forEach(li=>{ li.style.display = li.textContent.toLowerCase().includes(k) ? '' : 'none'; }); }
+    display.addEventListener('click', toggle); search.addEventListener('input', ()=>filter(search.value)); document.addEventListener('click', (e)=>{ if(!wrap.contains(e.target)) close(); });
+    api.rebuild(); return api;
   }
 
-  // ====== Submit ======
+  // ====== Clock Picker ======
+  const clk = {
+    overlay: $('#clock_overlay'), face: $('#clock_face'),
+    hEl: $('#clk_h'), mEl: $('#clk_m'), stageEl: $('#clock_stage'),
+    okBtn: $('#clk_ok'), cancelBtn: $('#clk_cancel'), backBtn: $('#clk_back_hours'),
+    target: null, hour: 0, minute: 0, stage: 'hour',
+  };
+  function radPos(value, total, r){ const ang = (value/total)*2*Math.PI - Math.PI/2; const cx = 150 + r * Math.cos(ang); const cy = 150 + r * Math.sin(ang); return {left: cx-20, top: cy-20}; }
+  function clearFace(){ clk.face.querySelectorAll('.clock-number').forEach(n=>n.remove()); }
+  function drawHours(){
+    clearFace(); clk.stage='hour'; clk.stageEl.textContent='Elige la hora'; clk.backBtn.style.display='none'; clk.okBtn.disabled = true;
+    for(let h=0; h<24; h++){
+      const outer = h<12; const r = outer ? 120 : 80; const pos = radPos(outer ? h : h-12, 12, r);
+      const b = document.createElement('div'); b.className='clock-number'; b.style.left=pos.left+'px'; b.style.top=pos.top+'px';
+      b.textContent = String(h).padStart(2,'0'); b.addEventListener('click', ()=>{ clk.hour=h; clk.hEl.textContent=String(h).padStart(2,'0'); drawMinutes(); });
+      clk.face.appendChild(b);
+    }
+  }
+  function drawMinutes(){
+    clearFace(); clk.stage='minute'; clk.stageEl.textContent='Elige los minutos'; clk.backBtn.style.display='inline'; clk.okBtn.disabled = true;
+    for(let m=0;m<60;m+=5){
+      const pos = radPos(m/5, 12, 120);
+      const b = document.createElement('div'); b.className='clock-number'; b.style.left=pos.left+'px'; b.style.top=pos.top+'px';
+      b.textContent = String(m).padStart(2,'0'); b.addEventListener('click', ()=>{ clk.minute=m; clk.mEl.textContent=String(m).padStart(2,'0'); clk.okBtn.disabled=false; });
+      clk.face.appendChild(b);
+    }
+  }
+  function openClock(input){
+    clk.target = input;
+    const v = input.value && /^\d{2}:\d{2}$/.test(input.value) ? input.value.split(':') : ['00','00'];
+    clk.hour = parseInt(v[0],10); clk.minute = parseInt(v[1],10);
+    clk.hEl.textContent = String(clk.hour).padStart(2,'0'); clk.mEl.textContent = String(clk.minute).padStart(2,'0');
+    drawHours(); clk.overlay.style.display='flex';
+  }
+  function closeClock(){ clk.overlay.style.display='none'; clearFace(); clk.stage='hour'; clk.okBtn.disabled=true; }
+  clk.cancelBtn.addEventListener('click', ()=>closeClock());
+  clk.okBtn.addEventListener('click', ()=>{
+    const hh = String(clk.hour).padStart(2,'0'); const mm = String(clk.minute).padStart(2,'0');
+    clk.target.value = `${hh}:${mm}`; clk.target.dispatchEvent(new Event('input',{bubbles:true})); validateHoras(); closeClock();
+  });
+  clk.backBtn.addEventListener('click', ()=>drawHours());
+  $$('.clock-input').forEach(i=> i.addEventListener('click', ()=>openClock(i)));
+
+  // Habilitar Nº doc solicitante sólo si hay Tipo doc
+  function toggleSolNumDoc(){
+    const hasType = $('#sol_tipodoc').value !== '';
+    const num = $('#sol_numdoc'); num.disabled = !hasType;
+    if(!hasType){ num.value = ''; num.classList.remove('is-invalid'); num.setCustomValidity(''); setErr('sol_doc_err',''); }
+  }
+  $('#sol_tipodoc').addEventListener('change', toggleSolNumDoc); toggleSolNumDoc();
+
+  // ===== Submit ===== (sin cambios relevantes)
   f.addEventListener('submit', async (e)=>{
     e.preventDefault();
-
     clampFechaIngreso(); clampFechaSalida(); validateHoras();
-    ['sol_nombres','sol_apepat','sol_apemat','nombre_contrata',
-     'p1_nombres','p1_apepat','p1_apemat','p2_nombres','p2_apepat','p2_apemat',
-     'p3_nombres','p3_apepat','p3_apemat','p4_nombres','p4_apepat','p4_apemat'
-    ].forEach(id=>{ const el=$('#'+id); if(el && !el.closest('[data-pi]')?.hidden) validateName(el); });
-
-    validateDoc($('#sol_numdoc'),'sol_doc_err');
-    validatePhone($('#sol_tel'),'sol_tel_err');
-    [1,2,3,4].forEach(i=>{
-      const row=$('[data-pi="'+i+'"]');
-      if(!row.hidden){ validateDoc($('#p'+i+'_numdoc'),'p'+i+'_doc_err'); validatePhone($('#p'+i+'_tel'),'p'+i+'_tel_err'); }
-    });
+    ['sol_nombres','sol_apepat','sol_apemat','nombre_contrata','p1_nombres','p1_apepat','p1_apemat','p2_nombres','p2_apepat','p2_apemat','p3_nombres','p3_apepat','p3_apemat','p4_nombres','p4_apepat','p4_apemat'].forEach(id=>{ const el=$('#'+id); if(el && !el.closest('[data-pi]')?.hidden) validateName(el); });
+    validateDoc($('#sol_numdoc'),'sol_doc_err'); validatePhone($('#sol_tel'),'sol_tel_err');
+    [1,2,3,4].forEach(i=>{ const row=$('[data-pi="'+i+'"]'); if(!row.hidden){ validateDoc($('#p'+i+'_numdoc'),'p'+i+'_doc_err'); validatePhone($('#p'+i+'_tel'),'p'+i+'_tel_err'); }});
     if(!validarDNIsUnicos()) return;
-
-    // validar dominio correo
-    if(!$('#correo_dom').value){ $('#correo_dom').setCustomValidity('Selecciona un dominio.'); } else { $('#correo_dom').setCustomValidity(''); }
-
     if(!f.checkValidity()){ f.reportValidity(); return; }
 
     btn.disabled = true;
     try {
-      // SCTR a base64
-      const file = $('#sctr').files?.[0];
-      if(!file){ setErr('sctr_err','SCTR requerido.'); $('#sctr').classList.add('is-invalid'); throw new Error('SCTR requerido'); }
+      const file = $('#sctr').files?.[0]; if(!file){ setErr('sctr_err','SCTR requerido.'); $('#sctr').classList.add('is-invalid'); throw new Error('SCTR requerido'); }
       if(file.size > 4*1024*1024){ throw new Error('El PDF no debe superar 4 MB.'); }
-      const buf = await file.arrayBuffer();
-      let binary=''; const bytes=new Uint8Array(buf), chunk=0x8000;
+      const buf = await file.arrayBuffer(); let binary=''; const bytes=new Uint8Array(buf), chunk=0x8000;
       for(let i=0;i<bytes.length;i+=chunk){ binary += String.fromCharCode.apply(null, bytes.subarray(i,i+chunk)); }
-      const sctr_name = file.name;
-      const sctr_b64  = btoa(binary);
+      const sctr_name = file.name; const sctr_b64  = btoa(binary);
 
       const personal=[]; const n=parseInt($('#cant_personal').value,10);
-      for(let i=1;i<=n;i++){
-        const row=$('[data-pi="'+i+'"]'); if(row.hidden) continue;
-        personal.push({
-          nombres: $('#p'+i+'_nombres').value.trim(),
-          apepat : $('#p'+i+'_apepat').value.trim(),
-          apemat : $('#p'+i+'_apemat').value.trim(),
-          tipodoc: $('#p'+i+'_tipodoc').value,
-          numdoc : $('#p'+i+'_numdoc').value.trim(),
-          tel    : $('#p'+i+'_tel').value.trim()
-        });
-      }
+      for(let i=1;i<=n;i++){ const row=$('[data-pi="'+i+'"]'); if(row.hidden) continue;
+        personal.push({nombres: $('#p'+i+'_nombres').value.trim(), apepat : $('#p'+i+'_apepat').value.trim(), apemat : $('#p'+i+'_apemat').value.trim(), tipodoc: $('#p'+i+'_tipodoc').value, numdoc : $('#p'+i+'_numdoc').value.trim(), tel: $('#p'+i+'_tel').value.trim()}); }
 
       const correoComp = $('#correo_nick').value.trim() + $('#correo_dom').value;
+      const payload = { nodo: $('#nodo').value, fecha_ingreso: fi.value, fecha_salida: fs.value, hora_ingreso: hi.value, hora_salida: hs.value,
+        sol_nombres: $('#sol_nombres').value.trim(), sol_apepat: $('#sol_apepat').value.trim(), sol_apemat: $('#sol_apemat').value.trim(),
+        sol_tipodoc: $('#sol_tipodoc').value, sol_numdoc: $('#sol_numdoc').value.trim(), sol_tel: $('#sol_tel').value.trim(),
+        correo: correoComp, trabajos_para: $('#empresa').value, area_resp: $('#area_resp').value, area_apoyo: $('#area_apoyo').value,
+        tipo_trabajo: $('#tipo_trabajo').value, detalles_trabajo: $('#detalles_trabajo').value.trim(), nivel_acceso: $('#nivel_acceso').value,
+        trabajo_contrata: $('#contrata').value, nombre_contrata: $('#nombre_contrata').value.trim(), sctr_filename: sctr_name, sctr_base64: sctr_b64, personal };
 
-      const payload = {
-        nodo: $('#nodo').value,
-        fecha_ingreso: fi.value, fecha_salida: fs.value,
-        hora_ingreso: hi.value, hora_salida: hs.value,
+      if(FLOW_URL){ const r = await fetch(FLOW_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}); if(!r.ok){ throw new Error(`HTTP ${r.status}: ${await r.text()}`); } alert('Solicitud enviada correctamente.'); }
+      else { console.log('PAYLOAD →', payload); alert('Demo: revisa la consola del navegador (F12) para ver el payload.'); }
 
-        sol_nombres: $('#sol_nombres').value.trim(), sol_apepat: $('#sol_apepat').value.trim(),
-        sol_apemat: $('#sol_apemat').value.trim(), sol_tipodoc: $('#sol_tipodoc').value,
-        sol_numdoc: $('#sol_numdoc').value.trim(), sol_tel: $('#sol_tel').value.trim(),
-        correo: correoComp,
-
-        trabajos_para: $('#empresa').value,
-        area_resp: $('#area_resp').value, area_apoyo: $('#area_apoyo').value,
-
-        tipo_trabajo: $('#tipo_trabajo').value,
-        detalles_trabajo: $('#detalles_trabajo').value.trim(),
-        nivel_acceso: $('#nivel_acceso').value,
-
-        trabajo_contrata: $('#contrata').value, nombre_contrata: $('#nombre_contrata').value.trim(),
-        sctr_filename: sctr_name,
-        sctr_base64: sctr_b64,
-
-        personal
-      };
-
-      if(FLOW_URL){
-        const r = await fetch(FLOW_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
-        if(!r.ok){ throw new Error(`HTTP ${r.status}: ${await r.text()}`); }
-        alert('Solicitud enviada correctamente.');
-      } else {
-        console.log('PAYLOAD →', payload);
-        alert('Demo: revisa la consola del navegador (F12) para ver el payload.');
-      }
-
-      // ===== Reset total: todo en blanco =====
       f.reset();
+      ['nodo','empresa','area_resp','area_apoyo','tipo_trabajo','sol_tipodoc','nivel_acceso','contrata','p1_tipodoc','p2_tipodoc','p3_tipodoc','p4_tipodoc','correo_dom'].forEach(id => { const el = document.querySelector('#'+id); if (!el) return; el.value = ''; el.classList.remove('is-invalid'); el.setCustomValidity(''); if (smart.has(el)) smart.get(el).setText(''); });
+      $('#correo_nick').value = ''; loadAreas(); toggleContrata(); applyCantPersonal(); $('#p1_igual_sol').checked=false; handleP1Toggle(); toggleSolNumDoc(); fi.min = MIN_INGRESO; fs.min = MIN_INGRESO;
 
-      // deja todos los selects en "— Seleccionar —"
-      ['nodo','empresa','area_resp','area_apoyo','tipo_trabajo','sol_tipodoc','nivel_acceso','contrata',
-       'p1_tipodoc','p2_tipodoc','p3_tipodoc','p4_tipodoc','correo_dom'].forEach(id => {
-        const el = document.querySelector('#'+id);
-        if (!el) return;
-        if (el.tagName === 'SELECT') el.value = '';
-        else el.value = '';
-        el.classList.remove('is-invalid');
-        el.setCustomValidity('');
-        if (smart.has(el)) smart.get(el).setText('');
-      });
-
-      // limpia usuario correo
-      $('#correo_nick').value = '';
-      loadAreas(); // vacía áreas por empresa en blanco
-      toggleContrata();
-      applyCantPersonal();
-      // p1 toggle
-      $('#p1_igual_sol').checked=false; handleP1Toggle();
-
-    } catch(err){
-      alert('Error: ' + err.message);
-    } finally { btn.disabled = false; }
+    } catch(err){ alert('Error: ' + err.message); } finally { btn.disabled = false; }
   });
 
   // ===== Init =====
-  load(NODOS, $('#nodo'));
-  load(TIPOS_TRABAJO, $('#tipo_trabajo'));
-  loadAreas();
-  toggleContrata();
-  applyCantPersonal();
-
-  // Mejora combos grandes
-  enhanceSelect('#nodo');
-  enhanceSelect('#area_resp');
-  enhanceSelect('#area_apoyo');
-  enhanceSelect('#tipo_trabajo');
-
-  // Si cambia empresa, reconstruir smart selects de áreas
+  load(NODOS, $('#nodo')); load(TIPOS_TRABAJO, $('#tipo_trabajo')); loadAreas(); toggleContrata(); applyCantPersonal();
+  enhanceSelect('#nodo'); enhanceSelect('#area_resp'); enhanceSelect('#area_apoyo'); enhanceSelect('#tipo_trabajo');
   emp.addEventListener('change', ()=>{ loadAreas(); });
-
 </script>
 </body>
 </html>
