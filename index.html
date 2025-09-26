@@ -1096,10 +1096,6 @@
 
     btn.disabled = true;
     try {
-
-      await new Promise(r=>setTimeout(r,1000)); // simula envío
-    alert('Solicitud enviada correctamente.');
-      
       // SCTR SIEMPRE requerido
       const file = $('#sctr').files?.[0];
       if(!file){ setErr('sctr_err','SCTR requerido.'); $('#sctr').classList.add('is-invalid'); throw new Error('SCTR requerido'); }
