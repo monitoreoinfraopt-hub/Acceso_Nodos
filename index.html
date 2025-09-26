@@ -687,6 +687,16 @@
 
     const panel = document.createElement('div'); panel.className='ss-panel';
     const search = document.createElement('input'); search.type='text'; search.className='ss-search'; search.placeholder='Buscar...';
+    search.type = 'text';
+    search.className = 'ss-search';
+    search.placeholder = 'Buscar...';
+
+    /* EXCLUIR de validación del formulario */
+    search.required = false;
+    search.name = '__ss_search__';       // que no quede name=""
+    search.autocomplete = 'off';
+    search.setAttribute('aria-hidden','true');
+    search.tabIndex = -1;
     const list = document.createElement('ul'); list.className='ss-list';
     panel.append(search, list);
     if(isMultiple){
@@ -1047,6 +1057,10 @@
   /* Submit */
   f.addEventListener('submit', async (e)=>{
     e.preventDefault();
+      $$('.ss-search').forEach(s => {
+    s.removeAttribute('required');   // evita bloqueo
+    s.tabIndex = -1;                 // fuera de foco
+  });
     clampFechaIngreso(); clampFechaSalida(); validateHoras();
     ['sol_nombres','sol_apepat','sol_apemat','nombre_contrata','p1_nombres','p1_apepat','p1_apemat','p2_nombres','p2_apepat','p2_apemat','p3_nombres','p3_apepat','p3_apemat','p4_nombres','p4_apepat','p4_apemat'].forEach(id=>{ const el=$('#'+id); if(el && !el.closest('[data-pi]')?.hidden) validateName(el); });
     validateDoc($('#sol_numdoc'),'sol_doc_err'); validatePhone($('#sol_tel'),'sol_tel_err');
