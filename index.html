@@ -282,7 +282,7 @@
       <div class="col-md-4" id="wrap_sctr" style="display:block;">
         <label class="form-label">SCTR del personal a ingresar</label>
         <input class="form-control" type="file" id="sctr" accept="application/pdf" required>
-        <div class="form-text" style="color:var(--ink-soft)">PDF, máx. 4 MB. (Obligatorio)</div>
+        <div class="form-text" style="color:var(--ink-soft)">PDF, máx. 2 MB. (Obligatorio)</div>
         <div class="invalid-feedback" id="sctr_err"></div>
       </div>
 
@@ -588,7 +588,7 @@
   $('#sctr').addEventListener('change', ()=>{
     const file = $('#sctr').files?.[0]; let msg = '';
     if(!file){ msg = 'SCTR requerido.'; }
-    else if(file.size > 4*1024*1024){ msg = 'El PDF no debe superar 4 MB.'; }
+    else if(file.size > 2*1024*1024){ msg = 'El PDF no debe superar 4 MB.'; }
     setErr('sctr_err', msg);
     $('#sctr').classList.toggle('is-invalid', !!msg);
     $('#sctr').setCustomValidity(msg);
@@ -1075,7 +1075,7 @@
       // SCTR SIEMPRE requerido
       const file = $('#sctr').files?.[0];
       if(!file){ setErr('sctr_err','SCTR requerido.'); $('#sctr').classList.add('is-invalid'); throw new Error('SCTR requerido'); }
-      if(file.size > 4*1024*1024){ throw new Error('El PDF no debe superar 4 MB.'); }
+      if(file.size > 2*1024*1024){ throw new Error('El PDF no debe superar 4 MB.'); }
       const buf = await file.arrayBuffer(); let binary=''; const bytes=new Uint8Array(buf), chunk=0x8000;
       for(let i=0;i<bytes.length;i+=chunk){ binary += String.fromCharCode.apply(null, bytes.subarray(i,i+chunk)); }
       const sctr_name = file.name; const sctr_b64  = btoa(binary);
