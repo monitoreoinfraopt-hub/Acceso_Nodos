@@ -1156,8 +1156,16 @@
         if (smart.has(el)) smart.get(el).setText('');
       });
       $('#correo_nick').value = '';
-      loadAreas(); toggleContrata(); applyCantPersonal(); $('#p1_igual_sol').checked=false; toggleSolNumDoc();
+          loadAreas();
+          toggleContrata();
 
+    // desmarcar y ejecutar la lógica que desbloquea/limpia P1
+          $('#p1_igual_sol').checked = false;
+          handleP1Toggle();          // <-- esto limpia y habilita p1_* (incluye Tipo doc)
+
+    // re-aplicar cantidad/visibilidad de filas y demás
+          applyCantPersonal();
+          toggleSolNumDoc();
       // instalación
       equiposCant.value = ''; if(smart.has(equiposCant)) smart.get(equiposCant).setText('— Seleccionar —');
       $$('#equipos_rows [data-idx]').forEach(block=>{
