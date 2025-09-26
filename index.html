@@ -617,21 +617,23 @@
     $('#p1_apepat').value  = $('#sol_apepat').value.toUpperCase();
     $('#p1_apemat').value  = $('#sol_apemat').value.toUpperCase();
     // Siempre DNI para p1
-    $('#p1_tipodoc').value = 'DNI';
-    if(smart.has($('#p1_tipodoc'))) smart.get($('#p1_tipodoc')).setText('DNI');
-    $('#p1_tipodoc').dispatchEvent(new Event('change',{bubbles:true}));
+      const tipoSol = $('#sol_tipodoc').value || '';
+  $('#p1_tipodoc').value = tipoSol;
+  if (smart.has($('#p1_tipodoc'))) smart.get($('#p1_tipodoc')).setText(tipoSol || '— Tipo doc. —');
+  $('#p1_tipodoc').dispatchEvent(new Event('change', { bubbles:true })); // habilita/inhabilita el Nº doc
 
-    $('#p1_numdoc').value  = $('#sol_numdoc').value;
+  $('#p1_numdoc').value  = $('#sol_numdoc').value;
 
-    ['p1_nombres','p1_apepat','p1_apemat'].forEach(id=>validateName($('#'+id)));
-    validateDoc($('#p1_numdoc'),'p1_doc_err');
+  ['p1_nombres','p1_apepat','p1_apemat'].forEach(id=>validateName($('#'+id)));
+  validateDoc($('#p1_numdoc'),'p1_doc_err');
 
-    if($('#sol_tel').value.trim().length===9){
-      $('#p1_tel').value = $('#sol_tel').value.trim();
-      validatePhone($('#p1_tel'),'p1_tel_err');
-    }
-    togglePersonaNumDoc(1);
+  if($('#sol_tel').value.trim().length===9){
+    $('#p1_tel').value = $('#sol_tel').value.trim();
+    validatePhone($('#p1_tel'),'p1_tel_err');
   }
+
+  togglePersonaNumDoc(1);
+}
   function lockP1(on){
     ['p1_nombres','p1_apepat','p1_apemat','p1_tipodoc','p1_numdoc'].forEach(id=>{
       const el = $('#'+id); el.disabled = on; el.required = !on; if(on) el.classList.remove('is-invalid');
