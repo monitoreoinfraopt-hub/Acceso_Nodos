@@ -388,7 +388,28 @@
   const FLOW_URL = "https://defaultfacb56070a434409acc1b1e269faf7.a8.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/058ac8305be945959c412c55288fb5d7/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=6HpPWUJ00y_XPWVXwE1JN5KGzre31679d0Dy1qhpaQA"; // opcional: pega tu URL del Flow aquí
   const $ = s => document.querySelector(s);
   const $$ = s => Array.from(document.querySelectorAll(s));
-  const f = $('#f'), btn = $('#btn_enviar');
+  const f = document.querySelector('#f');
+  const btn = document.querySelector('#btn_enviar');
+
+  // Paso 1: helper para limpiar validaciones
+  function clearFormValidation() {
+    f.querySelectorAll('input, select, textarea').forEach(el => {
+      el.classList.remove('is-invalid');
+      el.setCustomValidity('');
+    });
+    [
+      'fi_err','fs_err','hs_err','sctr_err','sol_nombres_err','sol_apepat_err','sol_apemat_err','sol_tel_err','sol_doc_err',
+      'p1_nombres_err','p1_apepat_err','p1_apemat_err','p1_doc_err','p1_tel_err',
+      'p2_nombres_err','p2_apepat_err','p2_apemat_err','p2_doc_err','p2_tel_err',
+      'p3_nombres_err','p3_apepat_err','p3_apemat_err','p3_doc_err','p3_tel_err',
+      'p4_nombres_err','p4_apepat_err','p4_apemat_err','p4_doc_err','p4_tel_err','contrata_err'
+    ].forEach(id => { const d = document.getElementById(id); if (d) d.textContent = ''; });
+    document.querySelectorAll('.ss-search').forEach(s => {
+      s.removeAttribute('required');
+      s.name = '__ss_search__';
+      s.tabIndex = -1;
+    });
+  }
 
   /* ===== Directorio (datos) ===== */
   const PERSONAL_PREDEF = [
@@ -1059,6 +1080,9 @@
   /* Submit */
   f.addEventListener('submit', async (e)=>{
     e.preventDefault();
+    
+    clearFormValidation();
+    
       $$('.ss-search').forEach(s => {
     s.removeAttribute('required');   // evita bloqueo
     s.tabIndex = -1;                 // fuera de foco
@@ -1072,10 +1096,14 @@
 
     btn.disabled = true;
     try {
+
+      await new Promise(r=>setTimeout(r,1000)); // simula envío
+    alert('Solicitud enviada correctamente.');
+      
       // SCTR SIEMPRE requerido
       const file = $('#sctr').files?.[0];
       if(!file){ setErr('sctr_err','SCTR requerido.'); $('#sctr').classList.add('is-invalid'); throw new Error('SCTR requerido'); }
-      if(file.size > 2*1024*1024){ throw new Error('El PDF no debe superar 4 MB.'); }
+      if(file.size > 2*1024*1024){ throw new Error('El PDF no debe superar 2 MB.'); }
       const buf = await file.arrayBuffer(); let binary=''; const bytes=new Uint8Array(buf), chunk=0x8000;
       for(let i=0;i<bytes.length;i+=chunk){ binary += String.fromCharCode.apply(null, bytes.subarray(i,i+chunk)); }
       const sctr_name = file.name; const sctr_b64  = btoa(binary);
@@ -1149,6 +1177,8 @@
 
       // ===== Reset completo =====
       f.reset();
+  
+       clearFormValidation();
       // selects simples
       ['nodo','empresa','area_resp','area_apoyo','tipo_trabajo','sol_tipodoc','nivel_acceso','contrata','p1_tipodoc','p2_tipodoc','p3_tipodoc','p4_tipodoc','correo_dom'].forEach(id => {
         const el = document.querySelector('#'+id); if (!el) return;
