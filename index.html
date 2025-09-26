@@ -272,9 +272,9 @@
         <input class="form-control" id="nombre_contrata" maxlength="80" placeholder="Nombre de la contrata">
         <div class="invalid-feedback" id="contrata_err"></div>
       </div>
-      <div class="col-md-4" id="wrap_sctr" style="display:none;">
+      <div class="col-md-4" id="wrap_sctr" style="display:block;">
         <label class="form-label">SCTR del personal a ingresar</label>
-        <input class="form-control" type="file" id="sctr" accept="application/pdf">
+        <input class="form-control" type="file" id="sctr" accept="application/pdf" required>
         <div class="form-text" style="color:var(--ink-soft)">PDF, máx. 4 MB. (Obligatorio)</div>
         <div class="invalid-feedback" id="sctr_err"></div>
       </div>
@@ -568,15 +568,20 @@
   const c = $('#contrata');
   function toggleContrata(){
     const on = c.value === "SI";
+    // Solo "Nombre de la contrata" depende de la elección
     $('#wrap_contrata').style.display = on ? "block" : "none";
     $('#nombre_contrata').required = on;
-    $('#wrap_sctr').style.display = "block"; $('#sctr').required = true;
+
+    // SCTR SIEMPRE visible y requerido
+    $('#wrap_sctr').style.display = "block";
+    $('#sctr').required = true;
   }
   c.addEventListener('change', toggleContrata); toggleContrata();
 
   $('#sctr').addEventListener('change', ()=>{
     const file = $('#sctr').files?.[0]; let msg = '';
-    if(file && file.size > 4*1024*1024) msg = 'El PDF no debe superar 4 MB.';
+    if(!file){ msg = 'SCTR requerido.'; }
+    else if(file.size > 4*1024*1024){ msg = 'El PDF no debe superar 4 MB.'; }
     setErr('sctr_err', msg);
     $('#sctr').classList.toggle('is-invalid', !!msg);
     $('#sctr').setCustomValidity(msg);
@@ -645,7 +650,7 @@
     const sel = $('#p'+i+'_tipodoc'); const num = $('#p'+i+'_numdoc'); if(!sel || !num) return;
     const active = sel.value !== '';
     num.disabled = !active;
-    if(!active){ num.value=''; num.classList.remove('is-invalid'); num.setCustomValidity(''); setErr('p'+i+'_doc_err',''); }
+    if(!active){ num.value = ''; num.classList.remove('is-invalid'); num.setCustomValidity(''); setErr('p'+i+'_doc_err',''); }
   }
   [1,2,3,4].forEach(i=>{ const s = $('#p'+i+'_tipodoc'); if(s){ s.addEventListener('change', ()=>togglePersonaNumDoc(i)); togglePersonaNumDoc(i); }});
 
@@ -1003,7 +1008,6 @@
     retirosCant.required = isRetiro;
 
     if(isInstal){
-      // forzar a que el usuario elija cantidad
       equiposCant.value = '';
       if(smart.has(equiposCant)) smart.get(equiposCant).setText('— Seleccionar —');
       ensureEquipoRows();
@@ -1045,7 +1049,9 @@
 
     btn.disabled = true;
     try {
-      const file = $('#sctr').files?.[0]; if(!file){ setErr('sctr_err','SCTR requerido.'); $('#sctr').classList.add('is-invalid'); throw new Error('SCTR requerido'); }
+      // SCTR SIEMPRE requerido
+      const file = $('#sctr').files?.[0];
+      if(!file){ setErr('sctr_err','SCTR requerido.'); $('#sctr').classList.add('is-invalid'); throw new Error('SCTR requerido'); }
       if(file.size > 4*1024*1024){ throw new Error('El PDF no debe superar 4 MB.'); }
       const buf = await file.arrayBuffer(); let binary=''; const bytes=new Uint8Array(buf), chunk=0x8000;
       for(let i=0;i<bytes.length;i+=chunk){ binary += String.fromCharCode.apply(null, bytes.subarray(i,i+chunk)); }
@@ -1105,7 +1111,12 @@
         personal, equipos, retiros };
 
       if(FLOW_URL){
-        const r = await fetch(FLOW_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+        // Enviar como text/plain para evitar CORS (el Flow lo recibe como texto)
+        const r = await fetch(FLOW_URL,{
+          method:'POST',
+          headers:{'Content-Type':'text/plain;charset=UTF-8'},
+          body: JSON.stringify(payload)
+        });
         if(!r.ok){ throw new Error(`HTTP ${r.status}: ${await r.text()}`); }
         alert('Solicitud enviada correctamente.');
       }else{
@@ -1183,3 +1194,4 @@
 </script>
 </body>
 </html>
+
