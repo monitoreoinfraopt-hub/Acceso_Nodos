@@ -79,13 +79,108 @@
     .dir-list{display:grid;grid-template-columns:1fr 1fr;gap:10px}
     .dir-card{border:1px solid #e6e6ea;border-radius:10px;padding:10px;cursor:pointer;background:#fafafa}
     .dir-card:hover{background:#fff;box-shadow:0 4px 16px rgba(0,0,0,.08)}
+
+    /* ===== Presentación (SEGUNDA IMAGEN) ===== */
+    .intro-overlay{
+      position:fixed;inset:0;z-index:12000;background:#1f1d20f2;
+      display:flex;align-items:center;justify-content:center;padding:2rem;
+    }
+    .intro-card{
+      width:min(980px,95vw);background:#fff;color:#1a1a1a;border-radius:16px;
+      box-shadow:0 40px 120px rgba(0,0,0,.45);
+      overflow:hidden;border:1px solid #eee;
+    }
+    .intro-head{
+      padding:18px 24px;background:linear-gradient(90deg,var(--campfire-1),var(--campfire-2),var(--campfire-3));
+      color:#111;position:relative;
+    }
+    .intro-title{font-weight:900;font-size:28px;letter-spacing:.4px;color:#fff;text-shadow:0 1px 0 rgba(0,0,0,.15)}
+    .intro-pill{
+      position:absolute;right:16px;top:14px;background:rgba(255,255,255,.85);color:#111;
+      border-radius:999px;padding:6px 12px;font-weight:700;font-size:.9rem;border:1px solid rgba(0,0,0,.06)
+    }
+    .intro-body{padding:20px 24px 24px}
+    .intro-box{
+      background:#fff7ec;border:1px solid #ffe3c2;border-radius:10px;padding:12px 14px;margin-bottom:16px
+    }
+    .intro-box h6{margin:0 0 6px;font-weight:800;color:#7a4a00}
+    .intro-actions{display:flex;justify-content:flex-end}
+    .intro-actions .btn{min-width:150px}
+ 
+/* El badge normalmente va a la derecha */
+.pres-head {
+  background: linear-gradient(90deg, var(--campfire-1), var(--campfire-2), var(--campfire-3));
+  padding: 1rem;
+  border-radius: 12px 12px 0 0;
+  text-align: left;   /* Alinea todo a la izquierda */
+  color: #fff;
+  display: flex;
+  flex-direction: column; /* Título arriba, badge abajo */
+  align-items: flex-start; /* pegado a la izquierda */
+}
+
+.pres-head h2 {
+  font-size: 2rem; /* un poco más grande */
+  font-weight: 900;
+  margin: 0;
+  color: #fff;
+  text-shadow: 0 1px 0 rgba(0,0,0,.2);
+}
+
+.pres-cell {
+  margin-top: .5rem;   /* espacio debajo del título */
+  background: #fdfcf7; /* un blanco cálido */
+  color: #111;
+  font-size: .95rem;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 999px; /* estilo pastilla */
+  border: 1px solid rgba(0,0,0,.1);
+  display: inline-block;
+}
+
   </style>
 </head>
 <body>
-<div class="container py-4">
+
+<!-- ===== Presentación (segunda imagen) ===== -->
+<div class="intro-overlay" id="intro_overlay" role="dialog" aria-modal="true" aria-hidden="false">
+  <div class="intro-card">
+ <div class="pres-head">
+  <h2>SOLICITUD DE ACCESOS NODOS WIN </h2>
+  <p class="pres-cell">Único celular de Monitoreo: <strong>912-567-346</strong></p>
+</div>
+    <div class="intro-body">
+      <div class="intro-box">
+        <h6>Requisitos de ingreso al nodo</h6>
+        <ul class="mb-0">
+          <li>Tener su EPP en regla.</li>
+          <li>Tener su fotocheck y presentarlo al momento de ingreso.</li>
+          <li>SCTR del personal (PDF máx. 2 MB).</li>
+        </ul>
+      </div>
+
+      <div class="intro-box">
+        <h6>Sugerencia</h6>
+        <ul class="mb-0">
+          <li>Si eres personal de WIN NET puedes usar el botón <strong><em>"SOLICITANTE"</em></strong> para autocompletar tus datos.</li>
+          <li>Si el solicitante encargado ingresará al nodo, seleccione la casilla <strong><em>"SOLICITANTE = PERSONAL"</em></strong>.</li>
+        </ul>
+      </div>
+
+      <div class="intro-actions">
+        <!--<button class="btn btn-outline-secondary me-2" id="intro_cancel" type="button">Cerrar</button>-->
+        <button class="btn btn-primary" id="intro_start" type="button">Empezar ahora</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ===== /Presentación ===== -->
+
+<div class="container py-4" id="app_container" aria-hidden="true">
   <div class="d-flex align-items-center mb-4 gap-2">
     <div class="brandbar">
-      <span>WIN | Acceso a Nodos - 912567346</span>
+      <span>WIN | Acceso a Nodos </span>
       <span class="brand-dot"></span>
     </div>
     <span class="badge badge-camp">Formulario</span>
@@ -129,7 +224,7 @@
       <div class="col-12 mt-2 d-flex align-items-center justify-content-between">
         <h5 class="section-title m-0">Solicitante encargado</h5>
         <div class="d-flex align-items-center gap-2">
-          <small class="text-muted me-2">Seleccionar en caso de ser personal de Infraestructura - O&M por parte de WIN - net </small>
+          <small class="text-muted me-2"> WIN - NET</small>
           <button type="button" id="btn_dir" class="btn btn-outline-secondary btn-sm">Solicitante</button>
           <button type="button" id="btn_limpiar_sol" class="btn btn-outline-danger btn-sm">Limpiar</button>
         </div>
@@ -391,6 +486,28 @@
   const f = document.querySelector('#f');
   const btn = document.querySelector('#btn_enviar');
 
+  /* ======= Presentación: mostrar/ocultar ======= */
+  const intro = $('#intro_overlay');
+  const app = $('#app_container');
+  const startBtn = $('#intro_start');
+  const cancelIntro = $('#intro_cancel');
+
+  function showIntro(){
+    intro.style.display='flex';
+    intro.setAttribute('aria-hidden','false');
+    app.setAttribute('aria-hidden','true');
+  }
+  function hideIntro(){
+    intro.style.display='none';
+    intro.setAttribute('aria-hidden','true');
+    app.setAttribute('aria-hidden','false');
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  startBtn.addEventListener('click', hideIntro);
+ // cancelIntro.addEventListener('click', ()=> showIntro());
+  // Mostrar presentación al cargar
+  showIntro();
+
   // Paso 1: helper para limpiar validaciones
   function clearFormValidation() {
     f.querySelectorAll('input, select, textarea').forEach(el => {
@@ -544,7 +661,7 @@
   const fi = $('#fecha_ingreso'), fs = $('#fecha_salida');
   const hi = $('#hora_ingreso'), hs = $('#hora_salida');
   const today = new Date();
-  const MIN_INGRESO = today.toISOString().slice(0,10);
+  const MIN_INGRESO =  `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
   fi.min = MIN_INGRESO; fs.min = MIN_INGRESO;
   function setErr(id, msg){ const el = $('#'+id); if(el) el.textContent = msg || ''; }
   function validateHoras(){
@@ -637,24 +754,19 @@
     $('#p1_nombres').value = $('#sol_nombres').value.toUpperCase();
     $('#p1_apepat').value  = $('#sol_apepat').value.toUpperCase();
     $('#p1_apemat').value  = $('#sol_apemat').value.toUpperCase();
-    // Siempre DNI para p1
-      const tipoSol = $('#sol_tipodoc').value || '';
-  $('#p1_tipodoc').value = tipoSol;
-  if (smart.has($('#p1_tipodoc'))) smart.get($('#p1_tipodoc')).setText(tipoSol || '— Tipo doc. —');
-  $('#p1_tipodoc').dispatchEvent(new Event('change', { bubbles:true })); // habilita/inhabilita el Nº doc
-
-  $('#p1_numdoc').value  = $('#sol_numdoc').value;
-
-  ['p1_nombres','p1_apepat','p1_apemat'].forEach(id=>validateName($('#'+id)));
-  validateDoc($('#p1_numdoc'),'p1_doc_err');
-
-  if($('#sol_tel').value.trim().length===9){
-    $('#p1_tel').value = $('#sol_tel').value.trim();
-    validatePhone($('#p1_tel'),'p1_tel_err');
+    const tipoSol = $('#sol_tipodoc').value || '';
+    $('#p1_tipodoc').value = tipoSol;
+    if (smart.has($('#p1_tipodoc'))) smart.get($('#p1_tipodoc')).setText(tipoSol || '— Tipo doc. —');
+    $('#p1_tipodoc').dispatchEvent(new Event('change', { bubbles:true }));
+    $('#p1_numdoc').value  = $('#sol_numdoc').value;
+    ['p1_nombres','p1_apepat','p1_apemat'].forEach(id=>validateName($('#'+id)));
+    validateDoc($('#p1_numdoc'),'p1_doc_err');
+    if($('#sol_tel').value.trim().length===9){
+      $('#p1_tel').value = $('#sol_tel').value.trim();
+      validatePhone($('#p1_tel'),'p1_tel_err');
+    }
+    togglePersonaNumDoc(1);
   }
-
-  togglePersonaNumDoc(1);
-}
   function lockP1(on){
     ['p1_nombres','p1_apepat','p1_apemat','p1_tipodoc','p1_numdoc'].forEach(id=>{
       const el = $('#'+id); el.disabled = on; el.required = !on; if(on) el.classList.remove('is-invalid');
@@ -716,7 +828,7 @@
 
     /* EXCLUIR de validación del formulario */
     search.required = false;
-    search.name = '__ss_search__';       // que no quede name=""
+    search.name = '__ss_search__';
     search.autocomplete = 'off';
     search.setAttribute('aria-hidden','true');
     search.tabIndex = -1;
@@ -791,7 +903,7 @@
     face: $('#clock_face'),
     hEl: $('#clk_h'),
     mEl: $('#clk_m'),
-    stageEl: $('#clock_stage'),
+    stageEl: $('#clk_stage'),
     okBtn: $('#clk_ok'),
     cancelBtn: $('#clk_cancel'),
     backBtn: $('#clk_back_hours'),
@@ -1080,13 +1192,10 @@
   /* Submit */
   f.addEventListener('submit', async (e)=>{
     e.preventDefault();
-    
+
     clearFormValidation();
-    
-      $$('.ss-search').forEach(s => {
-    s.removeAttribute('required');   // evita bloqueo
-    s.tabIndex = -1;                 // fuera de foco
-  });
+
+    $$('.ss-search').forEach(s => { s.removeAttribute('required'); s.tabIndex = -1; });
     clampFechaIngreso(); clampFechaSalida(); validateHoras();
     ['sol_nombres','sol_apepat','sol_apemat','nombre_contrata','p1_nombres','p1_apepat','p1_apemat','p2_nombres','p2_apepat','p2_apemat','p3_nombres','p3_apepat','p3_apemat','p4_nombres','p4_apepat','p4_apemat'].forEach(id=>{ const el=$('#'+id); if(el && !el.closest('[data-pi]')?.hidden) validateName(el); });
     validateDoc($('#sol_numdoc'),'sol_doc_err'); validatePhone($('#sol_tel'),'sol_tel_err');
@@ -1158,11 +1267,10 @@
         personal, equipos, retiros };
 
       if(FLOW_URL){
-        // Enviar como text/plain para evitar CORS (el Flow lo recibe como texto)
         const r = await fetch(FLOW_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
         })
         if(!r.ok){ throw new Error(`HTTP ${r.status}: ${await r.text()}`); }
         alert('Solicitud enviada correctamente.');
@@ -1173,8 +1281,8 @@
 
       // ===== Reset completo =====
       f.reset();
-  
-       clearFormValidation();
+
+      clearFormValidation();
       // selects simples
       ['nodo','empresa','area_resp','area_apoyo','tipo_trabajo','sol_tipodoc','nivel_acceso','contrata','p1_tipodoc','p2_tipodoc','p3_tipodoc','p4_tipodoc','correo_dom'].forEach(id => {
         const el = document.querySelector('#'+id); if (!el) return;
@@ -1182,16 +1290,17 @@
         if (smart.has(el)) smart.get(el).setText('');
       });
       $('#correo_nick').value = '';
-          loadAreas();
-          toggleContrata();
+      loadAreas();
+      toggleContrata();
 
-    // desmarcar y ejecutar la lógica que desbloquea/limpia P1
-          $('#p1_igual_sol').checked = false;
-          handleP1Toggle();          // <-- esto limpia y habilita p1_* (incluye Tipo doc)
+      // desmarcar y ejecutar la lógica que desbloquea/limpia P1
+      $('#p1_igual_sol').checked = false;
+      handleP1Toggle();
 
-    // re-aplicar cantidad/visibilidad de filas y demás
-          applyCantPersonal();
-          toggleSolNumDoc();
+      // re-aplicar cantidad/visibilidad de filas y demás
+      applyCantPersonal();
+      toggleSolNumDoc();
+
       // instalación
       equiposCant.value = ''; if(smart.has(equiposCant)) smart.get(equiposCant).setText('— Seleccionar —');
       $$('#equipos_rows [data-idx]').forEach(block=>{
@@ -1213,6 +1322,9 @@
         block.style.display='none';
       });
       retirosSection.hidden = true;
+
+      // === Volver a la interfaz de presentación ===
+      showIntro();
 
     } catch(err){ alert('Error: ' + err.message); } finally { btn.disabled = false; }
   });
@@ -1251,4 +1363,3 @@
 </script>
 </body>
 </html>
-
