@@ -47,14 +47,8 @@
     }
     .ss-clear{margin:.25rem .75rem .5rem auto;font-size:.8rem;color:#0d6efd;cursor:pointer}
     .ss-no-search .ss-search{display:none}
-    .ss-item.ss-disabled { 
-  opacity: .5;
-  pointer-events: none;  /* evita clicks */
-}
-.ss-item.ss-disabled input[type="checkbox"] { 
-  pointer-events: none;
-}
-
+    .ss-item.ss-disabled { opacity:.5; pointer-events:none; }
+    .ss-item.ss-disabled input[type="checkbox"] { pointer-events:none; }
 
     /* Equipos */
     .eq-row .form-control,.eq-row .form-select{height:38px}
@@ -113,24 +107,23 @@
     .success-foot{padding:12px 16px;border-top:1px solid #eee;display:flex;justify-content:flex-end}
 
     /* ===== Loading overlay ===== */
-.loading-overlay{
-  position:fixed; inset:0; z-index:14000;
-  background:rgba(0,0,0,.45);
-  display:none; align-items:center; justify-content:center;
-}
-.loading-box{
-  background:#fff; color:#111; border:1px solid #eee; border-radius:14px;
-  width:min(380px,92vw); padding:18px; box-shadow:0 30px 90px rgba(0,0,0,.35);
-  display:flex; align-items:center; gap:14px; font-weight:700;
-}
-.loading-spin{
-  width:28px; height:28px; border-radius:50%;
-  border:3px solid #e6e6e9; border-top-color:#f59e0b;
-  animation:spin 1s linear infinite;
-}
-@keyframes spin { to { transform: rotate(360deg);} }
-.loading-msg{ font-weight:800; }
-
+    .loading-overlay{
+      position:fixed; inset:0; z-index:14000;
+      background:rgba(0,0,0,.45);
+      display:none; align-items:center; justify-content:center;
+    }
+    .loading-box{
+      background:#fff; color:#111; border:1px solid #eee; border-radius:14px;
+      width:min(380px,92vw); padding:18px; box-shadow:0 30px 90px rgba(0,0,0,.35);
+      display:flex; align-items:center; gap:14px; font-weight:700;
+    }
+    .loading-spin{
+      width:28px; height:28px; border-radius:50%;
+      border:3px solid #e6e6e9; border-top-color:#f59e0b;
+      animation:spin 1s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg);} }
+    .loading-msg{ font-weight:800; }
   </style>
 </head>
 <body>
@@ -216,7 +209,6 @@
           <div class="col-12 mt-2 d-flex align-items-center justify-content-between">
             <h5 class="section-title m-0">Solicitante encargado</h5>
             <div class="d-flex align-items-center gap-2">
-              <!--<small class="text-muted me-2"> WIN - NET</small>-->
               <button type="button" id="btn_dir" class="btn btn-outline-primary btn-sm">Solicitante Win-Net</button>
               <button type="button" id="btn_limpiar_sol" class="btn btn-outline-danger btn-sm">Limpiar</button>
             </div>
@@ -310,26 +302,20 @@
             </select>
           </div>
 
-          <!-- Equipos (INSTALACIÓN) -->
-          <div class="col-12" id="equipos_section" hidden>
-            <div class="row g-3 align-items-center equipos-controls">
-              <div class="col-md-3">
-                <label class="form-label">N° de equipos a instalar</label>
-                <select class="form-select" id="equipos_cant" aria-label="N° de equipos a instalar">
-                  <option value="" selected>— Seleccionar —</option>
-                  <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option>
-                  <option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option>
-                </select>
-              </div>
-            </div>
-            <div class="equipos-gap"></div>
-            <div id="equipos_rows" class="d-flex flex-column gap-2"></div>
-            <hr>
+          <!-- ===== NUEVO: Control único para REEMPLAZO ===== -->
+          <div class="col-md-3" id="wrap_reemplazos" hidden>
+            <label class="form-label">N° de equipos a reemplazar</label>
+            <select class="form-select" id="reemplazos_cant" aria-label="N° de equipos a reemplazar">
+              <option value="" selected>— Seleccionar —</option>
+              <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option>
+              <option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option>
+            </select>
           </div>
+          <!-- ===== /NUEVO ===== -->
 
-          <!-- Equipos (RETIRO) -->
+          <!-- Equipos (RETIRO) — colocado antes por requerimiento de orden visual -->
           <div class="col-12" id="retiros_section" hidden>
-            <div class="row g-3 align-items-center equipos-controls">
+            <div class="row g-3 align-items-center equipos-controls" id="retiros_controls">
               <div class="col-md-3">
                 <label class="form-label">N° de equipos a retirar</label>
                 <select class="form-select" id="retiros_cant" aria-label="N° de equipos a retirar">
@@ -341,6 +327,23 @@
             </div>
             <div class="equipos-gap"></div>
             <div id="retiros_rows" class="d-flex flex-column gap-2"></div>
+            <hr>
+          </div>
+
+          <!-- Equipos (INSTALACIÓN) -->
+          <div class="col-12" id="equipos_section" hidden>
+            <div class="row g-3 align-items-center equipos-controls" id="equipos_controls">
+              <div class="col-md-3">
+                <label class="form-label">N° de equipos a instalar</label>
+                <select class="form-select" id="equipos_cant" aria-label="N° de equipos a instalar">
+                  <option value="" selected>— Seleccionar —</option>
+                  <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option>
+                  <option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option>
+                </select>
+              </div>
+            </div>
+            <div class="equipos-gap"></div>
+            <div id="equipos_rows" class="d-flex flex-column gap-2"></div>
             <hr>
           </div>
 
@@ -506,12 +509,12 @@
   </div>
 
   <!-- Overlay de carga -->
-<div class="loading-overlay" id="loading_overlay" aria-hidden="true">
-  <div class="loading-box" role="alert" aria-live="assertive">
-    <div class="loading-spin" aria-hidden="true"></div>
-    <div class="loading-msg" id="loading_msg">Enviando solicitud…</div>
+  <div class="loading-overlay" id="loading_overlay" aria-hidden="true">
+    <div class="loading-box" role="alert" aria-live="assertive">
+      <div class="loading-spin" aria-hidden="true"></div>
+      <div class="loading-msg" id="loading_msg">Enviando solicitud…</div>
+    </div>
   </div>
-</div>
 
   <script>
     const FLOW_URL = "https://defaultfacb56070a434409acc1b1e269faf7.a8.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/058ac8305be945959c412c55288fb5d7/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=6HpPWUJ00y_XPWVXwE1JN5KGzre31679d0Dy1qhpaQA"; // opcional
@@ -541,16 +544,15 @@
     document.getElementById('success_ok')?.addEventListener('click', hideSuccess);
 
     function showLoading(msg = 'Enviando solicitud…') {
-  const o = document.getElementById('loading_overlay');
-  const m = document.getElementById('loading_msg');
-  if (m) m.textContent = msg;
-  if (o) { o.style.display = 'flex'; o.setAttribute('aria-hidden', 'false'); }
-}
-
-function hideLoading() {
-  const o = document.getElementById('loading_overlay');
-  if (o) { o.style.display = 'none'; o.setAttribute('aria-hidden', 'true'); }
-}
+      const o = document.getElementById('loading_overlay');
+      const m = document.getElementById('loading_msg');
+      if (m) m.textContent = msg;
+      if (o) { o.style.display = 'flex'; o.setAttribute('aria-hidden', 'false'); }
+    }
+    function hideLoading() {
+      const o = document.getElementById('loading_overlay');
+      if (o) { o.style.display = 'none'; o.setAttribute('aria-hidden', 'true'); }
+    }
 
     /* ===== Presentación: mostrar/ocultar ===== */
     const intro = $('#intro_overlay');
@@ -594,150 +596,133 @@ function hideLoading() {
       });
     }
 
-function hardResetFormUI () {
-  // 1) Reset nativo del form
-  if (typeof f !== 'undefined' && f) f.reset();
-
-  // 2) Limpiar estados de validación y entradas internas de SmartSelect
-  if (typeof clearFormValidation === 'function') clearFormValidation();
-  document.querySelectorAll('.ss-wrap.open').forEach(w => w.classList.remove('open'));
-  document.querySelectorAll('.ss-search').forEach(s => {
-    s.required = false; s.name = '__ss_search__'; s.tabIndex = -1;
-  });
-
-  // 3) Dejar selects en su placeholder
-  const selectIds = [
-    'nodo','empresa','area_resp','area_apoyo','tipo_trabajo','nivel_acceso','contrata',
-    'correo_dom','sol_tipodoc','p1_tipodoc','p2_tipodoc','p3_tipodoc','p4_tipodoc',
-    'equipos_cant','retiros_cant'
-  ];
-  selectIds.forEach(id => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.value = '';
-    el.classList.remove('is-invalid');
-    el.setCustomValidity('');
-    if (typeof smart !== 'undefined' && smart.has(el)) {
-      smart.get(el).setText('— Seleccionar —');
-    }
-  });
-
-  // 4) Inputs de texto/archivo/horas
-  const textIds = [
-    'correo_nick','nombre_contrata','detalles_trabajo',
-    'sol_nombres','sol_apepat','sol_apemat','sol_tel','sol_numdoc',
-    'hora_ingreso','hora_salida'
-  ];
-  textIds.forEach(id => {
-    const el = document.getElementById(id);
-    if (el) { el.value = ''; el.classList.remove('is-invalid'); el.setCustomValidity(''); }
-  });
-  const sctr = document.getElementById('sctr');
-  if (sctr) { sctr.value = ''; sctr.classList.remove('is-invalid'); sctr.setCustomValidity(''); }
-
-  // 5) Limpiar etiquetas de error
-  [
-    'fi_err','fs_err','hs_err','sctr_err','contrata_err',
-    'sol_nombres_err','sol_apepat_err','sol_apemat_err','sol_tel_err','sol_doc_err',
-    'p1_nombres_err','p1_apepat_err','p1_apemat_err','p1_doc_err','p1_tel_err',
-    'p2_nombres_err','p2_apepat_err','p2_apemat_err','p2_doc_err','p2_tel_err',
-    'p3_nombres_err','p3_apepat_err','p3_apemat_err','p3_doc_err','p3_tel_err',
-    'p4_nombres_err','p4_apepat_err','p4_apemat_err','p4_doc_err','p4_tel_err'
-  ].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = ''; });
-
-  // 6) Reaplicar dependencias/visibilidades base
-  if (typeof loadAreas === 'function') loadAreas();
-  if (typeof toggleContrata === 'function') toggleContrata();
-  if (typeof toggleSolNumDoc === 'function') toggleSolNumDoc();
-
-  // 7) Desmarcar y desbloquear P1 (por si quedó “igual al solicitante”)
-  const chk = document.getElementById('p1_igual_sol');
-  if (chk) {
-    chk.checked = false;
-
-    // Si existe lockP1, úsalo; si no, “unlock” manual
-    if (typeof lockP1 === 'function') {
-      lockP1(false);
-    } else {
-      ['p1_nombres','p1_apepat','p1_apemat','p1_tipodoc','p1_numdoc','p1_tel']
-        .forEach(id => {
-          const el = document.getElementById(id);
-          if (!el) return;
-          el.disabled = false;
-          // En general P1 debe ser requerido cuando está visible:
-          el.required = true;
-          el.classList.remove('is-invalid');
-          el.setCustomValidity('');
-        });
-    }
-
-    // Re-evaluar habilitación del Nº doc según el tipo de doc
-    if (typeof togglePersonaNumDoc === 'function') togglePersonaNumDoc(1);
-
-    // Refrescar SmartSelect de p1_tipodoc (texto visible)
-    const p1Tipo = document.getElementById('p1_tipodoc');
-    if (p1Tipo && typeof smart !== 'undefined' && smart.has(p1Tipo)) {
-      smart.get(p1Tipo).setText('— Tipo doc. —');
-    }
-  }
-
-  // 8) Cantidad de personal = 1 y aplicar la lógica de visibilidad
-  const cant = document.getElementById('cant_personal');
-  if (cant) {
-    cant.value = '1';
-    cant.dispatchEvent(new Event('change', { bubbles: true }));
-  }
-  if (typeof applyCantPersonal === 'function') applyCantPersonal();
-
-  // 9) Ocultar secciones de Equipos / Retiros y limpiar filas
-  const equiposSection = document.getElementById('equipos_section');
-  const retirosSection = document.getElementById('retiros_section');
-  if (equiposSection) equiposSection.hidden = true;
-  if (retirosSection) retirosSection.hidden = true;
-
-  const clearBlocks = (wrapperSelector) => {
-    document.querySelectorAll(`${wrapperSelector} [data-idx]`).forEach(block => {
-      block.style.display = 'none';
-      // inputs
-      block.querySelectorAll('input').forEach(i => {
-        i.value = '';
-        i.required = false;
-        i.classList.remove('is-invalid');
-        i.setCustomValidity('');
+    function hardResetFormUI () {
+      if (typeof f !== 'undefined' && f) f.reset();
+      if (typeof clearFormValidation === 'function') clearFormValidation();
+      document.querySelectorAll('.ss-wrap.open').forEach(w => w.classList.remove('open'));
+      document.querySelectorAll('.ss-search').forEach(s => {
+        s.required = false; s.name = '__ss_search__'; s.tabIndex = -1;
       });
-      // selects (incluye SmartSelect y múltiples)
-      block.querySelectorAll('select').forEach(sel => {
-        if (sel.multiple) Array.from(sel.options).forEach(o => o.selected = false);
-        sel.value = '';
-        sel.required = false;
-        sel.classList.remove('is-invalid');
-        sel.setCustomValidity('');
-        if (typeof smart !== 'undefined' && smart.has(sel)) {
-          smart.get(sel).setText(sel.multiple ? '' : '— Seleccionar —');
+
+      const selectIds = [
+        'nodo','empresa','area_resp','area_apoyo','tipo_trabajo','nivel_acceso','contrata',
+        'correo_dom','sol_tipodoc','p1_tipodoc','p2_tipodoc','p3_tipodoc','p4_tipodoc',
+        'equipos_cant','retiros_cant','reemplazos_cant'
+      ];
+      selectIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.value = '';
+        el.classList.remove('is-invalid');
+        el.setCustomValidity('');
+        if (typeof smart !== 'undefined' && smart.has(el)) {
+          smart.get(el).setText('— Seleccionar —');
         }
       });
-    });
-  };
-  clearBlocks('#equipos_rows');
-  clearBlocks('#retiros_rows');
 
-  // 10) Asegurar que el botón Enviar quede habilitado
-  if (typeof btn !== 'undefined' && btn) btn.disabled = false;
+      const textIds = [
+        'correo_nick','nombre_contrata','detalles_trabajo',
+        'sol_nombres','sol_apepat','sol_apemat','sol_tel','sol_numdoc',
+        'hora_ingreso','hora_salida'
+      ];
+      textIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) { el.value = ''; el.classList.remove('is-invalid'); el.setCustomValidity(''); }
+      });
+      const sctr = document.getElementById('sctr');
+      if (sctr) { sctr.value = ''; sctr.classList.remove('is-invalid'); sctr.setCustomValidity(''); }
 
-// 👇 recalcular disponibilidad tras reset duro
-if (typeof recomputeEquiposAvailability === 'function') {
-  recomputeEquiposAvailability();
-}
-if (typeof recomputeRetirosAvailability === 'function') {
-  recomputeRetirosAvailability();
-}
-}
+      [
+        'fi_err','fs_err','hs_err','contrata_err','sctr_err',
+        'sol_nombres_err','sol_apepat_err','sol_apemat_err','sol_tel_err','sol_doc_err',
+        'p1_nombres_err','p1_apepat_err','p1_apemat_err','p1_doc_err','p1_tel_err',
+        'p2_nombres_err','p2_apepat_err','p2_apemat_err','p2_doc_err','p2_tel_err',
+        'p3_nombres_err','p3_apepat_err','p3_apemat_err','p3_doc_err','p3_tel_err',
+        'p4_nombres_err','p4_apepat_err','p4_apemat_err','p4_doc_err','p4_tel_err'
+      ].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = ''; });
 
-/* ===== Directorio (datos) ===== */
-const PERSONAL_PREDEF = [
-  {empresa:'WIN NET', nombres:'Elisvan Jordan', apepat:'Guzman', apemat:'Espinoza', tipodoc:'DNI', numdoc:'74225916', tel:'942503907', email:'eguzmane@win.pe'},
-  {empresa:'WIN NET', nombres:'Bryan',  apepat:'Villa', apemat:'Castillo', tipodoc:'DNI', numdoc:'74225916', tel:'930899277', email:'bvilla@win.pe'},
-  {empresa:'WIN NET', nombres:'Jhan Carlos',  apepat:'Rojas', apemat:'Hurtado', tipodoc:'DNI', numdoc:'74225916', tel:'966841152', email:'jrojash@win.pe'},
+      if (typeof loadAreas === 'function') loadAreas();
+      if (typeof toggleContrata === 'function') toggleContrata();
+      if (typeof toggleSolNumDoc === 'function') toggleSolNumDoc();
+
+      const chk = document.getElementById('p1_igual_sol');
+      if (chk) {
+        chk.checked = false;
+        if (typeof lockP1 === 'function') {
+          lockP1(false);
+        } else {
+          ['p1_nombres','p1_apepat','p1_apemat','p1_tipodoc','p1_numdoc','p1_tel']
+            .forEach(id => {
+              const el = document.getElementById(id);
+              if (!el) return;
+              el.disabled = false;
+              el.required = true;
+              el.classList.remove('is-invalid');
+              el.setCustomValidity('');
+            });
+        }
+        if (typeof togglePersonaNumDoc === 'function') togglePersonaNumDoc(1);
+        const p1Tipo = document.getElementById('p1_tipodoc');
+        if (p1Tipo && typeof smart !== 'undefined' && smart.has(p1Tipo)) {
+          smart.get(p1Tipo).setText('— Tipo doc. —');
+        }
+      }
+
+      const cant = document.getElementById('cant_personal');
+      if (cant) {
+        cant.value = '1';
+        cant.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+      if (typeof applyCantPersonal === 'function') applyCantPersonal();
+
+      const equiposSection = document.getElementById('equipos_section');
+      const retirosSection = document.getElementById('retiros_section');
+      if (equiposSection) equiposSection.hidden = true;
+      if (retirosSection) retirosSection.hidden = true;
+
+      const clearBlocks = (wrapperSelector) => {
+        document.querySelectorAll(`${wrapperSelector} [data-idx]`).forEach(block => {
+          block.style.display = 'none';
+          block.querySelectorAll('input').forEach(i => {
+            i.value = '';
+            i.required = false;
+            i.classList.remove('is-invalid');
+            i.setCustomValidity('');
+          });
+          block.querySelectorAll('select').forEach(sel => {
+            if (sel.multiple) Array.from(sel.options).forEach(o => o.selected = false);
+            sel.value = '';
+            sel.required = false;
+            sel.classList.remove('is-invalid');
+            sel.setCustomValidity('');
+            if (typeof smart !== 'undefined' && smart.has(sel)) {
+              smart.get(sel).setText(sel.multiple ? '' : '— Seleccionar —');
+            }
+          });
+        });
+      };
+      clearBlocks('#equipos_rows');
+      clearBlocks('#retiros_rows');
+
+      if (typeof btn !== 'undefined' && btn) btn.disabled = false;
+
+      if (typeof recomputeEquiposAvailability === 'function') {
+        recomputeEquiposAvailability();
+      }
+      if (typeof recomputeRetirosAvailability === 'function') {
+        recomputeRetirosAvailability();
+      }
+
+      // Reset control único de reemplazo
+      const wrapReemp = $('#wrap_reemplazos');
+      if (wrapReemp) wrapReemp.hidden = true;
+    }
+
+    /* ===== Directorio (datos) ===== */
+    const PERSONAL_PREDEF = [
+      {empresa:'WIN NET', nombres:'Elisvan Jordan', apepat:'Guzman', apemat:'Espinoza', tipodoc:'DNI', numdoc:'74225916', tel:'942503907', email:'eguzmane@win.pe'},
+      {empresa:'WIN NET', nombres:'Bryan',  apepat:'Villa', apemat:'Castillo', tipodoc:'DNI', numdoc:'74225916', tel:'930899277', email:'bvilla@win.pe'},
+      {empresa:'WIN NET', nombres:'Jhan Carlos',  apepat:'Rojas', apemat:'Hurtado', tipodoc:'DNI', numdoc:'74225916', tel:'966841152', email:'jrojash@win.pe'},
       {empresa:'WIN NET', nombres:'Alberto',  apepat:'Castillo', apemat:'Huisa', tipodoc:'DNI', numdoc:'74225916', tel:'980670910', email:'acastilloh@win.pe'},
       {empresa:'WIN NET', nombres:'Pedro Fabio',  apepat:'Quezada', apemat:'Cieza', tipodoc:'DNI', numdoc:'74225916', tel:'981049443', email:'pquezada@win.pe'},
       {empresa:'WIN NET', nombres:'Antonio Gabino',  apepat:'Villoslada', apemat:'Villegas', tipodoc:'DNI', numdoc:'74225916', tel:'993087691', email:'avilloslada@win.pe'},
@@ -834,11 +819,11 @@ const PERSONAL_PREDEF = [
 
     /* Catálogos */
     const NODOS = ["200 MILLAS","ANGAMOS","ARRIOLA","AURELIO SOUZA","AREQUIPA SOCABAYA","AREQUIPA CERRO COLORADO","AREQUIPA LA CULTURA","AREQUIPA MIRAFLORES","BARRANCA","BARRANCO","BAYOVAR","BENVENUTTO","BUCKINGHAM","CALLAO","CAMANA","CAQUETA","CATACAOS","CHANCAY","CHICLAYO MAGNOLIAS","CHIMBOTE LAS PALMERAS","CHIMBOTE MANCO CAPAC","CHORRILLOS","CIPRESES","CONQUISTADORES","CUZCO TUPAC AMARU","CUZCO WANCHAQ","EL SAUCE","FLAMENGOS","FRANCISCO MOREYRA","GALVEZ II","GERARDO UNGER","GUARDIA PERUANA","HIPOLITO UNANUE","HUACHO","HUANDOY","HUARAL","HUANCAYO CENTRO","HUANCAYO TAMBO","JUAN PABLO","LA ENSENADA","LA MOLINA","LAMBAYEQUE OUTDOOR","LINCE","LOS ALAMOS","LOS JARDINES","LOS MIRABLES","MARIATEGUI","NATALIO SANCHEZ","NIÑO JESUS","PACHACAMAC","PELITRES","PERSHING","PIMENTEL INDOOR","PISTA NUEVA","PIURA GARDENIAS","PUCUSANA","PUNTA HERMOSA","REPUBLICA DE PANAMA","SALAMANCA","SAN LUIS","SAN PEDRO","SAN REMO","SANTA FE","SANTA ROSA","SANTOS CHOCANO","SUCRE","TRES DE MAYO","TRIGAL II","TRUIJILLO LA MERCED","TRUJILLO SANTA ROSA","TUNGASUCA","URUGUAY","VARELA","VILLA EL SALVADOR","VITARTE","ZARATE"];
-    const TIPOS_TRABAJO = ["ACONDICIONAMIENTO, ETIQUETADO ODF / LIMPIEZA DE PICTELES","ACTIVACIÓN DE ENLACE","ATENCIÓN DE INCIDENCIA","AUDITORIA DE EQUIPOS WIN","CABLEADO DE F.O.","CAMBIO DE PATCH CORD","CAMBIO DE BATERIAS UPS","CAMBIO DE TARJETA CONTROLADORA EN OLT.","CAMBIO DE TRANSCEIVER","FUSIONES DE F.O.","IMPLEMENTACIÓN DE UN ENLACE","IMPLEMENTACIÓN DE UN NUEVO CIRCUITO","INGRESO DE F.O./INSTALACIÓN DE P.P.","INSTALACIÓN DE EQUIPOS","INSTALACIÓN DE PATCH CORD Y TRANSCEIVER","INSTALACIÓN DE TRANSCEIVER","INVENTARIO DE EQUIPOS","INVENTARIO DE HILOS","JUMPEO DE PATCH CORD","MANTENIMIENTO","MAPEO DE ESPACIO EN RACK WIN Y PATCH CORD","MEDICIONES REFLECTOMÉTRICAS","MEDICIONES REFLECTOMÉTRICAS, INSTALACIÓN DE PATCH CORD Y TRANSCEIVER","REEMPLAZO DE EQUIPO","REINICIO DE EQUIPOS","RETIRO DE EQUIPOS","ROTULADO","TROUBLESHOOTING","UPGRADE DE ENLACES","VALIDACIÓN DE ENLACES","VALIDACIÓN DE PUERTO Y JUMPEO","VISITA TÉCNICA"];
-    const AREAS_NET = ["CIBERSEGURIDAD-WIN","IMPLEMENTACIONES-WIN","INFRAESTRUCTURA-WIN","INGENIERIA-WIN","MANTENIMIENTO PEXT-WIN","MANTENIMIENTO Y EMERGENCIAS-WIN","MANTENIMIENTO Y EMERGENCIA PEXT-WIN","NOC-WIN","O&M-WIN","PERSONAL TECNICO-WIN","PEXT-WIN","PLANIFICACION DE RED B2C-WIN"];
-    const AREAS_EMP = ["ALOB-WIN EMPRESAS","CIBERSEGURIDAD-WIN EMPRESAS","CORE-WIN EMPRESAS","IMPLEMENTACIONES-WIN EMPRESAS","INFRAESTRUCTURA-WIN EMPRESAS","INGENIERIA-WIN EMPRESAS","NOC-WIM EMPRESAS","O&M-WIN EMPRESAS","PEXT-WIN EMPRESAS","SOS-WIN EMPRESAS"];
+    const TIPOS_TRABAJO = ["ACONDICIONAMIENTO, ETIQUETADO ODF / LIMPIEZA DE PICTELES","ACTIVACIÓN DE ENLACE","ATENCIÓN DE INCIDENCIA","AUDITORIA DE EQUIPOS WIN","CABLEADO DE F.O.","CAMBIO DE PATCH CORD","CAMBIO DE BATERIAS UPS","CAMBIO DE TARJETA CONTROLADORA EN OLT.","CAMBIO DE TRANSCEIVER","FUSIONES DE F.O.","IMPLEMENTACIÓN DE UN ENLACE","IMPLEMENTACIÓN DE UN NUEVO CIRCUITO","INGRESO DE F.O./INSTALACIÓN DE P.P.","INSTALACIÓN DE EQUIPOS","INSTALACIÓN DE PATCH CORD Y TRANSCEIVER","INSTALACIÓN DE TRANSCEIVER","INVENTARIO DE EQUIPOS","INVENTARIO DE HILOS","JUMPEO DE PATCH CORD","MANTENIMIENTO","MAPEO DE ESPACIO EN RACK WIN Y PATCH CORD","MEDICIONES REFLECTOMÉTRICAS","MEDICIONES REFLECTOMÉTRICAS, INSTALACIÓN DE PATCH CORD Y TRANSCEIVER","REEMPLAZO DE EQUIPO","REINICIO DE EQUIPOS","RETIRO DE EQUIPOS","ROTULADO","TROUBLESHOOTING","UPGRADE DE ENLACES","VALIDACIÓN DE ENLACES","VALIDACIÓN DE PUERTO Y JUMPEO","VISITA TÉCNICA",];
+    const AREAS_NET = ["CIBERSEGURIDAD-WIN","IMPLEMENTACIONES-WIN","INFRAESTRUCTURA-WIN","INGENIERIA-WIN","MANTENIMIENTO Y EMERGENCIAS-WIN","NOC-WIN","O&M-WIN","PERSONAL TECNICO-WIN","PEXT-WIN","PLANIFICACION DE RED B2C-WIN"];
+    const AREAS_EMP = ["CIBERSEGURIDAD-WIN EMPRESAS","CORE-WIN EMPRESAS","IMPLEMENTACIONES-WIN EMPRESAS","INFRAESTRUCTURA-WIN EMPRESAS","INGENIERIA-WIN EMPRESAS","NOC-WIM EMPRESAS","O&M-WIN EMPRESAS","PEXT-WIN EMPRESAS","SOS-WIN EMPRESAS"];
     const AREAS_APOYO_NET = ["Ninguna","Comunicaciones Unificadas","Core","Cybersoc","Infraestructura y Mantenimiento","Ingeneria","Instalaciones","Mantenimiento y emergencia","Mantenimiento y Emergencia PEXT","NOC","O&M","ONI","Planificacion de Red B2C","Planta Externa y Emergencia","ZTE"];
-    const AREAS_APOYO_EMP = ["Ninguna","ALOB","Core","Cybersoc","Emfitel","F&S","INETEL","Infraestructura y Mantenimiento","Ingenieria","Instalaciones","NOC","O&M","NOC & Infraestructura","ONI","PEXT y Emergencia","SOC","TAC","Telener"];
+    const AREAS_APOYO_EMP = ["Ninguna","Infraestructura y Mantenimiento","Ingenieria","Instalaciones","NOC","O&M","NOC & Infraestructura","ONI","PEXT y Emergencia","SOC","TAC"];
     const EQUIPOS = ["ROUTER","OLT","SWITCH","CÁMARA","ANTENA","UPS","RECTIFICADOR","ODF","PATCH PANEL","TARJETA FLEXPON","TARJETA GPON"];
     const RACKS  = ["Rack 01","Rack 02","Rack 03","Rack 04","Rack 05","Rack 06","Rack 07","Rack 08","Rack 09"];
     const RU_LIST = Array.from({length:20},(_,i)=>String(i+1));
@@ -1065,48 +1050,46 @@ const PERSONAL_PREDEF = [
       }
 
       function buildList(){
-  list.innerHTML = '';
-  Array.from(select.options).forEach(o=>{
-    if(o.value==='') return;
+        list.innerHTML = '';
+        Array.from(select.options).forEach(o=>{
+          if(o.value==='') return;
 
-    const li = document.createElement('li');
-    li.className='ss-item';
-    li.dataset.txt = o.text.toLowerCase();
+          const li = document.createElement('li');
+          li.className='ss-item';
+          li.dataset.txt = o.text.toLowerCase();
 
-    if (o.disabled) {
-      li.classList.add('ss-disabled');
-    }
+          if (o.disabled) li.classList.add('ss-disabled');
 
-    if(isMultiple){
-      const cb  = document.createElement('input');
-      cb.type   = 'checkbox';
-      cb.checked = o.selected;
-      cb.disabled = !!o.disabled;   // 👈 respetar disabled
+          if(isMultiple){
+            const cb  = document.createElement('input');
+            cb.type   = 'checkbox';
+            cb.checked = o.selected;
+            cb.disabled = !!o.disabled;
 
-      const lbl = document.createElement('span');
-      lbl.textContent = o.text;
+            const lbl = document.createElement('span');
+            lbl.textContent = o.text;
 
-      cb.addEventListener('change', ()=>{
-        o.selected = cb.checked;
-        updateDisplay();
-        select.dispatchEvent(new Event('change',{bubbles:true}));
-      });
+            cb.addEventListener('change', ()=>{
+              o.selected = cb.checked;
+              updateDisplay();
+              select.dispatchEvent(new Event('change',{bubbles:true}));
+            });
 
-      li.append(cb,lbl);
-      list.appendChild(li);
-    }else{
-      li.textContent = o.text;
-      if (!o.disabled) {            // 👈 no permitir click si está disabled
-        li.addEventListener('click', ()=>{
-          setValue(o.value, o.text);
-          close();
+            li.append(cb,lbl);
+            list.appendChild(li);
+          }else{
+            li.textContent = o.text;
+            if (!o.disabled) {
+              li.addEventListener('click', ()=>{
+                setValue(o.value, o.text);
+                close();
+              });
+            }
+            list.appendChild(li);
+          }
         });
+        updateDisplay();
       }
-      list.appendChild(li);
-    }
-  });
-  updateDisplay();
-}
 
       const api = { rebuild(){ buildList(); }, setText(t){ text.textContent = t ? t : placeholderText; text.classList.toggle('ss-placeholder', !t); } };
       smart.set(select, api);
@@ -1174,81 +1157,87 @@ const PERSONAL_PREDEF = [
     const equiposRows = $('#equipos_rows');
 
     function buildEquipoBlock(i){
-  const block = document.createElement('div');
-  block.className = 'eq-block';
-  block.dataset.idx = i;
+      const block = document.createElement('div');
+      block.className = 'eq-block';
+      block.dataset.idx = i;
 
-  block.innerHTML = `
-    <div class="eq-title">Equipo a instalar ${i}</div>
-    <div class="row g-2 align-items-center eq-row">
-      <div class="col-md-2">
-        <select class="form-select eq_equipo" id="eq${i}_equipo" aria-label="Equipo a instalar ${i}">
-          <option value="" selected>— Equipo —</option>
-        </select>
-      </div>
-      <div class="col-md-2 eq_wrap_marca" hidden>
-        <input class="form-control eq_marca" id="eq${i}_marca" maxlength="60" placeholder="Marca">
-      </div>
-      <div class="col-md-2 eq_wrap_modelo" hidden>
-        <input class="form-control eq_modelo" id="eq${i}_modelo" maxlength="60" placeholder="Modelo">
-      </div>
-      <div class="col-md-2 eq_wrap_serie" hidden>
-        <input class="form-control eq_serie" id="eq${i}_serie" maxlength="60" placeholder="Serie">
-      </div>
+      block.innerHTML = `
+        <div class="eq-title">Equipo a instalar ${i}</div>
+        <div class="row g-2 align-items-center eq-row">
+          <div class="col-md-2">
+            <select class="form-select eq_equipo" id="eq${i}_equipo" aria-label="Equipo a instalar ${i}">
+              <option value="" selected>— Equipo —</option>
+            </select>
+          </div>
+          <div class="col-md-2 eq_wrap_marca" hidden>
+            <input class="form-control eq_marca" id="eq${i}_marca" maxlength="60" placeholder="Marca">
+          </div>
+          <div class="col-md-2 eq_wrap_modelo" hidden>
+            <input class="form-control eq_modelo" id="eq${i}_modelo" maxlength="60" placeholder="Modelo">
+          </div>
+          <div class="col-md-2 eq_wrap_serie" hidden>
+            <input class="form-control eq_serie" id="eq${i}_serie" maxlength="60" placeholder="Serie">
+          </div>
 
-      <div class="col-md-2 eq_wrap_olt" hidden>
-        <select class="form-select eq_olt" id="eq${i}_olt" aria-label="OLT ${i}">
-          <option value="" selected>— OLT —</option>
-        </select>
-      </div>
-      <div class="col-md-2 eq_wrap_slot" hidden>
-        <select class="form-select eq_slot" id="eq${i}_slot" aria-label="Slot ${i}">
-          <option value="" selected>— Slot —</option>
-        </select>
-      </div>
+          <div class="col-md-2 eq_wrap_olt" hidden>
+            <select class="form-select eq_olt" id="eq${i}_olt" aria-label="OLT ${i}">
+              <option value="" selected>— OLT —</option>
+            </select>
+          </div>
+          <div class="col-md-2 eq_wrap_slot" hidden>
+            <select class="form-select eq_slot" id="eq${i}_slot" aria-label="Slot ${i}">
+              <option value="" selected>— Slot —</option>
+            </select>
+          </div>
 
-      <div class="col-md-2 eq_wrap_rack" hidden>
-        <select class="form-select eq_rack" id="eq${i}_rack" aria-label="Rack ${i}">
-          <option value="" selected>— Rack —</option>
-        </select>
-      </div>
-      <div class="col-md-2 eq_wrap_ru" hidden>
-        <select class="form-select eq_ru" id="eq${i}_ru" aria-label="RU ${i}" multiple></select>
-      </div>
-    </div>
-  `;
-  equiposRows.appendChild(block);
+          <div class="col-md-2 eq_wrap_rack" hidden>
+            <select class="form-select eq_rack" id="eq${i}_rack" aria-label="Rack ${i}">
+              <option value="" selected>— Rack —</option>
+            </select>
+          </div>
+          <div class="col-md-2 eq_wrap_ru" hidden>
+            <select class="form-select eq_ru" id="eq${i}_ru" aria-label="RU ${i}" multiple></select>
+          </div>
+        </div>
+      `;
+      equiposRows.appendChild(block);
 
-  // Carga de listas + SmartSelect
-  const selEq   = block.querySelector('.eq_equipo'); load(EQUIPOS, selEq);
-  selEq.querySelector('option[value=""]').textContent = '— Equipo —';
-  enhanceSelect(selEq, '— Equipo —');
+      const selEq   = block.querySelector('.eq_equipo'); load(EQUIPOS, selEq);
+      selEq.querySelector('option[value=""]').textContent = '— Equipo —';
+      enhanceSelect(selEq, '— Equipo —');
 
-  const selRack = block.querySelector('.eq_rack');  load(RACKS,   selRack); enhanceSelect(selRack, '— Rack —', {search:false});
-  const selRU   = block.querySelector('.eq_ru');    load(RU_LIST, selRU, {sort:false}); enhanceSelect(selRU, '— RU —', {search:false});
+      const selRack = block.querySelector('.eq_rack');  load(RACKS,   selRack); enhanceSelect(selRack, '— Rack —', {search:false});
+      const selRU   = block.querySelector('.eq_ru');    load(RU_LIST, selRU, {sort:false}); enhanceSelect(selRU, '— RU —', {search:false});
 
-  const selOLT  = block.querySelector('.eq_olt');   load(OLT_LIST,  selOLT,  {sort:false}); enhanceSelect(selOLT,  '— OLT —',  {search:false});
-  const selSLOT = block.querySelector('.eq_slot');  load(SLOT_LIST, selSLOT, {sort:false}); enhanceSelect(selSLOT, '— Slot —', {search:false});
+      const selOLT  = block.querySelector('.eq_olt');   load(OLT_LIST,  selOLT,  {sort:false}); enhanceSelect(selOLT,  '— OLT —',  {search:false});
+      const selSLOT = block.querySelector('.eq_slot');  load(SLOT_LIST, selSLOT, {sort:false}); enhanceSelect(selSLOT, '— Slot —', {search:false});
 
-  // Al cambiar el tipo de equipo: aplicar reglas del bloque y recomputar disponibilidad global
-  selEq.addEventListener('change', () => {
-    applyEquipoBlockRules(block);
-    if (typeof recomputeEquiposAvailability === 'function') recomputeEquiposAvailability();
-  });
+      // Cambios solicitados: si cambia rack u OLT, limpiar RU o Slot
+      selRack?.addEventListener('change', ()=>{
+        if (selRU) { Array.from(selRU.options).forEach(o=>o.selected=false); if (smart.has(selRU)) smart.get(selRU).setText(''); }
+        if (typeof recomputeEquiposAvailability === 'function') recomputeEquiposAvailability();
+      });
+      selOLT?.addEventListener('change', ()=>{
+        if (selSLOT) { selSLOT.value=''; if (smart.has(selSLOT)) smart.get(selSLOT).setText(''); }
+        if (typeof recomputeEquiposAvailability === 'function') recomputeEquiposAvailability();
+      });
 
-  // Cuando cambian Rack / RU / OLT / Slot: recomputar disponibilidad global
-  [selRack, selRU, selOLT, selSLOT].forEach(el => {
-    if (!el) return;
-    el.addEventListener('change', () => {
-      if (typeof recomputeEquiposAvailability === 'function') recomputeEquiposAvailability();
-    });
-  });
-// En buildEquipoBlock
-selEq.addEventListener('change', ()=>applyEquipoBlockRules(block));
-// Forzar mayúsculas en este bloque
-attachUppercaseHandlers(block);
-  return block;
-}
+      selEq.addEventListener('change', () => {
+        applyEquipoBlockRules(block);
+        if (typeof recomputeEquiposAvailability === 'function') recomputeEquiposAvailability();
+      });
+
+      [selRack, selRU, selOLT, selSLOT].forEach(el => {
+        if (!el) return;
+        el.addEventListener('change', () => {
+          if (typeof recomputeEquiposAvailability === 'function') recomputeEquiposAvailability();
+        });
+      });
+
+      selEq.addEventListener('change', ()=>applyEquipoBlockRules(block));
+      attachUppercaseHandlers(block);
+      return block;
+    }
 
     function applyEquipoBlockRules(block){
       const sel = block.querySelector('.eq_equipo');
@@ -1276,16 +1265,20 @@ attachUppercaseHandlers(block);
         return;
       }
 
+      // mostrar marca/modelo/serie siempre
       wMarca.hidden=false; wModelo.hidden=false; wSerie.hidden=false;
       iMarca.required=true; iModelo.required=true; iSerie.required=true;
 
       if(isSimple){
+        // cámara/antena: sin rack/ru ni olt/slot
         wRack.hidden=true; wRU.hidden=true; iRack.required=false; iRU.required=false; clearSelect(iRack); clearRU();
         wOLT.hidden=true; wSLOT.hidden=true; iOLT.required=false; iSLOT.required=false; clearSelect(iOLT); clearSelect(iSLOT);
       }else if(isTarjeta){
+        // tarjeta: usa OLT/SLOT, limpia rack/RU
         wOLT.hidden=false; wSLOT.hidden=false; iOLT.required=true; iSLOT.required=true;
         wRack.hidden=true; wRU.hidden=true; iRack.required=false; iRU.required=false; clearSelect(iRack); clearRU();
       }else{
+        // equipos de rack: usa rack/RU, limpia olt/slot
         wRack.hidden=false; wRU.hidden=false; iRack.required=true; iRU.required=true;
         wOLT.hidden=true; wSLOT.hidden=true; iOLT.required=false; iSLOT.required=false; clearSelect(iOLT); clearSelect(iSLOT);
       }
@@ -1314,8 +1307,8 @@ attachUppercaseHandlers(block);
         applyEquipoBlockRules(block);
       }
       if (typeof recomputeEquiposAvailability === 'function') {
-  recomputeEquiposAvailability();
-}
+        recomputeEquiposAvailability();
+      }
     }
 
     /* ===== Bloque Equipos (RETIRO) ===== */
@@ -1323,91 +1316,96 @@ attachUppercaseHandlers(block);
     const retirosCant = $('#retiros_cant');
     const retirosRows = $('#retiros_rows');
 
-   function buildRetiroBlock(i){
-  const block = document.createElement('div');
-  block.className = 'eq-block';
-  block.dataset.idx = i;
+    function buildRetiroBlock(i){
+      const block = document.createElement('div');
+      block.className = 'eq-block';
+      block.dataset.idx = i;
 
-  block.innerHTML = `
-    <div class="eq-title">Equipo a retirar ${i}</div>
-    <div class="row g-2 align-items-center eq-row">
-      <div class="col-md-2">
-        <select class="form-select rt_equipo" id="rt${i}_equipo" aria-label="Equipo retirar ${i}">
-          <option value="" selected>— Equipo —</option>
-        </select>
-      </div>
-      <div class="col-md-2 rt_wrap_marca" hidden>
-        <input class="form-control rt_marca" id="rt${i}_marca" maxlength="60" placeholder="Marca">
-      </div>
-      <div class="col-md-2 rt_wrap_modelo" hidden>
-        <input class="form-control rt_modelo" id="rt${i}_modelo" maxlength="60" placeholder="Modelo">
-      </div>
-      <div class="col-md-2 rt_wrap_serie" hidden>
-        <input class="form-control rt_serie" id="rt${i}_serie" maxlength="60" placeholder="Serie">
-      </div>
+      block.innerHTML = `
+        <div class="eq-title">Equipo a retirar ${i}</div>
+        <div class="row g-2 align-items-center eq-row">
+          <div class="col-md-2">
+            <select class="form-select rt_equipo" id="rt${i}_equipo" aria-label="Equipo retirar ${i}">
+              <option value="" selected>— Equipo —</option>
+            </select>
+          </div>
+          <div class="col-md-2 rt_wrap_marca" hidden>
+            <input class="form-control rt_marca" id="rt${i}_marca" maxlength="60" placeholder="Marca">
+          </div>
+          <div class="col-md-2 rt_wrap_modelo" hidden>
+            <input class="form-control rt_modelo" id="rt${i}_modelo" maxlength="60" placeholder="Modelo">
+          </div>
+          <div class="col-md-2 rt_wrap_serie" hidden>
+            <input class="form-control rt_serie" id="rt${i}_serie" maxlength="60" placeholder="Serie">
+          </div>
 
-      <div class="col-md-2 rt_wrap_olt" hidden>
-        <select class="form-select rt_olt" id="rt${i}_olt" aria-label="OLT retirar ${i}">
-          <option value="" selected>— OLT —</option>
-        </select>
-      </div>
-      <div class="col-md-2 rt_wrap_slot" hidden>
-        <select class="form-select rt_slot" id="rt${i}_slot" aria-label="Slot retirar ${i}">
-          <option value="" selected>— Slot —</option>
-        </select>
-      </div>
+          <div class="col-md-2 rt_wrap_olt" hidden>
+            <select class="form-select rt_olt" id="rt${i}_olt" aria-label="OLT retirar ${i}">
+              <option value="" selected>— OLT —</option>
+            </select>
+          </div>
+          <div class="col-md-2 rt_wrap_slot" hidden>
+            <select class="form-select rt_slot" id="rt${i}_slot" aria-label="Slot retirar ${i}">
+              <option value="" selected>— Slot —</option>
+            </select>
+          </div>
 
-      <div class="col-md-2 rt_wrap_rack" hidden>
-        <select class="form-select rt_rack" id="rt${i}_rack" aria-label="Rack retirar ${i}">
-          <option value="" selected>— Rack —</option>
-        </select>
-      </div>
-      <div class="col-md-2 rt_wrap_ru" hidden>
-        <select class="form-select rt_ru" id="rt${i}_ru" aria-label="RU retirar ${i}" multiple></select>
-      </div>
-    </div>
-  `;
-  retirosRows.appendChild(block);
+          <div class="col-md-2 rt_wrap_rack" hidden>
+            <select class="form-select rt_rack" id="rt${i}_rack" aria-label="Rack retirar ${i}">
+              <option value="" selected>— Rack —</option>
+            </select>
+          </div>
+          <div class="col-md-2 rt_wrap_ru" hidden>
+            <select class="form-select rt_ru" id="rt${i}_ru" aria-label="RU retirar ${i}" multiple></select>
+          </div>
+        </div>
+      `;
+      retirosRows.appendChild(block);
 
-  // Cargar listas + SmartSelect
-  const selEq   = block.querySelector('.rt_equipo'); load(EQUIPOS, selEq);
-  selEq.querySelector('option[value=""]').textContent = '— Equipo —';
-  enhanceSelect(selEq, '— Equipo —');
+      const selEq   = block.querySelector('.rt_equipo'); load(EQUIPOS, selEq);
+      selEq.querySelector('option[value=""]').textContent = '— Equipo —';
+      enhanceSelect(selEq, '— Equipo —');
 
-  const selRack = block.querySelector('.rt_rack');  load(RACKS,   selRack); enhanceSelect(selRack, '— Rack —', {search:false});
-  const selRU   = block.querySelector('.rt_ru');    load(RU_LIST, selRU, {sort:false}); enhanceSelect(selRU, '— RU —', {search:false});
+      const selRack = block.querySelector('.rt_rack');  load(RACKS,   selRack); enhanceSelect(selRack, '— Rack —', {search:false});
+      const selRU   = block.querySelector('.rt_ru');    load(RU_LIST, selRU, {sort:false}); enhanceSelect(selRU, '— RU —', {search:false});
 
-  const selOLT  = block.querySelector('.rt_olt');   load(OLT_LIST,  selOLT,  {sort:false}); enhanceSelect(selOLT,  '— OLT —',  {search:false});
-  const selSLOT = block.querySelector('.rt_slot');  load(SLOT_LIST, selSLOT, {sort:false}); enhanceSelect(selSLOT, '— Slot —', {search:false});
+      const selOLT  = block.querySelector('.rt_olt');   load(OLT_LIST,  selOLT,  {sort:false}); enhanceSelect(selOLT,  '— OLT —',  {search:false});
+      const selSLOT = block.querySelector('.rt_slot');  load(SLOT_LIST, selSLOT, {sort:false}); enhanceSelect(selSLOT, '— Slot —', {search:false});
 
-  // ⚙️ Enganches: al cambiar el equipo, re-aplicar reglas y recomputar disponibilidad
-  selEq.addEventListener('change', () => {
-    applyRetiroBlockRules(block);
-    if (typeof recomputeRetirosAvailability === 'function') recomputeRetirosAvailability();
-  });
+      // Cambios solicitados: si cambia rack u OLT, limpiar RU o Slot
+      selRack?.addEventListener('change', ()=>{
+        if (selRU) { Array.from(selRU.options).forEach(o=>o.selected=false); if (smart.has(selRU)) smart.get(selRU).setText(''); }
+        if (typeof recomputeRetirosAvailability === 'function') recomputeRetirosAvailability();
+      });
+      selOLT?.addEventListener('change', ()=>{
+        if (selSLOT) { selSLOT.value=''; if (smart.has(selSLOT)) smart.get(selSLOT).setText(''); }
+        if (typeof recomputeRetirosAvailability === 'function') recomputeRetirosAvailability();
+      });
 
-  // ⚙️ Enganches: cuando cambia Rack / RU / OLT / Slot, recomputar disponibilidad
-  [selRack, selRU, selOLT, selSLOT].forEach(el => {
-    if (!el) return;
-    el.addEventListener('change', () => {
-      if (typeof recomputeRetirosAvailability === 'function') recomputeRetirosAvailability();
-    });
-  });
-// En buildRetiroBlock
-selEq.addEventListener('change', ()=>applyRetiroBlockRules(block));
-// Forzar mayúsculas en este bloque
-attachUppercaseHandlers(block);
-  return block;
-}
+      selEq.addEventListener('change', () => {
+        applyRetiroBlockRules(block);
+        if (typeof recomputeRetirosAvailability === 'function') recomputeRetirosAvailability();
+      });
 
-// Forzar mayúsculas en dinámicos (Marca, Modelo, Serie, etc.)
-function attachUppercaseHandlers(container) {
-  container.querySelectorAll('input[type="text"], textarea').forEach(inp => {
-    inp.addEventListener('input', () => {
-      inp.value = inp.value.toUpperCase();
-    });
-  });
-}
+      [selRack, selRU, selOLT, selSLOT].forEach(el => {
+        if (!el) return;
+        el.addEventListener('change', () => {
+          if (typeof recomputeRetirosAvailability === 'function') recomputeRetirosAvailability();
+        });
+      });
+
+      selEq.addEventListener('change', ()=>applyRetiroBlockRules(block));
+      attachUppercaseHandlers(block);
+      return block;
+    }
+
+    function attachUppercaseHandlers(container) {
+      container.querySelectorAll('input[type="text"], textarea').forEach(inp => {
+        inp.addEventListener('input', () => {
+          inp.value = inp.value.toUpperCase();
+        });
+      });
+    }
 
     function applyRetiroBlockRules(block){
       const sel = block.querySelector('.rt_equipo');
@@ -1471,414 +1469,458 @@ function attachUppercaseHandlers(container) {
         const block = retirosRows.querySelector(`[data-idx="${i}"]`);
         block.style.display = '';
         applyRetiroBlockRules(block);
-      }if (typeof recomputeRetirosAvailability === 'function') {
-  recomputeRetirosAvailability();
-}
-      
+      }
+      if (typeof recomputeRetirosAvailability === 'function') {
+        recomputeRetirosAvailability();
+      }
     }
 
     /* Mostrar/ocultar secciones según Tipo de trabajo */
+    const wrapReemplazos = $('#wrap_reemplazos');
+    const reemplazosCant = $('#reemplazos_cant');
+
+    function clearEquipos(){
+      equiposSection.hidden = true;
+      equiposCant.required = false;
+      equiposCant.value = '';
+      if (smart.has(equiposCant)) smart.get(equiposCant).setText('— Seleccionar —');
+      ensureEquipoRows();
+      $$('#equipos_rows [data-idx]').forEach(block=>{
+        block.querySelectorAll('input').forEach(inp=>{ inp.value=''; inp.required=false; inp.classList.remove('is-invalid'); inp.setCustomValidity(''); });
+        ['.eq_equipo','.eq_rack','.eq_olt','.eq_slot'].forEach(sel=>{
+          const el = block.querySelector(sel); if(el){ el.value=''; if(smart.has(el)) smart.get(el).setText(''); }
+        });
+        const selRU = block.querySelector('.eq_ru'); if(selRU){ Array.from(selRU.options).forEach(o=>o.selected=false); if(smart.has(selRU)) smart.get(selRU).setText(''); }
+        block.style.display='none';
+      });
+    }
+
+    function clearRetiros(){
+      retirosSection.hidden = true;
+      retirosCant.required = false;
+      retirosCant.value = '';
+      if (smart.has(retirosCant)) smart.get(retirosCant).setText('— Seleccionar —');
+      ensureRetiroRows();
+      $$('#retiros_rows [data-idx]').forEach(block=>{
+        block.querySelectorAll('input').forEach(inp=>{ inp.value=''; inp.required=false; inp.classList.remove('is-invalid'); inp.setCustomValidity(''); });
+        ['.rt_equipo','.rt_rack','.rt_olt','.rt_slot'].forEach(sel=>{
+          const el = block.querySelector(sel); if(el){ el.value=''; if(smart.has(el)) smart.get(el).setText(''); }
+        });
+        const selRU = block.querySelector('.rt_ru'); if(selRU){ Array.from(selRU.options).forEach(o=>o.selected=false); if(smart.has(selRU)) smart.get(selRU).setText(''); }
+        block.style.display='none';
+      });
+    }
+
     function applyEquiposBlock(){
-      const isInstal = (tipoTrabajo.value === 'INSTALACIÓN DE EQUIPOS');
-      const isRetiro = (tipoTrabajo.value === 'RETIRO DE EQUIPOS');
+      const val = (tipoTrabajo.value || '').toUpperCase();
 
-      equiposSection.hidden = !isInstal;
-      retirosSection.hidden = !isRetiro;
+      const isReemplazo = val.includes('REEMPLAZO') || val === 'ABI';
+      const isInstal    = val === 'INSTALACIÓN DE EQUIPOS' || val === 'INSTALACION DE EQUIPOS';
+      const isRetiro    = val === 'RETIRO DE EQUIPOS';
 
-      equiposCant.required = isInstal;
-      retirosCant.required = isRetiro;
+      // estado base y limpieza cada vez que cambian
+      wrapReemplazos.hidden = true;
+      reemplazosCant.required = false;
 
-      if(isInstal){
-        equiposCant.value = '';
-        if(smart.has(equiposCant)) smart.get(equiposCant).setText('— Seleccionar —');
+      // limpiar siempre al cambiar el tipo
+      clearEquipos();
+      clearRetiros();
+
+      if (isReemplazo) {
+        // Reemplazo: control único + ambas secciones visibles sincronizadas
+        wrapReemplazos.hidden = false;
+        reemplazosCant.required = true;
+
+        retirosSection.hidden = false;
+        equiposSection.hidden = false;
+
+        // ocultar los controles individuales (se usan pero se sincronizan)
+        $('#retiros_controls').style.display = 'none';
+        $('#equipos_controls').style.display = 'none';
+
+        // si ya hay un valor seleccionado, sincroniza
+        if (reemplazosCant.value) {
+          retirosCant.value = reemplazosCant.value;
+          equiposCant.value = reemplazosCant.value;
+          if (smart.has(retirosCant)) smart.get(retirosCant).setText(reemplazosCant.value);
+          if (smart.has(equiposCant)) smart.get(equiposCant).setText(reemplazosCant.value);
+          ensureRetiroRows();
+          ensureEquipoRows();
+        }
+      } else if (isInstal) {
+        $('#retiros_controls').style.display = '';
+        $('#equipos_controls').style.display = '';
+        equiposSection.hidden = false;
+        equiposCant.required = true;
         ensureEquipoRows();
-        $$('#retiros_rows [data-idx]').forEach(block=>{
-          block.querySelectorAll('input').forEach(inp=>{ inp.value=''; inp.required=false; inp.classList.remove('is-invalid'); inp.setCustomValidity(''); });
-          ['.rt_equipo','.rt_rack','.rt_olt','.rt_slot'].forEach(sel=>{
-            const el = block.querySelector(sel); if(el){ el.value=''; if(smart.has(el)) smart.get(el).setText(''); }
-          });
-          const selRU = block.querySelector('.rt_ru'); if(selRU){ Array.from(selRU.options).forEach(o=>o.selected=false); if(smart.has(selRU)) smart.get(selRU).setText(''); }
-          block.style.display='none';
-        });
-      } else if(isRetiro){
-        retirosCant.value = '';
-        if(smart.has(retirosCant)) smart.get(retirosCant).setText('— Seleccionar —');
+      } else if (isRetiro) {
+        $('#retiros_controls').style.display = '';
+        $('#equipos_controls').style.display = '';
+        retirosSection.hidden = false;
+        retirosCant.required = true;
         ensureRetiroRows();
-        $$('#equipos_rows [data-idx]').forEach(block=>{
-          block.querySelectorAll('input').forEach(inp=>{ inp.value=''; inp.required=false; inp.classList.remove('is-invalid'); inp.setCustomValidity(''); });
-          ['.eq_equipo','.eq_rack','.eq_olt','.eq_slot'].forEach(sel=>{
-            const el = block.querySelector(sel); if(el){ el.value=''; if(smart.has(el)) smart.get(el).setText(''); }
-          });
-          const selRU = block.querySelector('.eq_ru'); Array.from(selRU.options).forEach(o=>o.selected=false); if(smart.has(selRU)) smart.get(selRU).setText('');
-          block.style.display='none';
-        });
-      } else {
-        equiposSection.hidden = true;
-        retirosSection.hidden = true;
       }
       if (typeof recomputeEquiposAvailability === 'function') {
-  recomputeEquiposAvailability();
-}
-if (typeof recomputeRetirosAvailability === 'function') {
-  recomputeRetirosAvailability();
-}
-    }
-
-    /* ===== RU y Slot: evitar duplicados entre bloques visibles ===== */
-
-// Devuelve los bloques visibles (display != 'none') dentro de un contenedor
-function getVisibleBlocks(container) {
-  return Array.from(container.querySelectorAll('[data-idx]'))
-    .filter(b => b.style.display !== 'none');
-}
-
-// Deshabilita opciones de un <select> según un Set de “ocupados”.
-// Para múltiples, también deselecciona lo inválido.
-// Rebuild SmartSelect para refrescar el panel.
-function applyDisabledOptions(select, disabledSet) {
-  const isMultiple = !!select.multiple;
-  let changed = false;
-
-  Array.from(select.options).forEach(o => {
-    if (!o.value) return;
-    const shouldDisable = disabledSet && disabledSet.has(o.value);
-    if (o.disabled !== shouldDisable) {
-      o.disabled = shouldDisable;
-      changed = true;
-    }
-    // Si una opción pasa a estar deshabilitada y estaba seleccionada, la quitamos
-    if (shouldDisable && o.selected) {
-      o.selected = false;
-      changed = true;
-    }
-  });
-
-  if (changed && smart.has(select)) smart.get(select).rebuild();
-}
-
-// Recalcula RUs y Slots ocupados en EQUIPOS y ajusta las opciones disponibles
-function recomputeEquiposAvailability() {
-  const blocks = getVisibleBlocks(equiposRows);
-
-  // 1) Ocupación de RU por Rack (solo para equipos que muestren Rack/RU)
-  const usedRU = new Map(); // rackValue -> Set<RU>
-  blocks.forEach(block => {
-    const rack = block.querySelector('.eq_rack');
-    const ru   = block.querySelector('.eq_ru');
-    if (!rack || !ru || rack.value === '') return;
-    const set = usedRU.get(rack.value) || new Set();
-    Array.from(ru.selectedOptions).forEach(o => { if (o.value) set.add(o.value); });
-    usedRU.set(rack.value, set);
-  });
-
-  // 2) Ocupación de Slot por OLT (solo para tarjetas)
-  const usedSlot = new Map(); // oltValue -> Set<Slot>
-  blocks.forEach(block => {
-    const eqSel = block.querySelector('.eq_equipo');
-    const olt   = block.querySelector('.eq_olt');
-    const slot  = block.querySelector('.eq_slot');
-    if (!eqSel || !olt || !slot) return;
-
-    const v = (eqSel.value || '').toUpperCase();
-    const isTarjeta = (v === 'TARJETA FLEXPON' || v === 'TARJETA GPON');
-    if (!isTarjeta || olt.value === '') return;
-
-    const set = usedSlot.get(olt.value) || new Set();
-    if (slot.value) set.add(slot.value);
-    usedSlot.set(olt.value, set);
-  });
-
-  // 3) Aplicar restricciones a cada bloque
-  blocks.forEach(block => {
-    const eqSel = block.querySelector('.eq_equipo');
-
-    const rack = block.querySelector('.eq_rack');
-    const ru   = block.querySelector('.eq_ru');
-    if (rack && ru) {
-      // RUs ocupados en *otros* bloques con el mismo rack
-      const taken = new Set(usedRU.get(rack.value) || []);
-      // Quitar del set los RU actualmente seleccionados por este bloque,
-      // para que el usuario pueda mantener su selección
-      Array.from(ru.selectedOptions).forEach(o => taken.delete(o.value));
-      applyDisabledOptions(ru, taken);
-    }
-
-    const olt  = block.querySelector('.eq_olt');
-    const slot = block.querySelector('.eq_slot');
-    if (eqSel && olt && slot) {
-      const v = (eqSel.value || '').toUpperCase();
-      const isTarjeta = (v === 'TARJETA FLEXPON' || v === 'TARJETA GPON');
-      if (isTarjeta && olt.value) {
-        const taken = new Set(usedSlot.get(olt.value) || []);
-        // Permitir mantener el slot actual de este bloque
-        if (slot.value) taken.delete(slot.value);
-        applyDisabledOptions(slot, taken);
-      } else {
-        // Si no es tarjeta, aseguramos que no queden opciones deshabilitadas “arrastradas”
-        applyDisabledOptions(slot, new Set());
+        recomputeEquiposAvailability();
+      }
+      if (typeof recomputeRetirosAvailability === 'function') {
+        recomputeRetirosAvailability();
       }
     }
-  });
-}
 
-// Idéntico para RETIROS
-function recomputeRetirosAvailability() {
-  const blocks = getVisibleBlocks(retirosRows);
-
-  const usedRU = new Map();   // rack -> Set<RU>
-  const usedSlot = new Map(); // olt  -> Set<Slot>
-
-  blocks.forEach(block => {
-    const rack = block.querySelector('.rt_rack');
-    const ru   = block.querySelector('.rt_ru');
-    if (rack && ru && rack.value) {
-      const set = usedRU.get(rack.value) || new Set();
-      Array.from(ru.selectedOptions).forEach(o => { if (o.value) set.add(o.value); });
-      usedRU.set(rack.value, set);
+    /* ===== RU y Slot: evitar duplicados entre bloques visibles (por sección) ===== */
+    function getVisibleBlocks(container) {
+      return Array.from(container.querySelectorAll('[data-idx]'))
+        .filter(b => b.style.display !== 'none');
     }
-  });
 
-  blocks.forEach(block => {
-    const eqSel = block.querySelector('.rt_equipo');
-    const olt   = block.querySelector('.rt_olt');
-    const slot  = block.querySelector('.rt_slot');
-    if (eqSel && olt && slot) {
-      const v = (eqSel.value || '').toUpperCase();
-      const isTarjeta = (v === 'TARJETA FLEXPON' || v === 'TARJETA GPON');
-      if (isTarjeta && olt.value) {
+    function applyDisabledOptions(select, disabledSet) {
+      const isMultiple = !!select.multiple;
+      let changed = false;
+
+      Array.from(select.options).forEach(o => {
+        if (!o.value) return;
+        const shouldDisable = disabledSet && disabledSet.has(o.value);
+        if (o.disabled !== shouldDisable) {
+          o.disabled = shouldDisable;
+          changed = true;
+        }
+        if (shouldDisable && o.selected) {
+          o.selected = false;
+          changed = true;
+        }
+      });
+
+      if (changed && smart.has(select)) smart.get(select).rebuild();
+    }
+
+    function recomputeEquiposAvailability() {
+      const blocks = getVisibleBlocks(equiposRows);
+
+      const usedRU = new Map(); // rack -> Set<RU>
+      blocks.forEach(block => {
+        const rack = block.querySelector('.eq_rack');
+        const ru   = block.querySelector('.eq_ru');
+        if (!rack || !ru || rack.value === '') return;
+        const set = usedRU.get(rack.value) || new Set();
+        Array.from(ru.selectedOptions).forEach(o => { if (o.value) set.add(o.value); });
+        usedRU.set(rack.value, set);
+      });
+
+      const usedSlot = new Map(); // olt -> Set<Slot>
+      blocks.forEach(block => {
+        const eqSel = block.querySelector('.eq_equipo');
+        const olt   = block.querySelector('.eq_olt');
+        const slot  = block.querySelector('.eq_slot');
+        if (!eqSel || !olt || !slot) return;
+
+        const v = (eqSel.value || '').toUpperCase();
+        const isTarjeta = (v === 'TARJETA FLEXPON' || v === 'TARJETA GPON');
+        if (!isTarjeta || olt.value === '') return;
+
         const set = usedSlot.get(olt.value) || new Set();
         if (slot.value) set.add(slot.value);
         usedSlot.set(olt.value, set);
-      }
-    }
-  });
+      });
 
-  blocks.forEach(block => {
-    const rack = block.querySelector('.rt_rack');
-    const ru   = block.querySelector('.rt_ru');
-    if (rack && ru) {
-      const taken = new Set(usedRU.get(rack.value) || []);
-      Array.from(ru.selectedOptions).forEach(o => taken.delete(o.value));
-      applyDisabledOptions(ru, taken);
-    }
+      blocks.forEach(block => {
+        const eqSel = block.querySelector('.eq_equipo');
 
-    const eqSel = block.querySelector('.rt_equipo');
-    const olt   = block.querySelector('.rt_olt');
-    const slot  = block.querySelector('.rt_slot');
-    if (eqSel && olt && slot) {
-      const v = (eqSel.value || '').toUpperCase();
-      const isTarjeta = (v === 'TARJETA FLEXPON' || v === 'TARJETA GPON');
-      if (isTarjeta && olt.value) {
-        const taken = new Set(usedSlot.get(olt.value) || []);
-        if (slot.value) taken.delete(slot.value);
-        applyDisabledOptions(slot, taken);
-      } else {
-        applyDisabledOptions(slot, new Set());
-      }
-    }
-  });
-}
+        const rack = block.querySelector('.eq_rack');
+        const ru   = block.querySelector('.eq_ru');
+        if (rack && ru) {
+          const taken = new Set(usedRU.get(rack.value) || []);
+          Array.from(ru.selectedOptions).forEach(o => taken.delete(o.value));
+          applyDisabledOptions(ru, taken);
+        }
 
-
-  /* Submit */
-f.addEventListener('submit', async (e) => {
-  e.preventDefault();
-
-  // ===== Validaciones previas que ya tenías =====
-  clearFormValidation();
-
-  $$('.ss-search').forEach(s => { s.removeAttribute('required'); s.tabIndex = -1; });
-  clampFechaIngreso();
-  clampFechaSalida();
-  validateHoras();
-
-  [
-    'sol_nombres','sol_apepat','sol_apemat','nombre_contrata',
-    'p1_nombres','p1_apepat','p1_apemat',
-    'p2_nombres','p2_apepat','p2_apemat',
-    'p3_nombres','p3_apepat','p3_apemat',
-    'p4_nombres','p4_apepat','p4_apemat'
-  ].forEach(id => {
-    const el = $('#'+id);
-    if (el && !el.closest('[data-pi]')?.hidden) validateName(el);
-  });
-
-  validateDoc($('#sol_numdoc'),'sol_doc_err');
-  validatePhone($('#sol_tel'),'sol_tel_err');
-
-  [1,2,3,4].forEach(i => {
-    const row = $('[data-pi="'+i+'"]');
-    if (!row.hidden) {
-      validateDoc($('#p'+i+'_numdoc'),'p'+i+'_doc_err');
-      validatePhone($('#p'+i+'_tel'),'p'+i+'_tel_err');
-    }
-  });
-
-  if (!validarDNIsUnicos()) return;
-  if (!f.checkValidity()) { f.reportValidity(); return; }
-
-  // ===== Bloque de envío =====
-  btn.disabled = true;
-  showLoading(); // overlay “Enviando…”
-
-  try {
-    // --- SCTR obligatorio (máx. 2 MB) ---
-    const sctrEl = $('#sctr');
-    const file = sctrEl.files?.[0];
-    if (!file) {
-      setErr('sctr_err','SCTR requerido.');
-      sctrEl.classList.add('is-invalid');
-      throw new Error('SCTR requerido.');
-    }
-    if (file.size > 2 * 1024 * 1024) {
-      setErr('sctr_err','El PDF no debe superar 2 MB.');
-      sctrEl.classList.add('is-invalid');
-      throw new Error('El PDF no debe superar 2 MB.');
-    }
-
-    // Base64 del SCTR (sin FileReader para mantener una sola función async)
-    const buf = await file.arrayBuffer();
-    let binary = '';
-    const bytes = new Uint8Array(buf);
-    const CHUNK = 0x8000;
-    for (let i = 0; i < bytes.length; i += CHUNK) {
-      binary += String.fromCharCode.apply(null, bytes.subarray(i, i + CHUNK));
-    }
-    const sctr_name = file.name;
-    const sctr_b64  = btoa(binary);
-
-    // --- Personal ---
-    const personal = [];
-    const nPers = parseInt($('#cant_personal').value, 10);
-    for (let i = 1; i <= nPers; i++) {
-      const row = $('[data-pi="'+i+'"]');
-      if (row?.hidden) continue;
-      personal.push({
-        nombres: $('#p'+i+'_nombres').value.trim(),
-        apepat : $('#p'+i+'_apepat').value.trim(),
-        apemat : $('#p'+i+'_apemat').value.trim(),
-        tipodoc: $('#p'+i+'_tipodoc').value,
-        numdoc : $('#p'+i+'_numdoc').value.trim(),
-        tel    : $('#p'+i+'_tel').value.trim()
+        const olt  = block.querySelector('.eq_olt');
+        const slot = block.querySelector('.eq_slot');
+        if (eqSel && olt && slot) {
+          const v = (eqSel.value || '').toUpperCase();
+          const isTarjeta = (v === 'TARJETA FLEXPON' || v === 'TARJETA GPON');
+          if (isTarjeta && olt.value) {
+            const taken = new Set(usedSlot.get(olt.value) || []);
+            if (slot.value) taken.delete(slot.value);
+            applyDisabledOptions(slot, taken);
+          } else {
+            applyDisabledOptions(slot, new Set());
+          }
+        }
       });
     }
 
-    // --- Equipos (instalación) ---
-    const equipos = [];
-    if (!equiposSection.hidden && equiposCant.value) {
-      const cantEq = parseInt(equiposCant.value, 10);
-      for (let i = 1; i <= cantEq; i++) {
-        const block = equiposRows.querySelector(`[data-idx="${i}"]`);
-        if (!block || block.style.display === 'none') continue;
+    function recomputeRetirosAvailability() {
+      const blocks = getVisibleBlocks(retirosRows);
 
-        const ruSel  = block.querySelector(`#eq${i}_ru`);
-        const ruVals = ruSel ? Array.from(ruSel.selectedOptions).map(o => o.value) : [];
+      const usedRU = new Map();
+      const usedSlot = new Map();
 
-        equipos.push({
-          nro: i,
-          equipo:  block.querySelector(`#eq${i}_equipo`)?.value || '',
-          marca:   block.querySelector(`#eq${i}_marca`)?.value.trim() || '',
-          modelo:  block.querySelector(`#eq${i}_modelo`)?.value.trim() || '',
-          serie:   block.querySelector(`#eq${i}_serie`)?.value.trim() || '',
-          rack:    block.querySelector(`#eq${i}_rack`)?.value || '',
-          ru:      ruVals,
-          olt:     block.querySelector(`#eq${i}_olt`)?.value || '',
-          slot:    block.querySelector(`#eq${i}_slot`)?.value || ''
-        });
-      }
-    }
-
-    // --- Equipos (retiro) ---
-    const retiros = [];
-    if (!retirosSection.hidden && retirosCant.value) {
-      const cantRt = parseInt(retirosCant.value, 10);
-      for (let i = 1; i <= cantRt; i++) {
-        const block = retirosRows.querySelector(`[data-idx="${i}"]`);
-        if (!block || block.style.display === 'none') continue;
-
-        const ruSel  = block.querySelector(`#rt${i}_ru`);
-        const ruVals = ruSel ? Array.from(ruSel.selectedOptions).map(o => o.value) : [];
-
-        retiros.push({
-          nro: i,
-          equipo:  block.querySelector(`#rt${i}_equipo`)?.value || '',
-          marca:   block.querySelector(`#rt${i}_marca`)?.value.trim() || '',
-          modelo:  block.querySelector(`#rt${i}_modelo`)?.value.trim() || '',
-          serie:   block.querySelector(`#rt${i}_serie`)?.value.trim() || '',
-          rack:    block.querySelector(`#rt${i}_rack`)?.value || '',
-          ru:      ruVals,
-          olt:     block.querySelector(`#rt${i}_olt`)?.value || '',
-          slot:    block.querySelector(`#rt${i}_slot`)?.value || ''
-        });
-      }
-    }
-
-    // --- Payload ---
-    const correoComp = $('#correo_nick').value.trim() + $('#correo_dom').value;
-    const payload = {
-      nodo: $('#nodo').value,
-      fecha_ingreso: fi.value,
-      fecha_salida : fs.value,
-      hora_ingreso : hi.value,
-      hora_salida  : hs.value,
-
-      sol_nombres: $('#sol_nombres').value.trim(),
-      sol_apepat : $('#sol_apepat').value.trim(),
-      sol_apemat : $('#sol_apemat').value.trim(),
-      sol_tipodoc: $('#sol_tipodoc').value,
-      sol_numdoc : $('#sol_numdoc').value.trim(),
-      sol_tel    : $('#sol_tel').value.trim(),
-
-      correo: correoComp,
-      trabajos_para: $('#empresa').value,
-      area_resp: $('#area_resp').value,
-      area_apoyo: $('#area_apoyo').value,
-      tipo_trabajo: $('#tipo_trabajo').value,
-      detalles_trabajo: $('#detalles_trabajo').value.trim(),
-      nivel_acceso: $('#nivel_acceso').value,
-
-      trabajo_contrata: $('#contrata').value,
-      nombre_contrata : $('#nombre_contrata').value.trim(),
-
-      sctr_filename: sctr_name,
-      sctr_base64  : sctr_b64,
-
-      personal,
-      equipos,
-      retiros
-    };
-
-    // --- Envío ---
-    if (FLOW_URL) {
-      const r = await fetch(FLOW_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+      blocks.forEach(block => {
+        const rack = block.querySelector('.rt_rack');
+        const ru   = block.querySelector('.rt_ru');
+        if (rack && ru && rack.value) {
+          const set = usedRU.get(rack.value) || new Set();
+          Array.from(ru.selectedOptions).forEach(o => { if (o.value) set.add(o.value); });
+          usedRU.set(rack.value, set);
+        }
       });
-      if (!r.ok) {
-        const txt = await r.text().catch(() => '');
-        throw new Error(`HTTP ${r.status}: ${txt || 'sin detalle'}`);
-      }
-    } else {
-      // Modo demo: imprime el payload y simula respuesta rápida
-      console.log('PAYLOAD →', payload);
-      await new Promise(res => setTimeout(res, 800));
+
+      blocks.forEach(block => {
+        const eqSel = block.querySelector('.rt_equipo');
+        const olt   = block.querySelector('.rt_olt');
+        const slot  = block.querySelector('.rt_slot');
+        if (eqSel && olt && slot) {
+          const v = (eqSel.value || '').toUpperCase();
+          const isTarjeta = (v === 'TARJETA FLEXPON' || v === 'TARJETA GPON');
+          if (isTarjeta && olt.value) {
+            const set = usedSlot.get(olt.value) || new Set();
+            if (slot.value) set.add(slot.value);
+            usedSlot.set(olt.value, set);
+          }
+        }
+      });
+
+      blocks.forEach(block => {
+        const rack = block.querySelector('.rt_rack');
+        const ru   = block.querySelector('.rt_ru');
+        if (rack && ru) {
+          const taken = new Set(usedRU.get(rack.value) || []);
+          Array.from(ru.selectedOptions).forEach(o => taken.delete(o.value));
+          applyDisabledOptions(ru, taken);
+        }
+
+        const eqSel = block.querySelector('.rt_equipo');
+        const olt   = block.querySelector('.rt_olt');
+        const slot  = block.querySelector('.rt_slot');
+        if (eqSel && olt && slot) {
+          const v = (eqSel.value || '').toUpperCase();
+          const isTarjeta = (v === 'TARJETA FLEXPON' || v === 'TARJETA GPON');
+          if (isTarjeta && olt.value) {
+            const taken = new Set(usedSlot.get(olt.value) || []);
+            if (slot.value) taken.delete(slot.value);
+            applyDisabledOptions(slot, taken);
+          } else {
+            applyDisabledOptions(slot, new Set());
+          }
+        }
+      });
     }
 
-    // Éxito
-    hideLoading();
-    showSuccess('Solicitud enviada correctamente.');
+    /* ====== REEMPLAZO: sincronizar contador único ====== */
+    reemplazosCant.addEventListener('change', ()=>{
+      if (!reemplazosCant.value) return;
+      retirosCant.value = reemplazosCant.value;
+      equiposCant.value = reemplazosCant.value;
+      if (smart.has(retirosCant)) smart.get(retirosCant).setText(reemplazosCant.value);
+      if (smart.has(equiposCant)) smart.get(equiposCant).setText(reemplazosCant.value);
+      ensureRetiroRows();
+      ensureEquipoRows();
+      if (typeof recomputeEquiposAvailability === 'function') recomputeEquiposAvailability();
+      if (typeof recomputeRetirosAvailability === 'function') recomputeRetirosAvailability();
+    });
 
-  } catch (err) {
-    // Error
-    hideLoading();
-    alert('Error: ' + err.message);
-  } finally {
-    // Siempre
-    btn.disabled = false;
-  }
-});
+    /* Submit */
+    f.addEventListener('submit', async (e) => {
+      e.preventDefault();
 
+      clearFormValidation();
+
+      $$('.ss-search').forEach(s => { s.removeAttribute('required'); s.tabIndex = -1; });
+      clampFechaIngreso();
+      clampFechaSalida();
+      validateHoras();
+
+      [
+        'sol_nombres','sol_apepat','sol_apemat','nombre_contrata',
+        'p1_nombres','p1_apepat','p1_apemat',
+        'p2_nombres','p2_apepat','p2_apemat',
+        'p3_nombres','p3_apepat','p3_apemat',
+        'p4_nombres','p4_apepat','p4_apemat'
+      ].forEach(id => {
+        const el = $('#'+id);
+        if (el && !el.closest('[data-pi]')?.hidden) validateName(el);
+      });
+
+      validateDoc($('#sol_numdoc'),'sol_doc_err');
+      validatePhone($('#sol_tel'),'sol_tel_err');
+
+      [1,2,3,4].forEach(i => {
+        const row = $('[data-pi="'+i+'"]');
+        if (!row.hidden) {
+          validateDoc($('#p'+i+'_numdoc'),'p'+i+'_doc_err');
+          validatePhone($('#p'+i+'_tel'),'p'+i+'_tel_err');
+        }
+      });
+
+      if (!validarDNIsUnicos()) return;
+      if (!f.checkValidity()) { f.reportValidity(); return; }
+
+      btn.disabled = true;
+      showLoading();
+
+      try {
+        const sctrEl = $('#sctr');
+        const file = sctrEl.files?.[0];
+        if (!file) {
+          setErr('sctr_err','SCTR requerido.');
+          sctrEl.classList.add('is-invalid');
+          throw new Error('SCTR requerido.');
+        }
+        if (file.size > 2 * 1024 * 1024) {
+          setErr('sctr_err','El PDF no debe superar 2 MB.');
+          sctrEl.classList.add('is-invalid');
+          throw new Error('El PDF no debe superar 2 MB.');
+        }
+
+        const buf = await file.arrayBuffer();
+        let binary = '';
+        const bytes = new Uint8Array(buf);
+        const CHUNK = 0x8000;
+        for (let i = 0; i < bytes.length; i += CHUNK) {
+          binary += String.fromCharCode.apply(null, bytes.subarray(i, i + CHUNK));
+        }
+        const sctr_name = file.name;
+        const sctr_b64  = btoa(binary);
+
+        const personal = [];
+        const nPers = parseInt($('#cant_personal').value, 10);
+        for (let i = 1; i <= nPers; i++) {
+          const row = $('[data-pi="'+i+'"]');
+          if (row?.hidden) continue;
+          personal.push({
+            nombres: $('#p'+i+'_nombres').value.trim(),
+            apepat : $('#p'+i+'_apepat').value.trim(),
+            apemat : $('#p'+i+'_apemat').value.trim(),
+            tipodoc: $('#p'+i+'_tipodoc').value,
+            numdoc : $('#p'+i+'_numdoc').value.trim(),
+            tel    : $('#p'+i+'_tel').value.trim()
+          });
+        }
+
+        const equipos = [];
+        if (!equiposSection.hidden && equiposCant.value) {
+          const cantEq = parseInt(equiposCant.value, 10);
+          for (let i = 1; i <= cantEq; i++) {
+            const block = equiposRows.querySelector(`[data-idx="${i}"]`);
+            if (!block || block.style.display === 'none') continue;
+
+            const ruSel  = block.querySelector(`#eq${i}_ru`);
+            const ruVals = ruSel ? Array.from(ruSel.selectedOptions).map(o => o.value) : [];
+
+            equipos.push({
+              nro: i,
+              equipo:  block.querySelector(`#eq${i}_equipo`)?.value || '',
+              marca:   block.querySelector(`#eq${i}_marca`)?.value.trim() || '',
+              modelo:  block.querySelector(`#eq${i}_modelo`)?.value.trim() || '',
+              serie:   block.querySelector(`#eq${i}_serie`)?.value.trim() || '',
+              rack:    block.querySelector(`#eq${i}_rack`)?.value || '',
+              ru:      ruVals,
+              olt:     block.querySelector(`#eq${i}_olt`)?.value || '',
+              slot:    block.querySelector(`#eq${i}_slot`)?.value || ''
+            });
+          }
+        }
+
+        const retiros = [];
+        if (!retirosSection.hidden && retirosCant.value) {
+          const cantRt = parseInt(retirosCant.value, 10);
+          for (let i = 1; i <= cantRt; i++) {
+            const block = retirosRows.querySelector(`[data-idx="${i}"]`);
+            if (!block || block.style.display === 'none') continue;
+
+            const ruSel  = block.querySelector(`#rt${i}_ru`);
+            const ruVals = ruSel ? Array.from(ruSel.selectedOptions).map(o => o.value) : [];
+
+            retiros.push({
+              nro: i,
+              equipo:  block.querySelector(`#rt${i}_equipo`)?.value || '',
+              marca:   block.querySelector(`#rt${i}_marca`)?.value.trim() || '',
+              modelo:  block.querySelector(`#rt${i}_modelo`)?.value.trim() || '',
+              serie:   block.querySelector(`#rt${i}_serie`)?.value.trim() || '',
+              rack:    block.querySelector(`#rt${i}_rack`)?.value || '',
+              ru:      ruVals,
+              olt:     block.querySelector(`#rt${i}_olt`)?.value || '',
+              slot:    block.querySelector(`#rt${i}_slot`)?.value || ''
+            });
+          }
+        }
+
+        /* ✅ Lista hija de REEMPLAZOS (instala/retira emparejados) */
+        const tipoVal = (tipoTrabajo.value || '').toUpperCase();
+        const isReemplazo = tipoVal.includes('REEMPLAZO') || tipoVal === 'ABI';
+        const reemplazos = [];
+        if (isReemplazo) {
+          const max = Math.max(equipos.length, retiros.length);
+          for (let i = 0; i < max; i++) {
+            const instala = equipos[i] || { nro: i+1, equipo:'', marca:'', modelo:'', serie:'', rack:'', ru:[], olt:'', slot:'' };
+            const retira  = retiros[i]  || { nro: i+1, equipo:'', marca:'', modelo:'', serie:'', rack:'', ru:[], olt:'', slot:'' };
+            reemplazos.push({ instala, retira });
+          }
+        }
+
+        const correoComp = $('#correo_nick').value.trim() + $('#correo_dom').value;
+        const payload = {
+          nodo: $('#nodo').value,
+          fecha_ingreso: fi.value,
+          fecha_salida : fs.value,
+          hora_ingreso : hi.value,
+          hora_salida  : hs.value,
+
+          sol_nombres: $('#sol_nombres').value.trim(),
+          sol_apepat : $('#sol_apepat').value.trim(),
+          sol_apemat : $('#sol_apemat').value.trim(),
+          sol_tipodoc: $('#sol_tipodoc').value,
+          sol_numdoc : $('#sol_numdoc').value.trim(),
+          sol_tel    : $('#sol_tel').value.trim(),
+
+          correo: correoComp,
+          trabajos_para: $('#empresa').value,
+          area_resp: $('#area_resp').value,
+          area_apoyo: $('#area_apoyo').value,
+          tipo_trabajo: $('#tipo_trabajo').value,
+          detalles_trabajo: $('#detalles_trabajo').value.trim(),
+          nivel_acceso: $('#nivel_acceso').value,
+
+          trabajo_contrata: $('#contrata').value,
+          nombre_contrata : $('#nombre_contrata').value.trim(),
+
+          sctr_filename: sctr_name,
+          sctr_base64  : sctr_b64,
+
+          personal,
+          equipos,
+          retiros,
+
+          /* ✅ Envío también la lista hija esperada por tu Flow */
+          reemplazos
+        };
+
+        if (FLOW_URL) {
+          const r = await fetch(FLOW_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          if (!r.ok) {
+            const txt = await r.text().catch(() => '');
+            throw new Error(`HTTP ${r.status}: ${txt || 'sin detalle'}`);
+          }
+        } else {
+          console.log('PAYLOAD →', payload);
+          await new Promise(res => setTimeout(res, 800));
+        }
+
+        hideLoading();
+        showSuccess('Solicitud enviada correctamente.');
+
+      } catch (err) {
+        hideLoading();
+        alert('Error: ' + err.message);
+      } finally {
+        btn.disabled = false;
+      }
+    });
 
     /* ====== INIT ====== */
     load(NODOS, $('#nodo'));
@@ -1892,6 +1934,7 @@ f.addEventListener('submit', async (e) => {
 
     enhanceSelect('#equipos_cant', '— Seleccionar —', {search:false});
     enhanceSelect('#retiros_cant', '— Seleccionar —', {search:false});
+    enhanceSelect('#reemplazos_cant', '— Seleccionar —', {search:false}); // NUEVO
 
     enhanceSelect('#correo_dom', '— Seleccionar —', {search:false});
     enhanceSelect('#sol_tipodoc', '— Seleccionar —', {search:false});
@@ -1908,49 +1951,51 @@ f.addEventListener('submit', async (e) => {
     $('#empresa').addEventListener('change', loadAreas);
 
     $('#tipo_trabajo').addEventListener('change', () => {
-  applyEquiposBlock();
- if (typeof recomputeEquiposAvailability === 'function') {
-    recomputeEquiposAvailability();
-  }
-});
+      applyEquiposBlock(); // siempre limpia y vuelve a aplicar
+      if (typeof recomputeEquiposAvailability === 'function') {
+        recomputeEquiposAvailability();
+      }
+    });
 
-$('#equipos_cant').addEventListener('change', () => {
-  ensureEquipoRows();
- if (typeof recomputeEquiposAvailability === 'function') {
-    recomputeEquiposAvailability();
-  } 
-});
+    $('#equipos_cant').addEventListener('change', () => {
+      ensureEquipoRows();
+      if (typeof recomputeEquiposAvailability === 'function') {
+        recomputeEquiposAvailability();
+      }
+    });
 
-$('#retiros_cant').addEventListener('change', () => {
-  ensureRetiroRows();
-if (typeof recomputeRetirosAvailability === 'function') {
-    recomputeRetirosAvailability();
-  }
-});
-document.getElementById('detalles_trabajo')?.addEventListener('input', (e) => {
-  e.target.value = e.target.value.toUpperCase();
-});
-document.addEventListener('input', (e) => {
-  const t = e.target;
-  if (!t || t.tagName !== 'INPUT' && t.tagName !== 'TEXTAREA') return;
+    $('#retiros_cant').addEventListener('change', () => {
+      ensureRetiroRows();
+      if (typeof recomputeRetirosAvailability === 'function') {
+        recomputeRetirosAvailability();
+      }
+    });
 
-  // Campos que deben ir en MAYÚSCULAS
-  const mustUpper = t.matches(
-    '#detalles_trabajo, ' +        // descripción breve
-    '.eq_marca, .eq_modelo, .eq_serie, ' +   // instalación
-    '.rt_marca, .rt_modelo, .rt_serie, ' +   // retiro
-    '#nombre_contrata'                         // opcional: nombre de contrata
-  );
+    document.getElementById('detalles_trabajo')?.addEventListener('input', (e) => {
+      e.target.value = e.target.value.toUpperCase();
+    });
 
-  if (mustUpper) {
-    const pos = t.selectionStart;   // mantener el cursor
-    t.value = t.value.toUpperCase();
-    try { t.setSelectionRange(pos, pos); } catch(_) {}
-  }
-});
+    document.addEventListener('input', (e) => {
+      const t = e.target;
+      if (!t || t.tagName !== 'INPUT' && t.tagName !== 'TEXTAREA') return;
+
+      const mustUpper = t.matches(
+        '#detalles_trabajo, ' +
+        '.eq_marca, .eq_modelo, .eq_serie, ' +
+        '.rt_marca, .rt_modelo, .rt_serie, ' +
+        '#nombre_contrata'
+      );
+
+      if (mustUpper) {
+        const pos = t.selectionStart;
+        t.value = t.value.toUpperCase();
+        try { t.setSelectionRange(pos, pos); } catch(_) {}
+      }
+    });
 
     applyEquiposBlock();
     applyCantPersonal();
   </script>
 </body>
 </html>
+
