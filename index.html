@@ -1,4 +1,3 @@
-<!doctype html>
 <html lang="es">
 <head>
   <meta charset="utf-8">
@@ -171,7 +170,7 @@
 
     <div class="card">
       <div class="card-body">
-        <form action="#" method="post" enctype="multipart/form-data" class="row g-3" id="f" novalidate>
+        <form action="#" method="post" enctype="multipart/form-data" class="row g-3" id="f">
 
           <!-- Nodo a Ingresar -->
           <div class="col-12"><h5 class="section-title">Nodo a Ingresar</h5><hr></div>
@@ -852,14 +851,49 @@
     const MIN_INGRESO =  `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
     fi.min = MIN_INGRESO; fs.min = MIN_INGRESO;
     function setErr(id, msg){ const el = $('#'+id); if(el) el.textContent = msg || ''; }
-    function validateHoras(){
+    
+
+function validateHoras(){
+  setErr('hs_err','');
+  const fiVal = fi.value, fsVal = fs.value, hiVal = hi.value, hsVal = hs.value;
+  // No mostrar mensajes rojos mientras no se haya intentado enviar
+  if(!hiVal || !hsVal){ 
+    hi.setCustomValidity('');
+    hs.setCustomValidity('');
+    hi.classList.remove('is-invalid');
+    hs.classList.remove('is-invalid');
+    return; 
+  }
+
+  // Cuando ambas fechas son iguales
+  if(fiVal && fsVal && fiVal === fsVal){
+    const [hiH, hiM] = hiVal.split(':').map(Number);
+    const [hsH, hsM] = hsVal.split(':').map(Number);
+    const ingreso = hiH*60 + hiM;
+    const salida  = hsH*60 + hsM;
+
+    if(salida < ingreso && salida > 0){
+      // Caso cruza medianoche
+      setErr('hs_err','La hora de salida pertenece al día siguiente. Cambia la fecha de salida.');
+      hs.classList.add('is-invalid');
+      hs.setCustomValidity('Cruza día siguiente');
+    } else if(salida <= ingreso){
+      // Caso misma fecha, hora menor o igual
+      setErr('hs_err','La hora de salida debe ser posterior a la hora de ingreso.');
+      hs.classList.add('is-invalid');
+      hs.setCustomValidity('Hora de salida <= ingreso');
+    } else {
+      hs.classList.remove('is-invalid');
+      hs.setCustomValidity('');
       setErr('hs_err','');
-      if(fi.value && fs.value && fi.value === fs.value && hi.value && hs.value && hs.value < hi.value){
-        setErr('hs_err','Hora de salida no puede ser menor que la de ingreso en el mismo día.');
-        hs.setCustomValidity('Hora de salida < hora de ingreso');
-      } else { hs.setCustomValidity(''); }
     }
-    function clampFechaIngreso(){ if(fs.value && fs.value < fi.value){ fs.value = fi.value; setErr('fs_err','La fecha de salida no puede ser anterior a la de ingreso.'); } else setErr('fs_err',''); fs.min = fi.value || MIN_INGRESO; validateHoras(); }
+  } else {
+    hs.classList.remove('is-invalid');
+    hs.setCustomValidity('');
+    setErr('hs_err','');
+  }
+}
+function clampFechaIngreso(){ if(fs.value && fs.value < fi.value){ fs.value = fi.value; setErr('fs_err','La fecha de salida no puede ser anterior a la de ingreso.'); } else setErr('fs_err',''); fs.min = fi.value || MIN_INGRESO; validateHoras(); }
     function clampFechaSalida(){ if(fs.value && fi.value && fs.value < fi.value){ setErr('fs_err','La fecha de salida no puede ser anterior a la de ingreso.'); fs.value = fi.value; } else setErr('fs_err',''); validateHoras(); }
     fi.addEventListener('change', clampFechaIngreso);
     fs.addEventListener('change', clampFechaSalida);
@@ -1720,7 +1754,63 @@
     });
 
     /* Submit */
-    f.addEventListener('submit', async (e) => {
+    // === Parche definitivo SmartSelect "not focusable" ===
+const observer = new MutationObserver(() => {
+  document.querySelectorAll('.ss-search').forEach(s => {
+    s.removeAttribute('required');
+    s.name = '__ss_search__';
+    s.tabIndex = -1;
+  });
+});
+observer.observe(document.body, { childList: true, subtree: true });
+
+// Limpieza inicial al cargar
+document.querySelectorAll('.ss-search').forEach(s => {
+  s.removeAttribute('required');
+  s.name = '__ss_search__';
+  s.tabIndex = -1;
+});
+
+f.addEventListener('submit', async (e) => {
+  // Limpieza de SmartSelects para evitar "not focusable"
+  document.querySelectorAll('.ss-search').forEach(s => {
+    s.required = false;
+    s.name = '__ss_search__';
+    s.tabIndex = -1;
+  });
+
+  // === Validar horas antes de todo ===
+  const horaIngreso = document.getElementById('hora_ingreso');
+  const horaSalida  = document.getElementById('hora_salida');
+  const errIngreso  = document.getElementById('hora_ingreso_err') || document.createElement('div');
+  const errSalida   = document.getElementById('hora_salida_err')  || document.createElement('div');
+
+  errIngreso.className = 'invalid-feedback';
+  errSalida.className  = 'invalid-feedback';
+  if (!errIngreso.id) horaIngreso.insertAdjacentElement('afterend', errIngreso);
+  if (!errSalida.id)  horaSalida.insertAdjacentElement('afterend', errSalida);
+
+  horaIngreso.classList.remove('is-invalid');
+  horaSalida.classList.remove('is-invalid');
+  errIngreso.textContent = '';
+  errSalida.textContent  = '';
+
+  let okHoras = true;
+  if (!horaIngreso.value.trim()) {
+    horaIngreso.classList.add('is-invalid');
+    errIngreso.textContent = 'FALTA LLENAR ESTE CAMPO';
+    okHoras = false;
+  }
+  if (!horaSalida.value.trim()) {
+    horaSalida.classList.add('is-invalid');
+    errSalida.textContent = 'FALTA LLENAR ESTE CAMPO';
+    okHoras = false;
+  }
+  if (!okHoras) {
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    return;
+  }
       e.preventDefault();
 
       clearFormValidation();
@@ -1753,7 +1843,7 @@
       });
 
       if (!validarDNIsUnicos()) return;
-      if (!f.checkValidity()) { f.reportValidity(); return; }
+      if (!f.reportValidity()) { return; }
 
       btn.disabled = true;
       showLoading();
@@ -1994,7 +2084,123 @@
 
     applyEquiposBlock();
     applyCantPersonal();
-  </script>
+  
+// ===== Validación visual de horas obligatorias =====
+(() => {
+  const horaIngreso = document.getElementById('hora_ingreso');
+  const horaSalida  = document.getElementById('hora_salida');
+
+  // Crear mensajes si no existen
+  let errIngreso = document.getElementById('hora_ingreso_err');
+  if (!errIngreso) {
+    errIngreso = document.createElement('div');
+    errIngreso.id = 'hora_ingreso_err';
+    errIngreso.className = 'invalid-feedback';
+    horaIngreso.insertAdjacentElement('afterend', errIngreso);
+  }
+
+  let errSalida = document.getElementById('hora_salida_err');
+  if (!errSalida) {
+    errSalida = document.createElement('div');
+    errSalida.id = 'hora_salida_err';
+    errSalida.className = 'invalid-feedback';
+    horaSalida.insertAdjacentElement('afterend', errSalida);
+  }
+
+  // Interceptar el envío
+  f.addEventListener('submit', (e) => {
+    // Limpiar mensajes previos
+    horaIngreso.classList.remove('is-invalid');
+    horaSalida.classList.remove('is-invalid');
+    errIngreso.textContent = '';
+    errSalida.textContent = '';
+
+    // Validar campos
+    let ok = true;
+    if (!horaIngreso.value.trim()) {
+      horaIngreso.classList.add('is-invalid');
+      errIngreso.textContent = 'FALTA LLENAR ESTE CAMPO';
+      ok = false;
+    }
+    if (!horaSalida.value.trim()) {
+      horaSalida.classList.add('is-invalid');
+      errSalida.textContent = 'FALTA LLENAR ESTE CAMPO';
+      ok = false;
+    }
+
+    if (!ok) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+    }
+  }, true);
+})();
+
+
+// ===== Ocultar mensaje cuando se llena hora ingreso/salida =====
+(() => {
+  const horaIngreso = document.getElementById('hora_ingreso');
+  const horaSalida  = document.getElementById('hora_salida');
+  const errIngreso  = document.getElementById('hora_ingreso_err');
+  const errSalida   = document.getElementById('hora_salida_err');
+
+  function limpiarErroresHoras() {
+    if (horaIngreso && horaIngreso.value.trim()) {
+      horaIngreso.classList.remove('is-invalid');
+      if (errIngreso) errIngreso.textContent = '';
+    }
+    if (horaSalida && horaSalida.value.trim()) {
+      horaSalida.classList.remove('is-invalid');
+      if (errSalida) errSalida.textContent = '';
+    }
+  }
+
+  if (horaIngreso) {
+    horaIngreso.addEventListener('input', limpiarErroresHoras);
+    horaIngreso.addEventListener('change', limpiarErroresHoras);
+  }
+  if (horaSalida) {
+    horaSalida.addEventListener('input', limpiarErroresHoras);
+    horaSalida.addEventListener('change', limpiarErroresHoras);
+  }
+})();
+
+
+// ===== Validación de teléfonos únicos =====
+(() => {
+  const telIDs = ['p1_tel', 'p2_tel', 'p3_tel', 'p4_tel'];
+  const telInputs = telIDs.map(id => document.getElementById(id)).filter(Boolean);
+
+  function limpiarErroresTel() {
+    telInputs.forEach(inp => {
+      inp.classList.remove('is-invalid');
+      let err = inp.nextElementSibling;
+      if (err && err.classList.contains('invalid-feedback')) err.remove();
+    });
+  }
+
+  function validarTelefonosUnicos(e) {
+    limpiarErroresTel();
+    const valores = telInputs.filter(inp => inp.offsetParent !== null).map(inp => inp.value.trim()).filter(v => v !== '');
+    const duplicados = valores.filter((v, i, arr) => arr.indexOf(v) !== i);
+    if (duplicados.length > 0) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      telInputs.forEach(inp => {
+        if (duplicados.includes(inp.value.trim()) && inp.value.trim() !== '') {
+          inp.classList.add('is-invalid');
+          const msg = document.createElement('div');
+          msg.className = 'invalid-feedback';
+          msg.textContent = 'Teléfono duplicado. Debe ser distinto.';
+          inp.insertAdjacentElement('afterend', msg);
+        }
+      });
+    }
+  }
+
+  const form = document.querySelector('form');
+  if (form) form.addEventListener('submit', validarTelefonosUnicos, true);
+})();
+
+</script>
 </body>
 </html>
-
