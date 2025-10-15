@@ -139,7 +139,7 @@
           <h6>Requisitos de ingreso al nodo</h6>
           <ul class="mb-0">
             <li>Tener su EPP en regla.</li>
-            <li>Tener su fotocheck y presentarlo al momento de ingreso.</li>
+            <li>Tener su fotocheck y presentarlo al momento del ingreso.</li>
             <li>SCTR del personal (PDF máx. 2 MB).</li>
           </ul>
         </div>
@@ -148,6 +148,9 @@
           <h6>Sugerencia</h6>
           <ul class="mb-0">
             <li>Si eres personal de Infraestrucutra / OyM de Win Net puedes usar el botón <strong><em>"Personal WIN-NET"</em></strong> para autocompletar tus datos.</li>
+            <li>Todos los campos del formulario deben estar debidamente completados antes del envío.</li>
+            <li>En el registro del personal que ingresará al nodo, no se debe repetir el número de DNI ni el número telefónico.</li>
+            <li>Para los trabajos de instalación, retiro o reemplazo de equipos, es obligatorio consignar la información correspondiente al modelo, marca y número de serie de cada equipo.</li>
           </ul>
         </div>
 
@@ -728,7 +731,14 @@
       {empresa:'WIN NET', nombres:'Fredy',  apepat:'Picho', apemat:'Asto', tipodoc:'DNI', numdoc:'74225916', tel:'910122308', email:'fpicho@win.pe'},
       {empresa:'WIN NET', nombres:'Moises Angel',  apepat:'Quispe', apemat:'Sanchez', tipodoc:'DNI', numdoc:'74225916', tel:'939205235', email:'maquispe@win.pe'},
       {empresa:'WIN NET', nombres:'John Kevin',  apepat:'Avellaneda', apemat:'Raymundo', tipodoc:'DNI', numdoc:'74225916', tel:'991486402', email:'javellaneda@win.pe'},
-      {empresa:'WIN NET', nombres:'Charles Jhonatan',  apepat:'Contreras', apemat:'Cajo', tipodoc:'DNI', numdoc:'74225916', tel:'964237058', email:'ccontrerasc@win.pe'}
+      {empresa:'WIN NET', nombres:'Charles Jhonatan',  apepat:'Contreras', apemat:'Cajo', tipodoc:'DNI', numdoc:'74225916', tel:'964237058', email:'ccontrerasc@win.pe'},
+      {empresa:'WIN NET', nombres:'Josue',  apepat:'Giraldo', apemat:'Falcon', tipodoc:'DNI', numdoc:'74225916', tel:'939052660', email:'jgiraldo@win.pe'},
+      {empresa:'WIN NET', nombres:'Joel',  apepat:'Chumbimuni', apemat:'Huaringa', tipodoc:'DNI', numdoc:'74225916', tel:'933817333', email:'jchumbimuni@win.pe'},
+      {empresa:'WIN NET', nombres:'Vasco Antonio',  apepat:'Piña', apemat:'Ortiz', tipodoc:'DNI', numdoc:'74225916', tel:'947315935', email:'vpinao@win.pe'},
+      {empresa:'WIN NET', nombres:'Luis Eduardo',  apepat:'Granados', apemat:'Pinedo', tipodoc:'DNI', numdoc:'74225916', tel:'985932632', email:'lgranados@win.pe'},
+      {empresa:'WIN NET', nombres:'Adrian',  apepat:'Tesorero', apemat:'Falta', tipodoc:'DNI', numdoc:'74225916', tel:'940154749', email:'atesorero@win.pe'},
+      {empresa:'WIN NET', nombres:'Jeinner Erison',  apepat:'Canelo', apemat:'Romani', tipodoc:'DNI', numdoc:'74225916', tel:'991740568', email:'jcanelo@win.pe'},
+      {empresa:'WIN NET', nombres:'Dany Carlos',  apepat:'Mendo', apemat:'Cardenas', tipodoc:'DNI', numdoc:'74225916', tel:'931088935', email:'dmendo@win.pe'}
     ];
 
     function openDir(){
@@ -819,7 +829,7 @@
     const NODOS = ["200 MILLAS","ANGAMOS","ARRIOLA","AURELIO SOUZA","AREQUIPA SOCABAYA","AREQUIPA CERRO COLORADO","AREQUIPA LA CULTURA","AREQUIPA MIRAFLORES","BARRANCA","BARRANCO","BAYOVAR","BENVENUTTO","BUCKINGHAM","CALLAO","CAMANA","CAQUETA","CATACAOS","CHANCAY","CHICLAYO MAGNOLIAS","CHIMBOTE LAS PALMERAS","CHIMBOTE MANCO CAPAC","CHORRILLOS","CIPRESES","CONQUISTADORES","CUZCO TUPAC AMARU","CUZCO WANCHAQ","EL SAUCE","FLAMENGOS","FRANCISCO MOREYRA","GALVEZ II","GERARDO UNGER","GUARDIA PERUANA","HIPOLITO UNANUE","HUACHO","HUANDOY","HUARAL","HUANCAYO CENTRO","HUANCAYO TAMBO","JUAN PABLO","LA ENSENADA","LA MOLINA","LAMBAYEQUE OUTDOOR","LINCE","LOS ALAMOS","LOS JARDINES","LOS MIRABLES","MARIATEGUI","NATALIO SANCHEZ","NIÑO JESUS","PACHACAMAC","PELITRES","PERSHING","PIMENTEL INDOOR","PISTA NUEVA","PIURA GARDENIAS","PUCUSANA","PUNTA HERMOSA","REPUBLICA DE PANAMA","SALAMANCA","SAN LUIS","SAN PEDRO","SAN REMO","SANTA FE","SANTA ROSA","SANTOS CHOCANO","SUCRE","TRES DE MAYO","TRIGAL II","TRUIJILLO LA MERCED","TRUJILLO SANTA ROSA","TUNGASUCA","URUGUAY","VARELA","VILLA EL SALVADOR","VITARTE","ZARATE"];
     const TIPOS_TRABAJO = ["ACONDICIONAMIENTO, ETIQUETADO ODF / LIMPIEZA DE PICTELES","ACTIVACIÓN DE ENLACE","ATENCIÓN DE INCIDENCIA","AUDITORIA DE EQUIPOS WIN","CABLEADO DE F.O.","CAMBIO DE PATCH CORD","CAMBIO DE BATERIAS UPS","CAMBIO DE TARJETA CONTROLADORA EN OLT.","CAMBIO DE TRANSCEIVER","FUSIONES DE F.O.","IMPLEMENTACIÓN DE UN ENLACE","IMPLEMENTACIÓN DE UN NUEVO CIRCUITO","INGRESO DE F.O./INSTALACIÓN DE P.P.","INSTALACIÓN DE EQUIPOS","INSTALACIÓN DE PATCH CORD Y TRANSCEIVER","INSTALACIÓN DE TRANSCEIVER","INVENTARIO DE EQUIPOS","INVENTARIO DE HILOS","JUMPEO DE PATCH CORD","MANTENIMIENTO","MAPEO DE ESPACIO EN RACK WIN Y PATCH CORD","MEDICIONES REFLECTOMÉTRICAS","MEDICIONES REFLECTOMÉTRICAS, INSTALACIÓN DE PATCH CORD Y TRANSCEIVER","REEMPLAZO DE EQUIPO","REINICIO DE EQUIPOS","RETIRO DE EQUIPOS","ROTULADO","TROUBLESHOOTING","UPGRADE DE ENLACES","VALIDACIÓN DE ENLACES","VALIDACIÓN DE PUERTO Y JUMPEO","VISITA TÉCNICA",];
     const AREAS_NET = ["CIBERSEGURIDAD-WIN","IMPLEMENTACIONES-WIN","INFRAESTRUCTURA-WIN","INGENIERIA-WIN","MANTENIMIENTO Y EMERGENCIAS PEXT-WIN","NOC-WIN","O&M-WIN","PROYECTOS PEXT-WIN","PLANIFICACION DE RED B2C-WIN"];
-    const AREAS_EMP = ["CIBERSEGURIDAD-WIN EMPRESAS","CORE-WIN EMPRESAS","IMPLEMENTACIONES-WIN EMPRESAS","INFRAESTRUCTURA-WIN EMPRESAS","INGENIERIA-WIN EMPRESAS","NOC-WIM EMPRESAS","O&M-WIN EMPRESAS","PEXT-WIN EMPRESAS","SOS-WIN EMPRESAS"];
+    const AREAS_EMP = ["CIBERSEGURIDAD-WIN EMPRESAS","CORE-WIN EMPRESAS","IMPLEMENTACIONES-WIN EMPRESAS","INFRAESTRUCTURA-WIN EMPRESAS","INGENIERIA-WIN EMPRESAS","NOC-WIM EMPRESAS","O&M-WIN EMPRESAS","PEXT-WIN EMPRESAS","SOS-WIN EMPRESAS","TAC-WIN EMPRESAS"];
     const AREAS_APOYO_NET = ["Ninguna","CIBERSEGURIDAD-WIN","IMPLEMENTACIONES-WIN","INFRAESTRUCTURA-WIN","INGENIERIA-WIN","MANTENIMIENTO Y EMERGENCIAS PEXT-WIN","NOC-WIN","O&M-WIN","PROYECTOS PEXT-WIN","PLANIFICACION DE RED B2C-WIN"];
     const AREAS_APOYO_EMP = ["Ninguna","CIBERSEGURIDAD-WIN EMPRESAS","CORE-WIN EMPRESAS","IMPLEMENTACIONES-WIN EMPRESAS","INFRAESTRUCTURA-WIN EMPRESAS","INGENIERIA-WIN EMPRESAS","NOC-WIM EMPRESAS","O&M-WIN EMPRESAS","PEXT-WIN EMPRESAS","SOS-WIN EMPRESAS","TAC-WIN EMPRESAS" ];
     const EQUIPOS = ["ROUTER","OLT","SWITCH","CÁMARA","ANTENA","UPS","RECTIFICADOR","ODF","PATCH PANEL","TARJETA FLEXPON","TARJETA GPON"];
@@ -1033,6 +1043,94 @@ function clampFechaIngreso(){ if(fs.value && fs.value < fi.value){ fs.value = fi
       }
       return !dup;
     }
+
+// ====== Validación dinámica de DNI y Teléfonos únicos ======
+(() => {
+  const cant = document.getElementById('cant_personal');
+  const getPersonasVisibles = () => {
+    const n = parseInt(cant.value, 10);
+    return Array.from({ length: n }, (_, i) => i + 1);
+  };
+
+  // DNI duplicado (en tiempo real)
+  function validarDNIsUnicosLive() {
+    const visibles = getPersonasVisibles();
+    const values = visibles.map(i => ({
+      i,
+      val: document.getElementById(`p${i}_numdoc`).value.trim()
+    })).filter(o => o.val);
+
+    // limpiar
+    visibles.forEach(i => {
+      const input = document.getElementById(`p${i}_numdoc`);
+      const err = document.getElementById(`p${i}_doc_err`);
+      input.classList.remove('is-invalid');
+      input.setCustomValidity('');
+      if (err) err.textContent = '';
+    });
+
+    // verificar duplicados
+    for (let x = 0; x < values.length; x++) {
+      for (let y = x + 1; y < values.length; y++) {
+        if (values[x].val === values[y].val) {
+          const a = document.getElementById(`p${values[x].i}_numdoc`);
+          const b = document.getElementById(`p${values[y].i}_numdoc`);
+          const errA = document.getElementById(`p${values[x].i}_doc_err`);
+          const errB = document.getElementById(`p${values[y].i}_doc_err`);
+          a.classList.add('is-invalid');
+          b.classList.add('is-invalid');
+          a.setCustomValidity('DNI duplicado');
+          b.setCustomValidity('DNI duplicado');
+          if (errA) errA.textContent = 'DNI duplicado.';
+          if (errB) errB.textContent = 'DNI duplicado.';
+        }
+      }
+    }
+  }
+  [1, 2, 3, 4].forEach(i => {
+    const inp = document.getElementById(`p${i}_numdoc`);
+    if (inp) inp.addEventListener('input', validarDNIsUnicosLive);
+  });
+
+  // Teléfono duplicado (en tiempo real)
+  function validarTelefonosUnicosLive() {
+    const visibles = getPersonasVisibles();
+    const values = visibles.map(i => ({
+      i,
+      val: document.getElementById(`p${i}_tel`).value.trim()
+    })).filter(o => o.val);
+
+    visibles.forEach(i => {
+      const input = document.getElementById(`p${i}_tel`);
+      const err = document.getElementById(`p${i}_tel_err`);
+      input.classList.remove('is-invalid');
+      input.setCustomValidity('');
+      if (err) err.textContent = '';
+    });
+
+    for (let x = 0; x < values.length; x++) {
+      for (let y = x + 1; y < values.length; y++) {
+        if (values[x].val === values[y].val) {
+          const a = document.getElementById(`p${values[x].i}_tel`);
+          const b = document.getElementById(`p${values[y].i}_tel`);
+          const errA = document.getElementById(`p${values[x].i}_tel_err`);
+          const errB = document.getElementById(`p${values[y].i}_tel_err`);
+          a.classList.add('is-invalid');
+          b.classList.add('is-invalid');
+          a.setCustomValidity('Teléfono duplicado');
+          b.setCustomValidity('Teléfono duplicado');
+          if (errA) errA.textContent = 'Teléfono duplicado. Debe ser distinto.';
+          if (errB) errB.textContent = 'Teléfono duplicado. Debe ser distinto.';
+        }
+      }
+    }
+  }
+  [1, 2, 3, 4].forEach(i => {
+    const inp = document.getElementById(`p${i}_tel`);
+    if (inp) inp.addEventListener('input', validarTelefonosUnicosLive);
+  });
+})();
+
     [1,2,3,4].forEach(i=> $('#p'+i+'_numdoc').addEventListener('input', validarDNIsUnicos));
 
     /* SmartSelect */
@@ -2200,6 +2298,199 @@ f.addEventListener('submit', async (e) => {
   const form = document.querySelector('form');
   if (form) form.addEventListener('submit', validarTelefonosUnicos, true);
 })();
+
+
+
+// 🔒 Bloqueo adicional de envío si hay errores visibles
+document.addEventListener('submit', function(e) {
+  const f = e.target;
+  if (f && f.tagName === 'FORM') {
+    const invalids = Array.from(f.querySelectorAll('.is-invalid, input:invalid, select:invalid'));
+    if (invalids.length > 0) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      if (typeof hideLoading === 'function') hideLoading();
+      const btn = f.querySelector('button[type="submit"]');
+      if (btn) btn.disabled = false;
+      alert('Hay campos con errores. Corrígelos antes de enviar el formulario.');
+      invalids[0].focus();
+    }
+  }
+}, true);
+
+
+
+// 🔒 Bloqueo total de envío si existen errores activos
+document.addEventListener('submit', function(e) {
+  const f = e.target;
+  if (f && f.tagName === 'FORM') {
+    // buscar campos con error visual o custom validity
+    const invalids = Array.from(f.querySelectorAll('.is-invalid, input:invalid, select:invalid')).filter(el => {
+      return el.validationMessage || el.classList.contains('is-invalid');
+    });
+    if (invalids.length > 0) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      if (typeof hideLoading === 'function') hideLoading();
+      const btn = f.querySelector('button[type="submit"]');
+      if (btn) btn.disabled = false;
+      alert('Hay campos con errores. Corrígelos antes de enviar el formulario.');
+      invalids[0].focus();
+    }
+  }
+}, true);
+
+// 🔁 Reinicio de número de personal al enviar con éxito
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.querySelector('form');
+  if (form) {
+    form.addEventListener('reset', () => {
+      const cant = document.getElementById('cant_personal');
+      if (cant) {
+        cant.value = '1';
+        const event = new Event('change');
+        cant.dispatchEvent(event);
+      }
+    });
+  }
+});
+
+
+
+// 🔒 Bloqueo total y validación final de DNIs y teléfonos antes de enviar
+document.addEventListener('submit', function(e) {
+  const f = e.target;
+  if (f && f.tagName === 'FORM') {
+    // Revalidar DNIs y Teléfonos
+    const dniInputs = Array.from(f.querySelectorAll('input[id^="p"][id$="_numdoc"]'));
+    const telInputs = Array.from(f.querySelectorAll('input[id^="p"][id$="_tel"]'));
+
+    // Limpiar errores previos
+    [...dniInputs, ...telInputs].forEach(inp => {
+      inp.classList.remove('is-invalid');
+      inp.setCustomValidity('');
+    });
+
+    // Validar DNIs
+    const dniValues = dniInputs.map(inp => inp.value.trim()).filter(v => v);
+    for (let i = 0; i < dniInputs.length; i++) {
+      const val = dniInputs[i].value.trim();
+      const err = document.getElementById(`p${i+1}_doc_err`);
+      if (val && (!/^[0-9]{8}$/.test(val))) {
+        dniInputs[i].classList.add('is-invalid');
+        dniInputs[i].setCustomValidity('DNI inválido');
+        if (err) err.textContent = 'El DNI debe tener 8 dígitos.';
+      }
+      // Duplicados
+      if (val && dniValues.filter(v => v === val).length > 1) {
+        dniInputs[i].classList.add('is-invalid');
+        dniInputs[i].setCustomValidity('DNI duplicado');
+        if (err) err.textContent = 'DNI duplicado.';
+      }
+    }
+
+    // Validar teléfonos duplicados
+    const telValues = telInputs.map(inp => inp.value.trim()).filter(v => v);
+    for (let i = 0; i < telInputs.length; i++) {
+      const val = telInputs[i].value.trim();
+      const err = document.getElementById(`p${i+1}_tel_err`);
+      if (val && telValues.filter(v => v === val).length > 1) {
+        telInputs[i].classList.add('is-invalid');
+        telInputs[i].setCustomValidity('Teléfono duplicado');
+        if (err) err.textContent = 'Teléfono duplicado. Debe ser distinto.';
+      }
+    }
+
+    // Bloquear envío si hay errores
+    const invalids = Array.from(f.querySelectorAll('.is-invalid, input:invalid, select:invalid'));
+    if (invalids.length > 0) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      if (typeof hideLoading === 'function') hideLoading();
+      const btn = f.querySelector('button[type="submit"]');
+      if (btn) btn.disabled = false;
+      alert('Hay campos con errores. Corrígelos antes de enviar el formulario.');
+      invalids[0].focus();
+      return;
+    }
+  }
+}, true);
+
+// 🔁 Reinicio de número de personal a 1 al limpiar después de envío
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.querySelector('form');
+  if (form) {
+    const originalReset = form.reset;
+    form.reset = function() {
+      originalReset.call(this);
+      const cant = document.getElementById('cant_personal');
+      if (cant) {
+        cant.value = '1';
+        const event = new Event('change');
+        cant.dispatchEvent(event);
+      }
+    };
+  }
+});
+
+
+
+// 🔴 Mostrar mensaje rojo "Falta llenar este campo." en campos requeridos vacíos
+
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.querySelector('form');
+
+  if (form) {
+    // Crear función para limpiar mensajes previos
+    function limpiarMensajes() {
+      const prevMsgs = form.querySelectorAll('.campo-obligatorio-msg');
+      prevMsgs.forEach(m => m.remove());
+    }
+
+    // Crear función que genera mensajes bajo campos vacíos
+    function mostrarMensajesObligatorios() {
+      limpiarMensajes();
+      const requeridos = Array.from(form.querySelectorAll('[required]'));
+      requeridos.forEach(campo => {
+        if (!campo.value || campo.value.trim() === '' || campo.value === '— Seleccionar —') {
+          const msg = document.createElement('div');
+          msg.className = 'campo-obligatorio-msg';
+          msg.style.color = 'red';
+          msg.style.fontSize = '0.85em';
+          msg.style.marginTop = '2px';
+          msg.textContent = 'Falta llenar este campo.';
+          campo.insertAdjacentElement('afterend', msg);
+        }
+      });
+    }
+
+    // Al enviar: bloquear y mostrar mensajes
+    form.addEventListener('submit', function(e) {
+      limpiarMensajes();
+      if (!form.reportValidity()) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        mostrarMensajesObligatorios();
+        return;
+      }
+    });
+
+    // Al cambiar o escribir, eliminar mensaje del campo
+    form.addEventListener('input', e => {
+      if (e.target.hasAttribute('required')) {
+        const msg = e.target.nextElementSibling;
+        if (msg && msg.classList.contains('campo-obligatorio-msg')) msg.remove();
+      }
+    });
+
+    form.addEventListener('change', e => {
+      if (e.target.hasAttribute('required')) {
+        const msg = e.target.nextElementSibling;
+        if (msg && msg.classList.contains('campo-obligatorio-msg')) msg.remove();
+      }
+    });
+  }
+});
 
 </script>
 </body>
