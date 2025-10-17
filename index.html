@@ -386,73 +386,83 @@
             </div>
           </div>
 
-          <div class="col-12" id="personal">
-            <!-- p1 -->
-            <div class="row g-3 align-items-end mb-1" data-pi="1">
-              <div class="col-md-2">
-                <input class="form-control" placeholder="Nombres (1)" id="p1_nombres" maxlength="80">
-                <div class="invalid-feedback" id="p1_nombres_err"></div>
-              </div>
-              <div class="col-md-2">
-                <input class="form-control" placeholder="Ap. paterno (1)" id="p1_apepat" maxlength="80">
-                <div class="invalid-feedback" id="p1_apepat_err"></div>
-              </div>
-              <div class="col-md-2">
-                <input class="form-control" placeholder="Ap. materno (1)" id="p1_apemat" maxlength="80">
-                <div class="invalid-feedback" id="p1_apemat_err"></div>
-              </div>
-              <div class="col-md-2">
-                <select class="form-select" id="p1_tipodoc">
-                  <option value="" selected>— Tipo doc. —</option><option value="DNI">DNI</option><option value="CE">C.E</option>
-                </select>
-              </div>
-              <div class="col-md-2">
-                <input class="form-control" placeholder="Doc (1)" id="p1_numdoc" inputmode="numeric" maxlength="8" disabled>
-                <div class="invalid-feedback" id="p1_doc_err"></div>
-              </div>
-              <div class="col-md-2">
-                <input class="form-control" placeholder="Teléfono (1)" id="p1_tel" inputmode="numeric" maxlength="9">
-                <div class="invalid-feedback" id="p1_tel_err"></div>
-              </div>
-            </div>
-            <!-- p2 -->
-            <div class="row g-3 align-items-end mb-1" data-pi="2" hidden>
-              <div class="col-md-2"><input class="form-control" placeholder="Nombres (2)" id="p2_nombres" maxlength="80"><div class="invalid-feedback" id="p2_nombres_err"></div></div>
-              <div class="col-md-2"><input class="form-control" placeholder="Ap. paterno (2)" id="p2_apepat" maxlength="80"><div class="invalid-feedback" id="p2_apepat_err"></div></div>
-              <div class="col-md-2"><input class="form-control" placeholder="Ap. materno (2)" id="p2_apemat" maxlength="80"><div class="invalid-feedback" id="p2_apemat_err"></div></div>
-              <div class="col-md-2"><select class="form-select" id="p2_tipodoc"><option value="" selected>— Tipo doc. —</option><option value="DNI">DNI</option><option value="CE">C.E</option></select></div>
-              <div class="col-md-2"><input class="form-control" placeholder="Doc (2)" id="p2_numdoc" inputmode="numeric" maxlength="8" disabled><div class="invalid-feedback" id="p2_doc_err"></div></div>
-              <div class="col-md-2"><input class="form-control" placeholder="Teléfono (2)" id="p2_tel" inputmode="numeric" maxlength="9"><div class="invalid-feedback" id="p2_tel_err"></div></div>
-            </div>
-            <!-- p3 -->
-            <div class="row g-3 align-items-end mb-1" data-pi="3" hidden>
-              <div class="col-md-2"><input class="form-control" placeholder="Nombres (3)" id="p3_nombres" maxlength="80"><div class="invalid-feedback" id="p3_nombres_err"></div></div>
-              <div class="col-md-2"><input class="form-control" placeholder="Ap. paterno (3)" id="p3_apepat" maxlength="80"><div class="invalid-feedback" id="p3_apepat_err"></div></div>
-              <div class="col-md-2"><input class="form-control" placeholder="Ap. materno (3)" id="p3_apemat" maxlength="80"><div class="invalid-feedback" id="p3_apemat_err"></div></div>
-              <div class="col-md-2"><select class="form-select" id="p3_tipodoc"><option value="" selected>— Tipo doc. —</option><option value="DNI">DNI</option><option value="CE">C.E</option></select></div>
-              <div class="col-md-2"><input class="form-control" placeholder="Doc (3)" id="p3_numdoc" inputmode="numeric" maxlength="8" disabled><div class="invalid-feedback" id="p3_doc_err"></div></div>
-              <div class="col-md-2"><input class="form-control" placeholder="Teléfono (3)" id="p3_tel" inputmode="numeric" maxlength="9"><div class="invalid-feedback" id="p3_tel_err"></div></div>
-            </div>
-            <!-- p4 -->
-            <div class="row g-3 align-items-end mb-1" data-pi="4" hidden>
-              <div class="col-md-2"><input class="form-control" placeholder="Nombres (4)" id="p4_nombres" maxlength="80"><div class="invalid-feedback" id="p4_nombres_err"></div></div>
-              <div class="col-md-2"><input class="form-control" placeholder="Ap. paterno (4)" id="p4_apepat" maxlength="80"><div class="invalid-feedback" id="p4_apepat_err"></div></div>
-              <div class="col-md-2"><input class="form-control" placeholder="Ap. materno (4)" id="p4_apemat" maxlength="80"><div class="invalid-feedback" id="p4_apemat_err"></div></div>
-              <div class="col-md-2"><select class="form-select" id="p4_tipodoc"><option value="" selected>— Tipo doc. —</option><option value="DNI">DNI</option><option value="CE">C.E</option></select></div>
-              <div class="col-md-2"><input class="form-control" placeholder="Doc (4)" id="p4_numdoc" inputmode="numeric" maxlength="8" disabled><div class="invalid-feedback" id="p4_doc_err"></div></div>
-              <div class="col-md-2"><input class="form-control" placeholder="Teléfono (4)" id="p4_tel" inputmode="numeric" maxlength="9"><div class="invalid-feedback" id="p4_tel_err"></div></div>
-            </div>
-          </div>
+          
+<div class="col-12" id="personal">
+  <!-- Personal 1 -->
+  <div class="eq-block" data-pi="1">
+    <div class="eq-title">Personal 1</div>
+    <div class="row g-3 align-items-end mb-1">
+      <div class="col-md-2"><input class="form-control" placeholder="Nombres (1)" id="p1_nombres" maxlength="80"></div>
+      <div class="col-md-2"><input class="form-control" placeholder="Ap. paterno (1)" id="p1_apepat" maxlength="80"></div>
+      <div class="col-md-2"><input class="form-control" placeholder="Ap. materno (1)" id="p1_apemat" maxlength="80"></div>
+      <div class="col-md-2">
+        <select class="form-select" id="p1_tipodoc">
+          <option value="" selected>— Tipo doc. —</option><option value="DNI">DNI</option><option value="CE">C.E</option>
+        </select>
+      </div>
+      <div class="col-md-2"><input class="form-control" placeholder="Doc (1)" id="p1_numdoc" inputmode="numeric" maxlength="8" disabled></div>
+      <div class="col-md-2"><input class="form-control" placeholder="Teléfono (1)" id="p1_tel" inputmode="numeric" maxlength="9"></div>
+    </div>
+  </div>
+  <!-- Personal 2 -->
+  <div class="eq-block" data-pi="2" hidden>
+    <div class="eq-title">Personal 2</div>
+    <div class="row g-3 align-items-end mb-1">
+      <div class="col-md-2"><input class="form-control" placeholder="Nombres (2)" id="p2_nombres" maxlength="80"></div>
+      <div class="col-md-2"><input class="form-control" placeholder="Ap. paterno (2)" id="p2_apepat" maxlength="80"></div>
+      <div class="col-md-2"><input class="form-control" placeholder="Ap. materno (2)" id="p2_apemat" maxlength="80"></div>
+      <div class="col-md-2">
+        <select class="form-select" id="p2_tipodoc">
+          <option value="" selected>— Tipo doc. —</option><option value="DNI">DNI</option><option value="CE">C.E</option>
+        </select>
+      </div>
+      <div class="col-md-2"><input class="form-control" placeholder="Doc (2)" id="p2_numdoc" inputmode="numeric" maxlength="8" disabled></div>
+      <div class="col-md-2"><input class="form-control" placeholder="Teléfono (2)" id="p2_tel" inputmode="numeric" maxlength="9"></div>
+    </div>
+  </div>
+  <!-- Personal 3 -->
+  <div class="eq-block" data-pi="3" hidden>
+    <div class="eq-title">Personal 3</div>
+    <div class="row g-3 align-items-end mb-1">
+      <div class="col-md-2"><input class="form-control" placeholder="Nombres (3)" id="p3_nombres" maxlength="80"></div>
+      <div class="col-md-2"><input class="form-control" placeholder="Ap. paterno (3)" id="p3_apepat" maxlength="80"></div>
+      <div class="col-md-2"><input class="form-control" placeholder="Ap. materno (3)" id="p3_apemat" maxlength="80"></div>
+      <div class="col-md-2">
+        <select class="form-select" id="p3_tipodoc">
+          <option value="" selected>— Tipo doc. —</option><option value="DNI">DNI</option><option value="CE">C.E</option>
+        </select>
+      </div>
+      <div class="col-md-2"><input class="form-control" placeholder="Doc (3)" id="p3_numdoc" inputmode="numeric" maxlength="8" disabled></div>
+      <div class="col-md-2"><input class="form-control" placeholder="Teléfono (3)" id="p3_tel" inputmode="numeric" maxlength="9"></div>
+    </div>
+  </div>
+  <!-- Personal 4 -->
+  <div class="eq-block" data-pi="4" hidden>
+    <div class="eq-title">Personal 4</div>
+    <div class="row g-3 align-items-end mb-1">
+      <div class="col-md-2"><input class="form-control" placeholder="Nombres (4)" id="p4_nombres" maxlength="80"></div>
+      <div class="col-md-2"><input class="form-control" placeholder="Ap. paterno (4)" id="p4_apepat" maxlength="80"></div>
+      <div class="col-md-2"><input class="form-control" placeholder="Ap. materno (4)" id="p4_apemat" maxlength="80"></div>
+      <div class="col-md-2">
+        <select class="form-select" id="p4_tipodoc">
+          <option value="" selected>— Tipo doc. —</option><option value="DNI">DNI</option><option value="CE">C.E</option>
+        </select>
+      </div>
+      <div class="col-md-2"><input class="form-control" placeholder="Doc (4)" id="p4_numdoc" inputmode="numeric" maxlength="8" disabled></div>
+      <div class="col-md-2"><input class="form-control" placeholder="Teléfono (4)" id="p4_tel" inputmode="numeric" maxlength="9"></div>
+    </div>
+  </div>
+</div>
 
-          <div class="col-12">
-            <button class="btn btn-warning px-4" id="btn_enviar" type="submit">Enviar solicitud</button>
+<div class="col-12">
+  <button class="btn btn-warning px-4" id="btn_enviar" type="submit">Enviar solicitud</button>
           </div>
         </form>
       </div>
     </div>
 
     <div class="mt-3 text-light">
-      <small class="muted">BY: Diego M.</small>
+      <small class="muted">BY: Diego M.L.</small>
     </div>
   </div>
 
@@ -732,9 +742,9 @@
       {empresa:'WIN NET', nombres:'Charles Jhonatan',  apepat:'Contreras', apemat:'Cajo', tipodoc:'DNI', numdoc:'45108724', tel:'964237058', email:'ccontrerasc@win.pe'},
       {empresa:'WIN NET', nombres:'Josue',  apepat:'Giraldo', apemat:'Falcon', tipodoc:'DNI', numdoc:'47613161', tel:'939052660', email:'jgiraldo@win.pe'},
       {empresa:'WIN NET', nombres:'Joel',  apepat:'Chumbimuni', apemat:'Huaringa', tipodoc:'DNI', numdoc:'74303783', tel:'933817333', email:'jchumbimuni@win.pe'},
-      {empresa:'WIN NET', nombres:'Vasco Antonio',  apepat:'Piña', apemat:'Ortiz', tipodoc:'C.E', numdoc:'03640600', tel:'947315935', email:'vpinao@win.pe'},
+      {empresa:'WIN NET', nombres:'Vasco Antonio',  apepat:'Piña', apemat:'Ortiz', tipodoc:'CE', numdoc:'03640600', tel:'947315935', email:'vpinao@win.pe'},
       {empresa:'WIN NET', nombres:'Luis Eduardo',  apepat:'Granados', apemat:'Pinedo', tipodoc:'DNI', numdoc:'44004997', tel:'985932632', email:'lgranados@win.pe'},
-      {empresa:'WIN NET', nombres:'Adrian',  apepat:'Tesorero', apemat:'Falta', tipodoc:'C.E', numdoc:'02009546', tel:'940154749', email:'atesorero@win.pe'},
+      {empresa:'WIN NET', nombres:'Adrian',  apepat:'Tesorero', apemat:'Falta', tipodoc:'CE', numdoc:'02009546', tel:'940154749', email:'atesorero@win.pe'},
       {empresa:'WIN NET', nombres:'Jeinner Erison',  apepat:'Canelo', apemat:'Romani', tipodoc:'DNI', numdoc:'47146068', tel:'991740568', email:'jcanelo@win.pe'},
       {empresa:'WIN NET', nombres:'Dany Carlos',  apepat:'Mendo', apemat:'Cardenas', tipodoc:'DNI', numdoc:'41588692', tel:'931088935', email:'dmendo@win.pe'},
       {empresa:'WIN NET', nombres:'Mark Antonhy',  apepat:'Cardenas', apemat:'Barros', tipodoc:'DNI', numdoc:'73770435', tel:'970830782', email:'mcardenasb@win.pe'}
