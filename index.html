@@ -147,7 +147,7 @@
         <div class="intro-box">
           <h6>Sugerencia</h6>
           <ul class="mb-0">
-            <li>Si eres personal de Infraestrucutra / OyM de Win Net puedes usar el botón <strong><em>"Personal WIN-NET"</em></strong> para autocompletar tus datos.</li>
+            <!--<li>Si eres personal de Infraestrucutra / OyM de Win Net puedes usar el botón <strong><em>"Personal WIN-NET"</em></strong> para autocompletar tus datos.</li>-->
             <li>Para los trabajos de instalación, retiro o reemplazo de equipos, es obligatorio consignar la información correspondiente al modelo, marca y número de serie de cada equipo.</li>
           </ul>
         </div>
@@ -208,8 +208,11 @@
           <div class="col-12 mt-2 d-flex align-items-center justify-content-between">
             <h5 class="section-title m-0">Solicitante encargado</h5>
             <div class="d-flex align-items-center gap-2">
-              <button type="button" id="btn_dir" class="btn btn-outline-primary btn-sm">Personal Win-Net</button>
-              <button type="button" id="btn_limpiar_sol" class="btn btn-outline-danger btn-sm">Limpiar</button>
+    <!--
+    <button type="button" id="btn_dir" class="btn btn-outline-primary btn-sm">Personal Win-Net</button>
+    <button type="button" id="btn_limpiar_sol" class="btn btn-outline-danger btn-sm">Limpiar</button>
+    -->
+         
             </div>
           </div>
           <div class="col-12"><hr></div>
@@ -781,7 +784,7 @@
       $('#dir_search').focus();
     }
     function closeDir(){ $('#dir_overlay').style.display='none'; }
-    $('#btn_dir').addEventListener('click', openDir);
+    // $('#btn_dir').addEventListener('click', openDir);
     $('#dir_close').addEventListener('click', closeDir);
     $('#dir_search').addEventListener('input', openDir);
     document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeDir(); });
@@ -838,7 +841,7 @@
         handleP1Toggle();
       }
     }
-    $('#btn_limpiar_sol').addEventListener('click', clearSolicitanteUI);
+    // $('#btn_limpiar_sol').addEventListener('click', clearSolicitanteUI);
 
     /* Catálogos */
     const NODOS = ["200 MILLAS","ANGAMOS","ARRIOLA","AURELIO SOUZA","AREQUIPA SOCABAYA","AREQUIPA CERRO COLORADO","AREQUIPA MIRAFLORES","BARRANCA","BARRANCO","BAYOVAR","BENVENUTTO","BUCKINGHAM","CALLAO","CAMANA","CAQUETA","CATACAOS","CHANCAY","CHICLAYO MAGNOLIAS","CHIMBOTE LAS PALMERAS","CHIMBOTE MANCO CAPAC","CHORRILLOS","CIPRESES","CONQUISTADORES","CUZCO TUPAC AMARU","CUZCO WANCHAQ","EL SAUCE","FLAMENGOS","FRANCISCO MOREYRA","GALVEZ II","GERARDO UNGER","GUARDIA PERUANA","HIPOLITO UNANUE","HUACHO","HUANDOY","HUARAL","HUANCAYO CENTRO","HUANCAYO TAMBO","JUAN PABLO","LA ENSENADA","LA MOLINA","LAMBAYEQUE OUTDOOR","LINCE","LOS ALAMOS","LOS JARDINES","LOS MIRABLES","MARIATEGUI","NATALIO SANCHEZ","NIÑO JESUS","PACHACAMAC","PELITRES","PERSHING","PIMENTEL INDOOR","PISTA NUEVA","PIURA GARDENIAS","PUNTA HERMOSA","REPUBLICA DE PANAMA","SALAMANCA","SAN LUIS","SAN PEDRO","SAN REMO","SANTA FE","SANTA ROSA","SANTOS CHOCANO","SUCRE","TRES DE MAYO","TRIGAL","TRUIJILLO LARCO","TRUJILLO SANTA ROSA","TUNGASUCA","URUGUAY","VARELA","VILLA EL SALVADOR","VITARTE","ZARATE"];
