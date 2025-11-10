@@ -868,7 +868,7 @@
     const emp = $('#empresa'), ar = $('#area_resp'), ap = $('#area_apoyo');
     function loadAreas(){
       if (emp.value === "WIN NET"){ load(AREAS_NET, ar); load(AREAS_APOYO_NET, ap); }
-      else if (emp.value === "WIN EMPRESAS"){ load(AREAS_EMP, ar); load(AREAS_APOYO_EMP, ap); }
+      else if (emp.value === "ON EMPRESAS"){ load(AREAS_EMP, ar); load(AREAS_APOYO_EMP, ap); }
       else { ar.innerHTML = '<option value="">— Seleccionar —</option>'; ap.innerHTML = '<option value="">— Seleccionar —</option>'; if (smart.has(ar)) smart.get(ar).rebuild(); if (smart.has(ap)) smart.get(ap).rebuild(); }
     }
 
