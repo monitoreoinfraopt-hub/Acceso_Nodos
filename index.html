@@ -1663,7 +1663,7 @@ function clampFechaIngreso(){ if(fs.value && fs.value < fi.value){ fs.value = fi
     function applyEquiposBlock(){
       const val = (tipoTrabajo.value || '').toUpperCase();
 
-      const isReemplazo = val.includes('REEMPLAZO') || val === 'ABI';
+      const isReemplazo = val.includes('REEMPLAZO DE EQUIPO');
       const isInstal    = val === 'INSTALACIÓN DE EQUIPOS' || val === 'INSTALACION DE EQUIPOS';
       const isRetiro    = val === 'RETIRO DE EQUIPOS';
 
@@ -2053,7 +2053,7 @@ f.addEventListener('submit', async (e) => {
 
         /* ✅ Lista hija de REEMPLAZOS (instala/retira emparejados) */
         const tipoVal = (tipoTrabajo.value || '').toUpperCase();
-        const isReemplazo = tipoVal.includes('REEMPLAZO') || tipoVal === 'ABI';
+        const isReemplazo = tipoVal.includes('REEMPLAZO DE EQUIPO') || tipoVal === 'ABI';
         const reemplazos = [];
         if (isReemplazo) {
           const max = Math.max(equipos.length, retiros.length);
