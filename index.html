@@ -2142,6 +2142,41 @@ f.addEventListener('submit', async (e) => {
     enhanceSelect('#reemplazos_cant', '— Seleccionar —', {search:false}); // NUEVO
 
     enhanceSelect('#correo_dom', '— Seleccionar —', {search:false});
+
+// === Validación: solo subname en el correo del solicitante (mensaje debajo) ===
+(() => {
+  const input = document.getElementById('correo_nick');
+  const group = input.closest('.input-group'); // grupo contenedor
+  const msgId = 'correo_subname_msg';
+  let msgEl = null;
+
+  function mostrarMsg() {
+    if (!msgEl) {
+      msgEl = document.createElement('div');
+      msgEl.id = msgId;
+      msgEl.style.color = 'red';
+      msgEl.style.fontSize = '0.85em';
+      msgEl.style.marginTop = '4px';
+      msgEl.textContent = 'No incluir @ ni dominio; solo el usuario.';
+      group.insertAdjacentElement('afterend', msgEl); // ahora debajo del grupo
+    }
+  }
+
+  function ocultarMsg() {
+    if (msgEl) { msgEl.remove(); msgEl = null; }
+  }
+
+  input.addEventListener('input', () => {
+    if (input.value.includes('@')) {
+      input.value = input.value.split('@')[0];
+      mostrarMsg();
+    } else {
+      ocultarMsg();
+    }
+  });
+
+  input.addEventListener('blur', ocultarMsg);
+})();
     enhanceSelect('#sol_tipodoc', '— Seleccionar —', {search:false});
     enhanceSelect('#nivel_acceso', '— Seleccionar —', {search:false});
     enhanceSelect('#empresa', '— Seleccionar —', {search:false});
