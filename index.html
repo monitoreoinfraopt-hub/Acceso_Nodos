@@ -259,7 +259,7 @@
               <select class="form-select" id="correo_dom" style="max-width:190px" required>
                 <option value="" selected>— Seleccionar —</option>
                 <option value="@win.pe">@win.pe</option>
-                <option value="@on.pe">@on.pe</option>
+                <option value="@winempresas.pe">@on.pe</option>
               </select>
             </div>
           </div>
@@ -281,7 +281,7 @@
             <select class="form-select" id="empresa" required>
               <option value="" selected>— Seleccionar —</option>
               <option value="WIN NET">WIN NET</option>
-              <option value="ON EMPRESAS">ON EMPRESAS</option>
+              <option value="WIN EMPRESAS">ON EMPRESAS</option>
             </select>
           </div>
           <div class="col-md-5">
@@ -844,8 +844,8 @@
     // $('#btn_limpiar_sol').addEventListener('click', clearSolicitanteUI);
 
     /* Catálogos */
-    const NODOS = ["200 MILLAS","ANGAMOS","ARRIOLA","AURELIO SOUZA","AREQUIPA SOCABAYA","AREQUIPA CERRO COLORADO","AREQUIPA MIRAFLORES","BARRANCA","BARRANCO","BAYOVAR","BENVENUTTO","BUCKINGHAM","CALLAO","CAMANA","CAQUETA","CATACAOS","CHANCAY","CHICLAYO MAGNOLIAS","CHIMBOTE LAS PALMERAS","CHIMBOTE MANCO CAPAC","CHORRILLOS","CIPRESES","CONQUISTADORES","CUZCO TUPAC AMARU","CUZCO CALCA","EL SAUCE","FLAMENGOS","FRANCISCO MOREYRA","GALVEZ II","GERARDO UNGER","GUARDIA PERUANA","HIPOLITO UNANUE","HUACHO","HUANDOY","HUARAL","HUANCAYO CENTRO","HUANCAYO TAMBO","JUAN PABLO","LA ENSENADA","LA MOLINA","LAMBAYEQUE OUTDOOR","LINCE","LOS ALAMOS","LOS JARDINES","LOS MIRABLES","MARIATEGUI","NATALIO SANCHEZ","NIÑO JESUS","PACHACAMAC","PELITRES","PERSHING","PIMENTEL INDOOR","PISTA NUEVA","PIURA GARDENIAS","PUNTA HERMOSA","REPUBLICA DE PANAMA","SALAMANCA","SAN LUIS","SAN PEDRO","SAN REMO","SANTA FE","SANTA ROSA","SANTOS CHOCANO","SUCRE","TRES DE MAYO","TRIGAL","TRUIJILLO LARCO","TRUJILLO SANTA ROSA","TUNGASUCA","URUGUAY","VARELA","VILLA EL SALVADOR","VITARTE","ZARATE","PEDRO RUIZ"];
-    const TIPOS_TRABAJO = ["ACONDICIONAMIENTO, ETIQUETADO ODF / LIMPIEZA DE PICTELES","ACTIVACIÓN DE ENLACE","ATENCIÓN DE INCIDENCIA","AUDITORIA DE EQUIPOS WIN","CABLEADO DE F.O.","CAMBIO DE PATCH CORD","CAMBIO DE BATERIAS UPS","CAMBIO DE TARJETA CONTROLADORA EN OLT.","CAMBIO DE TRANSCEIVER","FUSIONES DE F.O.","IMPLEMENTACIÓN DE UN ENLACE","IMPLEMENTACIÓN DE UN NUEVO CIRCUITO","INGRESO DE F.O./INSTALACIÓN DE P.P.","INSTALACIÓN DE EQUIPOS","INSTALACIÓN DE PATCH CORD Y TRANSCEIVER","INSTALACIÓN DE TRANSCEIVER","INVENTARIO DE EQUIPOS","INVENTARIO DE HILOS","JUMPEO DE PATCH CORD","MANTENIMIENTO","MAPEO DE ESPACIO EN RACK WIN Y PATCH CORD","MEDICIONES REFLECTOMÉTRICAS","MEDICIONES REFLECTOMÉTRICAS, INSTALACIÓN DE PATCH CORD Y TRANSCEIVER","REEMPLAZO DE EQUIPO","REINICIO DE EQUIPOS","RETIRO DE EQUIPOS","ROTULADO","RETIRO DE TRANCEIVER","REEMPLAZO DE TRANCEIVER","TROUBLESHOOTING","UPGRADE DE ENLACES","VALIDACIÓN DE ENLACES","VALIDACIÓN DE PUERTO Y JUMPEO","VISITA TÉCNICA",];
+    const NODOS = ["200 MILLAS","ANGAMOS","ARRIOLA","AURELIO SOUZA","AREQUIPA SOCABAYA","AREQUIPA CERRO COLORADO","AREQUIPA MIRAFLORES","BARRANCA","BARRANCO","BAYOVAR","BENVENUTTO","BUCKINGHAM","CALLAO","CAMANA","CAQUETA","CATACAOS","CHANCAY","CHICLAYO MAGNOLIAS","CHIMBOTE LAS PALMERAS","CHIMBOTE MANCO CAPAC","CHORRILLOS","CIPRESES","CONQUISTADORES","CUZCO TUPAC AMARU","CUZCO CALCA","EL SAUCE","FLAMENGOS","FRANCISCO MOREYRA","GALVEZ II","GERARDO UNGER","GUARDIA PERUANA","HIPOLITO UNANUE","HUACHO","HUANDOY","HUARAL","HUANCAYO CENTRO","HUANCAYO TAMBO","JUAN PABLO","LA ENSENADA","LA MOLINA","LAMBAYEQUE OUTDOOR","LINCE","LOS ALAMOS","LOS JARDINES","LOS MIRABLES","MARIATEGUI","NATALIO SANCHEZ","NIÑO JESUS","PACHACAMAC","PELITRES","PERSHING","PIMENTEL INDOOR","PISTA NUEVA","PIURA GARDENIAS","PUNTA HERMOSA","REPUBLICA DE PANAMA","SALAMANCA","SAN LUIS","SAN PEDRO","SAN REMO","SANTA FE","SANTA ROSA","SANTOS CHOCANO","SUCRE","TRES DE MAYO","TRIGAL","TRUIJILLO LARCO","TRUJILLO SANTA ROSA","TUNGASUCA","URUGUAY","VARELA","VILLA EL SALVADOR","VITARTE","ZARATE"];
+    const TIPOS_TRABAJO = ["ACONDICIONAMIENTO, ETIQUETADO ODF / LIMPIEZA DE PICTELES","ACTIVACIÓN DE ENLACE","ATENCIÓN DE INCIDENCIA","AUDITORIA DE EQUIPOS WIN","CABLEADO DE F.O.","CAMBIO DE PATCH CORD","CAMBIO DE BATERIAS UPS","CAMBIO DE TARJETA CONTROLADORA EN OLT.","CAMBIO DE TRANSCEIVER","FUSIONES DE F.O.","IMPLEMENTACIÓN DE UN ENLACE","IMPLEMENTACIÓN DE UN NUEVO CIRCUITO","INGRESO DE F.O./INSTALACIÓN DE P.P.","INSTALACIÓN DE EQUIPOS","INSTALACIÓN DE PATCH CORD Y TRANSCEIVER","INSTALACIÓN DE TRANSCEIVER","INVENTARIO DE EQUIPOS","INVENTARIO DE HILOS","JUMPEO DE PATCH CORD","MANTENIMIENTO","MAPEO DE ESPACIO EN RACK WIN Y PATCH CORD","MEDICIONES REFLECTOMÉTRICAS","MEDICIONES REFLECTOMÉTRICAS, INSTALACIÓN DE PATCH CORD Y TRANSCEIVER","REEMPLAZO DE EQUIPO","REINICIO DE EQUIPOS","RETIRO DE EQUIPOS","ROTULADO","TROUBLESHOOTING","UPGRADE DE ENLACES","VALIDACIÓN DE ENLACES","VALIDACIÓN DE PUERTO Y JUMPEO","VISITA TÉCNICA",];
     const AREAS_NET = ["CIBERSEGURIDAD-WIN","IMPLEMENTACIONES-WIN","INFRAESTRUCTURA-WIN","INGENIERIA-WIN","MANTENIMIENTO Y EMERGENCIAS PEXT-WIN","NOC-WIN","O&M-WIN","PROYECTOS PEXT-WIN","PLANIFICACION DE RED B2C-WIN"];
     const AREAS_EMP = ["CIBERSEGURIDAD-ON EMPRESAS","CORE-ON EMPRESAS","IMPLEMENTACIONES-ON EMPRESAS","INFRAESTRUCTURA-ON EMPRESAS","INGENIERIA-ON EMPRESAS","NOC-ON EMPRESAS","O&M-ON EMPRESAS","PEXT-ON EMPRESAS","SOS-ON EMPRESAS","TAC-ON EMPRESAS"];
     const AREAS_APOYO_NET = ["Ninguna","CIBERSEGURIDAD-WIN","IMPLEMENTACIONES-WIN","INFRAESTRUCTURA-WIN","INGENIERIA-WIN","MANTENIMIENTO Y EMERGENCIAS PEXT-WIN","NOC-WIN","O&M-WIN","PROYECTOS PEXT-WIN","PLANIFICACION DE RED B2C-WIN"];
@@ -1401,7 +1401,7 @@ function clampFechaIngreso(){ if(fs.value && fs.value < fi.value){ fs.value = fi
       const clearSelect = (el)=>{ if(!el) return; el.value=''; if(smart.has(el)) smart.get(el).setText(''); };
       const clearRU = ()=>{ Array.from(iRU.options).forEach(o=>o.selected=false); if(smart.has(iRU)) smart.get(iRU).setText(''); };
 
-      const isSimple = (v === 'CÁMARA' || v === 'CAMARA' || v === 'ANTENA' || v === 'MEDIDOR DIGITAL' || v === 'AA');
+      const isSimple = (v === 'CÁMARA' || v === 'CAMARA' || v === 'ANTENA' || v === 'MEDIDOR DIGITAL' || v === 'AA' );
       const isTarjeta = (v === 'TARJETA FLEXPON' || v === 'TARJETA GPON');
 
       if(!v){
@@ -1569,7 +1569,7 @@ function clampFechaIngreso(){ if(fs.value && fs.value < fi.value){ fs.value = fi
       const clearSelect = (el)=>{ if(!el) return; el.value=''; if(smart.has(el)) smart.get(el).setText(''); };
       const clearRU = ()=>{ Array.from(iRU.options).forEach(o=>o.selected=false); if(smart.has(iRU)) smart.get(iRU).setText(''); };
 
-      const isSimple = (v === 'CÁMARA' || v === 'CAMARA' || v === 'ANTENA'  || v === 'MEDIDOR DIGITAL'  || v === 'AA');
+      const isSimple = (v === 'CÁMARA' || v === 'CAMARA' || v === 'ANTENA' || v === 'MEDIDOR DIGITAL' || v === 'AA');
       const isTarjeta = (v === 'TARJETA FLEXPON' || v === 'TARJETA GPON');
 
       if(!v){
@@ -1663,7 +1663,7 @@ function clampFechaIngreso(){ if(fs.value && fs.value < fi.value){ fs.value = fi
     function applyEquiposBlock(){
       const val = (tipoTrabajo.value || '').toUpperCase();
 
-      const isReemplazo = val.includes('REEMPLAZO DE EQUIPO');
+      const isReemplazo = val.includes('REEMPLAZO') || val === 'ABI';
       const isInstal    = val === 'INSTALACIÓN DE EQUIPOS' || val === 'INSTALACION DE EQUIPOS';
       const isRetiro    = val === 'RETIRO DE EQUIPOS';
 
@@ -2142,41 +2142,6 @@ f.addEventListener('submit', async (e) => {
     enhanceSelect('#reemplazos_cant', '— Seleccionar —', {search:false}); // NUEVO
 
     enhanceSelect('#correo_dom', '— Seleccionar —', {search:false});
-
-// === Validación: solo subname en el correo del solicitante (mensaje debajo) ===
-(() => {
-  const input = document.getElementById('correo_nick');
-  const group = input.closest('.input-group'); // grupo contenedor
-  const msgId = 'correo_subname_msg';
-  let msgEl = null;
-
-  function mostrarMsg() {
-    if (!msgEl) {
-      msgEl = document.createElement('div');
-      msgEl.id = msgId;
-      msgEl.style.color = 'red';
-      msgEl.style.fontSize = '0.85em';
-      msgEl.style.marginTop = '4px';
-      msgEl.textContent = 'No incluir @ ni dominio; solo el usuario.';
-      group.insertAdjacentElement('afterend', msgEl); // ahora debajo del grupo
-    }
-  }
-
-  function ocultarMsg() {
-    if (msgEl) { msgEl.remove(); msgEl = null; }
-  }
-
-  input.addEventListener('input', () => {
-    if (input.value.includes('@')) {
-      input.value = input.value.split('@')[0];
-      mostrarMsg();
-    } else {
-      ocultarMsg();
-    }
-  });
-
-  input.addEventListener('blur', ocultarMsg);
-})();
     enhanceSelect('#sol_tipodoc', '— Seleccionar —', {search:false});
     enhanceSelect('#nivel_acceso', '— Seleccionar —', {search:false});
     enhanceSelect('#empresa', '— Seleccionar —', {search:false});
@@ -2545,6 +2510,140 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+</script>
+<script>
+// === Correcciones finales: activación exacta y validación completa ===
+(function () {
+  const btnEnviar = document.querySelector('button[type="submit"]');
+  const form = document.querySelector("form");
+  const correoNick = document.getElementById("correo_nick");
+  const correoGroup = correoNick?.closest('.input-group');
+
+  // --- Control del campo correo (no permitir arroba ni dominio) ---
+  if (correoNick) {
+    let msgEl = null;
+    function mostrarMsg() {
+      if (!msgEl) {
+        msgEl = document.createElement('div');
+        msgEl.style.color = 'red';
+        msgEl.style.fontSize = '0.85em';
+        msgEl.style.marginTop = '4px';
+        msgEl.textContent = 'No incluir @ ni dominio; solo el usuario.';
+        correoGroup.insertAdjacentElement('afterend', msgEl);
+      }
+    }
+    function ocultarMsg() {
+      if (msgEl) { msgEl.remove(); msgEl = null; }
+    }
+    correoNick.addEventListener('keydown', e => {
+      if (e.key === '@') {
+        e.preventDefault();
+        mostrarMsg();
+      }
+    });
+    correoNick.addEventListener('input', () => {
+      if (correoNick.value.includes('@')) {
+        correoNick.value = correoNick.value.split('@')[0];
+        mostrarMsg();
+      } else ocultarMsg();
+    });
+    correoNick.addEventListener('blur', ocultarMsg);
+  }
+
+  // --- Validación de equipos ---
+  function limpiarError(campo) {
+    const msg = campo?.nextElementSibling;
+    if (msg && msg.classList.contains("campo-obligatorio-msg")) msg.remove();
+  }
+
+  function validarEquiposTrabajo() {
+    const tipo = document.getElementById("tipo_trabajo").value?.toUpperCase();
+    const trabajosValidos = ["INSTALACIÓN DE EQUIPOS", "RETIRO DE EQUIPOS", "REEMPLAZO DE EQUIPO"];
+    if (!trabajosValidos.includes(tipo)) return true; // solo valida los tres casos exactos
+
+    let cantidad = 0;
+    if (tipo === "INSTALACIÓN DE EQUIPOS") cantidad = parseInt(document.getElementById("equipos_cant")?.value || 0);
+    else if (tipo === "RETIRO DE EQUIPOS") cantidad = parseInt(document.getElementById("retiros_cant")?.value || 0);
+    else if (tipo === "REEMPLAZO DE EQUIPO") cantidad = parseInt(document.getElementById("reemplazos_cant")?.value || 0);
+
+    document.querySelectorAll('.campo-obligatorio-msg').forEach(e => e.remove());
+
+    if (!cantidad || isNaN(cantidad)) {
+      alert("Debe seleccionar la cantidad de equipos.");
+      return false;
+    }
+
+    let valid = true;
+    for (let i = 1; i <= cantidad; i++) {
+      // Para REEMPLAZO validar ambos pares
+      if (tipo === "REEMPLAZO DE EQUIPO") {
+        const pares = [
+          [`rt${i}_equipo`, `rt${i}_marca`, `rt${i}_modelo`, `rt${i}_serie`],
+          [`eq${i}_equipo`, `eq${i}_marca`, `eq${i}_modelo`, `eq${i}_serie`]
+        ];
+        pares.forEach(ids => {
+          ids.forEach(id => {
+            const campo = document.getElementById(id);
+            if (campo) {
+              limpiarError(campo);
+              if (!campo.value.trim()) {
+                const msg = document.createElement("div");
+                msg.textContent = "Falta llenar este campo.";
+                msg.classList.add("campo-obligatorio-msg");
+                msg.style.color = "red";
+                msg.style.fontSize = "0.85em";
+                msg.style.marginTop = "2px";
+                campo.insertAdjacentElement("afterend", msg);
+                if (valid) campo.focus();
+                valid = false;
+              }
+              campo.addEventListener("input", () => limpiarError(campo));
+              campo.addEventListener("change", () => limpiarError(campo));
+            }
+          });
+        });
+      } else {
+        const prefijo = tipo === "RETIRO DE EQUIPOS" ? "rt" : "eq";
+        const equipo = document.getElementById(`${prefijo}${i}_equipo`);
+        const marca = document.getElementById(`${prefijo}${i}_marca`);
+        const modelo = document.getElementById(`${prefijo}${i}_modelo`);
+        const serie = document.getElementById(`${prefijo}${i}_serie`);
+
+        [equipo, marca, modelo, serie].forEach(campo => {
+          if (campo) {
+            limpiarError(campo);
+            if (!campo.value.trim()) {
+              const msg = document.createElement("div");
+              msg.textContent = "Falta llenar este campo.";
+              msg.classList.add("campo-obligatorio-msg");
+              msg.style.color = "red";
+              msg.style.fontSize = "0.85em";
+              msg.style.marginTop = "2px";
+              campo.insertAdjacentElement("afterend", msg);
+              if (valid) campo.focus();
+              valid = false;
+            }
+            campo.addEventListener("input", () => limpiarError(campo));
+            campo.addEventListener("change", () => limpiarError(campo));
+          }
+        });
+      }
+    }
+
+    if (!valid) alert("Debe completar todos los campos de los equipos antes de enviar.");
+    return valid;
+  }
+
+  // --- Evento del botón enviar ---
+  btnEnviar?.addEventListener("click", function (e) {
+    const valido = validarEquiposTrabajo();
+    if (!valido) {
+      e.preventDefault();
+      console.warn("Formulario bloqueado: faltan datos de equipos.");
+      return false;
+    }
+  });
+})();
 </script>
 </body>
 </html>
