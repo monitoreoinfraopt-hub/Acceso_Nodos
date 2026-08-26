@@ -140,7 +140,7 @@
           <ul class="mb-0">
             <li>Tener su EPP en regla.</li>
             <li>Tener su fotocheck y presentarlo al momento del ingreso.</li>
-            <li>SCTR del personal (PDF máx. 2 MB).</li>
+            <li>SCTR del personal (PDF máx. 10 MB).</li>
           </ul>
         </div>
 
@@ -370,7 +370,7 @@
           <div class="col-md-4" id="wrap_sctr" style="display:block;">
             <label class="form-label">SCTR del personal a ingresar</label>
             <input class="form-control" type="file" id="sctr" accept="application/pdf" required>
-            <div class="form-text" style="color:var(--ink-soft)">PDF, máx. 2 MB. (Obligatorio)</div>
+            <div class="form-text" style="color:var(--ink-soft)">PDF, máx. 10 MB. (Obligatorio)</div>
             <div class="invalid-feedback" id="sctr_err"></div>
           </div>
 
@@ -970,11 +970,11 @@ function clampFechaIngreso(){ if(fs.value && fs.value < fi.value){ fs.value = fi
     }
     c.addEventListener('change', toggleContrata); toggleContrata();
 
-    // SCTR change: coherente con 2 MB
+    // SCTR: un archivo PDF de hasta 10 MB
     $('#sctr').addEventListener('change', ()=>{
       const file = $('#sctr').files?.[0]; let msg = '';
       if(!file){ msg = 'SCTR requerido.'; }
-      else if(file.size > 2*1024*1024){ msg = 'El PDF no debe superar 2 MB.'; }
+      else if(file.size > 10*1024*1024){ msg = 'El PDF no debe superar 10 MB.'; }
       setErr('sctr_err', msg);
       $('#sctr').classList.toggle('is-invalid', !!msg);
       $('#sctr').setCustomValidity(msg);
@@ -1972,10 +1972,10 @@ f.addEventListener('submit', async (e) => {
           sctrEl.classList.add('is-invalid');
           throw new Error('SCTR requerido.');
         }
-        if (file.size > 2 * 1024 * 1024) {
-          setErr('sctr_err','El PDF no debe superar 2 MB.');
+        if (file.size > 10 * 1024 * 1024) {
+          setErr('sctr_err','El PDF no debe superar 10 MB.');
           sctrEl.classList.add('is-invalid');
-          throw new Error('El PDF no debe superar 2 MB.');
+          throw new Error('El PDF no debe superar 10 MB.');
         }
 
         const buf = await file.arrayBuffer();
