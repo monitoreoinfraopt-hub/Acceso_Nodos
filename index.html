@@ -253,12 +253,13 @@
           </div>
 
           <div class="col-md-4">
-            <label class="form-label" for="correo_nick">Correo (seleccionar dominio: @win.pe o @on.pe)</label>
+            <label class="form-label" for="correo_nick">Correo (seleccionar dominio)</label>
             <div class="input-group">
               <input class="form-control" id="correo_nick" placeholder="USUARIO" required>
               <select class="form-select" id="correo_dom" style="max-width:190px" required>
                 <option value="" selected>— Seleccionar —</option>
                 <option value="@win.pe">@win.pe</option>
+                <option value="@on.pe">@winet.pe</option>
                 <option value="@on.pe">@on.pe</option>
               </select>
             </div>
@@ -803,7 +804,7 @@
         const [nick, domRaw] = p.email.split('@');
         const dom = domRaw ? '@'+domRaw : '';
         $('#correo_nick').value = nick || '';
-        $('#correo_dom').value = (dom === '@win.pe' || dom === '@winempresas.pe') ? dom : '';
+        $('#correo_dom').value = (dom === '@win.pe' || dom === '@on.pe' || dom === '@winet.pe') ? dom : '';
       }
 
       ['sol_nombres','sol_apepat','sol_apemat','sol_tel','sol_numdoc'].forEach(id=>{
